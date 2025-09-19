@@ -1,0 +1,58 @@
+#include <bits/stdc++.h>
+#define all(x) begin(x),end(x)
+#define siz(x) ((int)x.size())
+#define debug(x) cerr << #x << ':' << x << ' ';
+#define nl cerr << '\n';
+using namespace std;
+const int N = 1e5 + 10; // 需调整
+using LL = long long;
+const LL inf = LLONG_MAX;
+const LL MOD7 = 1e9 + 7;
+const LL MOD3 = 998244353;
+
+const int dx[] = {0, 1, 0, -1};
+const int dy[] = {1, 0, -1, 0};
+
+void fxy_ac(){
+    int n;
+    cin >> n;
+    vector<vector<int>> mp(n + 2, vector<int> (n + 2, 0));
+    for (int i = 0;i <= n + 1;i ++){
+        mp[0][i] = mp[n + 1][i] = mp[i][0] = mp[i][n + 1] = 3;
+    }
+    int f = 0;
+    int x = 1, y = 1, k = 0;
+    while (1){
+        mp[x][y] = f + 1;
+        if (x == n / 2 + 1 && y == n / 2 + 1) break;
+        if (!mp[x + dx[k]][y + dy[k]]){
+            x += dx[k];
+            y += dy[k];
+        } else{
+            k = (k + 1) % 4;
+            if (k == 0) f = !f;
+            x += dx[k];
+            y += dy[k];
+        }
+    }
+    for (int i = 1;i <= n;i ++){
+        for (int j = 1;j <= n + 1;j ++){
+            cout << " # \n"[mp[i][j]];
+        }
+    }
+}
+
+void brute(){ // 暴力
+
+}
+
+int main(){
+    ios::sync_with_stdio(0);
+    cin.tie(0), cout.tie(0);
+    int T = 1;
+    // cin >> T; // 需调整
+    while (T --){
+        fxy_ac();
+        // brute();
+    }
+}
