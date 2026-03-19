@@ -29,5 +29,5 @@ int main(){
     for (int i = 1;i < N;i ++){
         A[i] = A[i - 1] % MOD * i % MOD;
     }
-    cout << cal(3, 2) << '\n';
+    cout << cal(4, 2) << '\n';
 }

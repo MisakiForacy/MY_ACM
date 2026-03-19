@@ -1,5 +1,5 @@
 #include<bits/stdc++.h>
-#define Timelim 1000
+#define Timelim 2000
 
 using namespace std;
 string ColorStr(int r,int g,int b,string str){
@@ -28,8 +28,7 @@ int main(){
         double end = clock();
         double t = end - begin;
         string info = "In Test "+to_string(i)+" Time : "+to_string(t) + " ms";
-        // if (system("fc std.txt vio.txt")){
-        if (0) {
+        if (system("fc std.txt vio.txt")){
             res.push_back(ColorStr(255,0,0,"Wrong Answer\n") + ColorStr(-1,-1,-1,info));
             system("std.exe < in.txt > ../Output.txt");
             system("vio.exe < in.txt > ../Answer.txt");
