@@ -1,0 +1,11 @@
+https://codeforces.com/problemset/problem/1366/A
+https://codeforces.com/problemset/problem/1374/C
+https://codeforces.com/problemset/problem/1462/C
+https://codeforces.com/problemset/problem/1352/C
+https://codeforces.com/problemset/problem/1353/D
+https://codeforces.com/problemset/problem/431/C
+https://codeforces.com/problemset/problem/1348/C
+https://codeforces.com/problemset/problem/1336/A
+https://codeforces.com/problemset/problem/1034/B
+https://codeforces.com/problemset/problem/612/E
+https://codeforces.com/problemset/problem/992/D

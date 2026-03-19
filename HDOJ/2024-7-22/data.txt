@@ -1,0 +1,15 @@
+2
+5
+abcde a
+a a
+b a
+c b
+d a
+e c
+5
+aaabbbccc xyz
+ab xxxyzzzzyy
+bccc aaaaxyza
+abbbb xxxxyyz
+aaaabbbcccc x
+a xyzzzzzzzzz
