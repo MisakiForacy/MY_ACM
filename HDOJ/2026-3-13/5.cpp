@@ -11,7 +11,23 @@ using LL = long long;
 using PLL = pair<LL, LL>;
 
 void solve() {
-    int 
+    int n, k, m;
+    cin >> n >> k >> m;
+    vector<LL> a(n + 1), p(n + 1, 0);
+    vector<vector<LL>> dp(n + 1, vector<LL> (k + 2, 0));
+    // dp[i][j] 表示
+    for (int i = 1;i <= n;i ++) cin >> a[i], p[i] = p[i - 1] + a[i];
+    for (int i = 1;i <= n;i ++) {
+        for (int j = 0;j <= k + 1;j ++) {
+            if (j == 0) {
+                for 
+            } else if (j <= k) {
+
+            } else {
+                dp[i][k + 1] = dp[]
+            }
+        }
+    }
 }
 
 int main() {
