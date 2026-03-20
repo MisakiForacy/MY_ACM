@@ -17,21 +17,28 @@ const int N = 1e6 + 10;
 void solve() {
     LL n, k;
     cin >> n >> k;
-    if (!(k & 1) && k <= n) {
-        cout << -1 << '\n';
-    } else if ((k & 1) && k - 1 <= n) {
+    if (k <= n) {
         cout << -1 << '\n';
     } else {
-        vector<int> ans;
-        vector<int> use(k + 1, 0);
-        int p = 1, S = 0;
+        vector<int> use(k, 0), ans;
+        use[0] = 1;
+        int pre = 0, lst = 0;
         for (int i = 1;i <= n;i ++) {
-            while (use[p]) p ++;
-            if (k - S % k == p) {
-                
+            int x = lst + 1;
+            while (1) {
+                int nxt = (pre + x) % k;
+                if (!use[nxt]) {
+                    ans.push_back(x);
+                    use[nxt] = 1;
+                    pre = nxt;
+                    lst = x;
+                    break;
+                }
+                x ++;
             }
-            ans.push_back(p + v * k);
         }
+        for (int x : ans) cout << x << ' ';
+        cout << '\n';
     }
 }
 
