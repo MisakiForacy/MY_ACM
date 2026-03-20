@@ -17,12 +17,21 @@ const int N = 1e6 + 10;
 void solve() {
     LL n, k;
     cin >> n >> k;
-    if ((k & 1) && k <= n) {
+    if (!(k & 1) && k <= n) {
         cout << -1 << '\n';
-    } else if (!(k & 1) && k - 1 <= n) {
+    } else if ((k & 1) && k - 1 <= n) {
         cout << -1 << '\n';
     } else {
-        
+        vector<int> ans;
+        vector<int> use(k + 1, 0);
+        int p = 1, S = 0;
+        for (int i = 1;i <= n;i ++) {
+            while (use[p]) p ++;
+            if (k - S % k == p) {
+                
+            }
+            ans.push_back(p + v * k);
+        }
     }
 }
 
