@@ -10,36 +10,57 @@ using namespace std;
 using LL = long long;
 using PLL = pair<LL, LL>;
 
-vector<int> p = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29};
+vector<int> s(50, 0), p;
+
+void pri() {
+    for (int i = 2;i <= 30;i ++) {
+        if (!s[i]) p.push_back(i);
+        for (int j = 0;j < siz(p) && i * p[j] <= 30;j ++) {
+            s[i * p[j]] = 1;
+            if (i % p[j] == 0) break;
+        }
+    }
+}
 
 void solve() {
     int n, m, q;
     cin >> n >> m >> q;
-    vector<map<int, int>> a(n + 1);
+    vector<map<LL, LL>> a(n + 1);
     for (int i = 1;i <= m;i ++) {
-        int x, y, g;
+        LL x, y, g;
         cin >> x >> y >> g;
         for (int i = 1;i <= g;i ++) {
             for (int j = 0;j < siz(p);j ++) {
+                LL cnt = 0;
                 while (g % p[j] == 0) {
                     g /= p[j];
-                    a[x][p[j]] ++;
-                    a[y][p[j]] ++;
+                    cnt ++;
                 }
+                a[x][p[j]] = max(a[x][p[j]], cnt);
+                a[y][p[j]] = max(a[y][p[j]], cnt);
             }
         }
-    }    
+    }   
+    vector<int> aa(n + 1, 1); 
+    for (int i = 1;i <= n;i ++) {
+        for (int j = 0;j < siz(p);j ++) {
+            for (int t = 1;t <= a[i][p[j]];t ++) {
+                aa[i] *= p[j];
+            }
+        }
+        // cout << aa[i] << '\n';
+    }
+    // for (int i = 1;i <= n;i ++) cout << aa[i] << ' ';
+    // cout << '\n';
     for (int i = 1;i <= q;i ++) {
         int x, y;
         cin >> x >> y;
-        LL v1 = 1, v2 = 1;
-        for (auto v : a[x]) v1 *= v;
-        for (auto v : a[y]) v2 *= v;
-        cout << __gcd(v1, v2) << '\n';
+        cout << __gcd(aa[x], aa[y]) << '\n';
     }
 }
 
 int main() {
+    pri();
     ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     cin >> T;
