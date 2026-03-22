@@ -15,7 +15,6 @@ private:
     static const int S = 1 << 20;
     int i = 0, n = 0, o = 0;
     char ib[S], ob[S];
-
 public:
     ~IO() { flush(); }
     inline char gc() {
@@ -140,25 +139,21 @@ pii operator+(const pii& a, const pii& b) {
     if (c2 >= mod2) c2 -= mod2;
     return { c1, c2 };
 }
-
 pii operator-(const pii& a, const pii& b) {
     int c1 = a.fi - b.fi, c2 = a.se - b.se;
     if (c1 < 0) c1 += mod1;
     if (c2 < 0) c2 += mod2;
     return { c1, c2 };
 }
-
 pii operator*(const pii& a, const pii& b) {
     return { 1LL * a.fi * b.fi % mod1, 1LL * a.se * b.se % mod2 };
 }
-
 void init_strhash(int lim = 0) {
     pw = vector<pii>(lim + 1);
     base = { rnd() % mod1, rnd() % mod2 };
     pw[0] = { 1, 1 };
     for (int i = 1; i <= lim; i++) pw[i] = pw[i - 1] * base;
 }
-
 struct Str_hash {
     vector<pii> v;
     Str_hash() {}
@@ -178,32 +173,7 @@ struct Str_hash {
 void solve() {
     string s, t;
     cin >> s >> t;
-    reverse(all(s));
-    int n = siz(s);
-    init_strhash(n);
-    Str_hash hs, ht;
-    hs.init(s), ht.init(t);
-    LL ans = 0;
-    map<pii, LL> ls, rs;
-    for (int i = 1;i <= n;i ++) {
-        for (int j = i;j <= n;j ++) {
-            pii hash = hs.get(i, j);
-            ls[hash] += i;
-        }
-    }
-    for (int i = 1;i <= n;i ++) {
-        for (int j = i;j <= n;j ++) {
-            pii hash = ht.get(i, j);
-            // cout << t.substr(i - 1, j - i + 1) << " : ";
-            if (ls.count(hash)) {
-                // cout << i - 1 + ls[hash];
-                ans += i - 1 + ls[hash];
-            }
-            // cout << '\n';
-        }
-    }
-    cout << ans << '\n';
-    cout << '\n';
+
 }
 
 int main() {
