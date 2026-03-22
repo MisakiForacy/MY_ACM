@@ -46,6 +46,15 @@ struct Str_hash {
     }
 };
 
+void solve() {
+    string s, t;
+    cin >> s >> t;
+    init_strhash()
+}
+
 int main() {
-    
+    ios::sync_with_stdio(0), cin.tie(0);
+    int T = 1;
+    cin >> T;
+    while (T --) solve();
 }
