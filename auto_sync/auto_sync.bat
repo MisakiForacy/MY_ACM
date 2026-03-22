@@ -1,6 +1,7 @@
 @echo off
 if "%1"=="setup" goto setup
 cd /d D:\MY_CODE\ACM
+python "D:\MY_CODE\ACM\auto_sync\update_stats.py" >nul 2>&1
 git add . >nul 2>&1
 git diff --staged --quiet
 if errorlevel 1 (

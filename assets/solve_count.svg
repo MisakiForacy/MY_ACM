@@ -1,0 +1,33 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='1200' height='520'>
+<rect width='100%' height='100%' fill='#ececec'/>
+<text x='50%' y='44' text-anchor='middle' fill='#222' font-size='34' font-family='Comic Sans MS, Segoe UI'>Solved Count (Platform API) - Total 0</text>
+<line x1='90' y1='450' x2='1160' y2='450' stroke='#111' stroke-width='4'/>
+<line x1='90' y1='80' x2='90' y2='450' stroke='#111' stroke-width='4'/>
+<line x1='90' y1='450.00' x2='1160' y2='450.00' stroke='#d7d7d7' stroke-width='1'/>
+<text x='80' y='455.00' text-anchor='end' fill='#333' font-size='14'>-1</text>
+<line x1='90' y1='376.00' x2='1160' y2='376.00' stroke='#d7d7d7' stroke-width='1'/>
+<text x='80' y='381.00' text-anchor='end' fill='#333' font-size='14'>-1</text>
+<line x1='90' y1='302.00' x2='1160' y2='302.00' stroke='#d7d7d7' stroke-width='1'/>
+<text x='80' y='307.00' text-anchor='end' fill='#333' font-size='14'>0</text>
+<line x1='90' y1='228.00' x2='1160' y2='228.00' stroke='#d7d7d7' stroke-width='1'/>
+<text x='80' y='233.00' text-anchor='end' fill='#333' font-size='14'>0</text>
+<line x1='90' y1='154.00' x2='1160' y2='154.00' stroke='#d7d7d7' stroke-width='1'/>
+<text x='80' y='159.00' text-anchor='end' fill='#333' font-size='14'>1</text>
+<line x1='90' y1='80.00' x2='1160' y2='80.00' stroke='#d7d7d7' stroke-width='1'/>
+<text x='80' y='85.00' text-anchor='end' fill='#333' font-size='14'>1</text>
+<line x1='90.00' y1='450' x2='90.00' y2='456' stroke='#111' stroke-width='2'/>
+<text x='90.00' y='478' text-anchor='middle' fill='#333' font-size='14'>2026-02-22</text>
+<line x1='311.38' y1='450' x2='311.38' y2='456' stroke='#111' stroke-width='2'/>
+<text x='311.38' y='478' text-anchor='middle' fill='#333' font-size='14'>2026-02-28</text>
+<line x1='532.76' y1='450' x2='532.76' y2='456' stroke='#111' stroke-width='2'/>
+<text x='532.76' y='478' text-anchor='middle' fill='#333' font-size='14'>2026-03-06</text>
+<line x1='717.24' y1='450' x2='717.24' y2='456' stroke='#111' stroke-width='2'/>
+<text x='717.24' y='478' text-anchor='middle' fill='#333' font-size='14'>2026-03-11</text>
+<line x1='938.62' y1='450' x2='938.62' y2='456' stroke='#111' stroke-width='2'/>
+<text x='938.62' y='478' text-anchor='middle' fill='#333' font-size='14'>2026-03-17</text>
+<line x1='1160.00' y1='450' x2='1160.00' y2='456' stroke='#111' stroke-width='2'/>
+<text x='1160.00' y='478' text-anchor='middle' fill='#333' font-size='14'>2026-03-23</text>
+<polyline fill='none' stroke='#e24a33' stroke-width='4' points='90.00,265.00 126.90,265.00 163.79,265.00 200.69,265.00 237.59,265.00 274.48,265.00 311.38,265.00 348.28,265.00 385.17,265.00 422.07,265.00 458.97,265.00 495.86,265.00 532.76,265.00 569.66,265.00 606.55,265.00 643.45,265.00 680.34,265.00 717.24,265.00 754.14,265.00 791.03,265.00 827.93,265.00 864.83,265.00 901.72,265.00 938.62,265.00 975.52,265.00 1012.41,265.00 1049.31,265.00 1086.21,265.00 1123.10,265.00 1160.00,265.00'/>
+<text x='50%' y='502' text-anchor='middle' fill='#333' font-size='18'>Date</text>
+<text x='26' y='265.00' transform='rotate(-90 26 265.00)' text-anchor='middle' fill='#333' font-size='18'>Solved</text>
+</svg>

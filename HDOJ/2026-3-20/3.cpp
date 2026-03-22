@@ -60,6 +60,7 @@ void solve() {
     Str_hash hs, ht;
     hs.init(s);
     ht.init(t);
+    vector<vector<LL>> f(n + 1, vector<LL> (n + 1, 0));
     
 }
 
