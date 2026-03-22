@@ -1,5 +1,11 @@
 #include <bits/stdc++.h>
 
+#define x first 
+#define y second 
+
+#define siz(x) ((int)x.size())
+#define all(x) begin(x),end(x)
+
 using namespace std;
 using LL = long long;
 
@@ -10,19 +16,19 @@ vector<pii> pw;
 pii base;
 mt19937 rnd(time(0));
 pii operator+(const pii& a, const pii& b) {
-    int c1 = a.fi + b.fi, c2 = a.se + b.se;
+    int c1 = a.x + b.x, c2 = a.y + b.y;
     if (c1 >= mod1) c1 -= mod1;
     if (c2 >= mod2) c2 -= mod2;
     return { c1, c2 };
 }
 pii operator-(const pii& a, const pii& b) {
-    int c1 = a.fi - b.fi, c2 = a.se - b.se;
+    int c1 = a.x - b.x, c2 = a.y - b.y;
     if (c1 < 0) c1 += mod1;
     if (c2 < 0) c2 += mod2;
     return { c1, c2 };
 }
 pii operator*(const pii& a, const pii& b) {
-    return { 1LL * a.fi * b.fi % mod1, 1LL * a.se * b.se % mod2 };
+    return { 1LL * a.x * b.x % mod1, 1LL * a.y * b.y % mod2 };
 }
 void init_strhash(int lim = 0) {
     pw = vector<pii>(lim + 1);
@@ -49,7 +55,12 @@ struct Str_hash {
 void solve() {
     string s, t;
     cin >> s >> t;
-    init_strhash()
+    int n = siz(s);
+    init_strhash(n);
+    Str_hash hs, ht;
+    hs.init(s);
+    ht.init(t);
+    
 }
 
 int main() {
