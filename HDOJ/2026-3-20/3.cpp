@@ -21,19 +21,19 @@ void solve() {
     ps[n + 1] = pt[n + 1] = 0;
     for (int i = 1;i <= n;i ++) {
         while (i - p1[i] >= 1 && i + p1[i] <= n && s[i - p1[i]] == s[i + p1[i]]) {
-            ps[i - p1[i]] = max(ps[i - p1[i]], p1[i] + 1);
+            ps[i - p1[i]] ++;
             p1[i] ++;
         }
         while (i - p2[i] >= 2 && i + p2[i] <= n && s[i - p2[i] - 1] == s[i + p2[i]]) {
-            ps[i - p2[i] - 1] = max(ps[i - p2[i] - 1], p2[i] + 1);
+            ps[i - p2[i] - 1] ++;
             p2[i] ++;
         }
         while (i - p3[i] >= 1 && i + p3[i] <= n && t[i - p3[i]] == t[i + p3[i]]) {
-            pt[i - p3[i]] = max(pt[i - p3[i]], p3[i] + 1);
+            pt[i - p3[i]] ++;
             p3[i] ++;
         }
         while (i - p4[i] >= 2 && i + p4[i] <= n && t[i - p4[i] - 1] == t[i + p4[i]]) {
-            pt[i - p4[i] - 1] = max(pt[i - p4[i] - 1], p4[i] + 1);
+            pt[i - p4[i] - 1] ++;
             p4[i] ++;
         }
     }
