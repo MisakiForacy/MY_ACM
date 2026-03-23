@@ -52,6 +52,11 @@ int Manacher(string s){
 =============同时省去转换的步骤=================
 */
 
+
+
+// abcba
+// 113
+
 int Manacher(string s){
     s = ' ' + s;
     vector<int> p(siz(s), 0);
