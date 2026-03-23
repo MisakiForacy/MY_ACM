@@ -7,7 +7,7 @@ const int off = 250;
 
 struct node
 {
-    int x, y, d;
+    LL x, y, d;
 };
 
 void solve() {
@@ -17,7 +17,7 @@ void solve() {
     for (int i = 0;i < n;i ++) cin >> x[i] >> y[i];
     queue<node> p;
     p.push({0, 0, 0});
-    int mi = 1e18;
+    LL mi = 1e18;
     vector<vector<int>> vis(500, vector<int> (500, 0));
     while (p.size()) {
         auto [xx, yy, dd] = p.front();
@@ -29,11 +29,12 @@ void solve() {
         for (int i = 0;i < n;i ++) {
             int nx = xx + x[i];
             int ny = yy + y[i];
-            if (nx < -200 || nx > 200 || ny < -200 || ny > 200 || vis[]) continue;
+            if (nx < -200 || nx > 200 || ny < -200 || ny > 200 || vis[nx + off][ny + off]) continue;
             p.push({nx, ny, dd + 1});
+            vis[nx + off][ny + off] = 1;
         }
     }
-    cout << mi << '\n';
+    cout << (mi == 1e18 ? -1 : mi) << '\n';
 }
 
 int main() {
