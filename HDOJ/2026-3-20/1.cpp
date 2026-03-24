@@ -9,45 +9,50 @@
 using namespace std;
 using LL = long long;
 
+const LL inf = 1e15;
+
 void solve() {
     int n;
     cin >> n;
-    vector<LL> a(n + 1);
+    vector<LL> a(n + 2);
+    a[n + 1] = inf;
     for (int i = 1;i <= n;i ++) cin >> a[i];
-    stack<pair<int, int>> stk;
-    vector<int> ls(n + 1), rs(n + 1), fa(n + 1);
+    vector<int> ls(n + 1, 0), rs(n + 1, n + 1);
+    stack<int> stk;
     for (int i = 1;i <= n;i ++) {
-        int lst = 0;
-        if (stk.empty()) {
-            stk.push({a[i], i});
-        } else {
-            while (!stk.empty() && stk.top().x < a[i]) {
-                lst = stk.top().y;
-                stk.pop();
+        while (!stk.empty() && a[stk.top()] < a[i]) stk.pop();
+        ls[i] = stk.empty() ? 0 : stk.top();
+        stk.push(i);
+    }
+    for (int i = n;i >= 1;i --) {
+        while (!stk.empty() && a[stk.top()] <= a[i]) stk.pop();
+        rs[i] = stk.empty() ? n + 1 : stk.top();
+        stk.push(i);
+    }
+    map<int, vector<int>> p;
+    for (int i = 1;i <= n;i ++) p[a[i]].push_back(i);
+    for (auto &[k, v] : p) sort(all(v));
+    LL ans = (1 + n) * n / 2;
+    for (int i = 1;i <= n;i ++) {
+        if (a[i] % 2 == 0) continue;
+        // traversal in smaller range
+        if (i - ls[i] < rs[i] - i) {
+            // need to find a value in range [i + 1, rs[i] - 1] that satisfy equals a[i] - a[j] 
+            int l = i + 1, r = rs[i] - 1;
+            for (int j = ls[i] + 1;j < i;j ++) {
+                int need = a[i] - a[j];
+                if (!p.count(need)) continue;
+                int cnt = upper_bound(all()) lower_bound(all(p[need]), l)
             }
-            if (stk.empty()) {
-                ls[i] = lst;
-                fa[lst] = i;
-                stk.push({a[i], i});
-            } else {
-                rs[stk.top().y] = i;
-                ls[i] = lst;
-                fa[i] = stk.top().y;
-                fa[lst] = i;
-                stk.push({a[i], i});
+        } else {
+            int l = ls[i] + 1, r = i - 1;
+            for (int j = i + 1;j < rs[i];j ++) {
+                int need = a[i] - a[j];
+                if (!p.count(need)) continue;
+
             }
         }
     }
-    vector<pair<int, int>> p;
-    for (int i = 1;i <= n;i ++) p.push_back({a[i], i});
-    sort(all(p), [&](pair<int, int> a, pair<int, int> b) {
-        if (a.x != b.x) return a.x < b.x;
-        return a.y < b.y;
-    });
-    LL ans = (1 + n) * n / 2;
-    auto dfs = [&](auto dfs, int pu, int u) -> void {
-        
-    };
 }
 
 int main() {
