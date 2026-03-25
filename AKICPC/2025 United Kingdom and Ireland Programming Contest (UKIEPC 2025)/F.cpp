@@ -6,18 +6,20 @@
 using namespace std;
 using LL = long long;
 
+const int N = 1e6 + 10;
+
 void solve() {
     int n, m;
     cin >> n >> m;
     vector<LL> h(n + 1);
     set<LL> use;
+    vector<vector<pair<int, int>>> ed(N);
     for (int i = 1;i <= n;i ++) cin >> h[i], use.insert(h[i]);
     vector<vector<int>> g(n + 1);
     for (int i = 1;i <= m;i ++) {
         int u, v;
         cin >> u >> v;
-        g[u].push_back(v);
-        g[v].push_back(u);
+        ed[max(h[u], h[v])].push_back({u, v});
     }   
     LL ans = 1e9;
     auto check = [&](LL Mx, LL Mi) -> int {
@@ -41,13 +43,18 @@ void solve() {
         return 0;
     };
     for (int Hi : use) {
+        for (auto [u, v] : ed[Hi]) {
+            g[u].push_back(v);
+            g[v].push_back(u);
+        }
         if (h[1] > Hi || h[2] > Hi) continue;
-        LL lo = 0, hi = 1e6;
+        LL lo = 0, hi = Hi + 1;
         while (lo < hi) {
             LL mid = lo + hi >> 1;
             if (check(Hi, Hi - mid)) hi = mid;
             else lo = mid + 1;
         }
+        if (lo > Hi) continue;
         // cout << Hi << ' ' << lo << '\n';
         ans = min(ans, lo);
     }
