@@ -11,7 +11,7 @@ void solve() {
     cin >> n;
     string s;
     vector<vector<int>> g(27);
-    vector<int> in(27, 0), out(27, 0);
+    vector<int> in(27, 0), out(27, 0), val(27, 0);
     vector<array<char, 3>> p(n + 1);
     for (int i = 1;i <= n;i ++) {
         cin >> p[i][0] >> p[i][1] >> p[i][2];
@@ -24,30 +24,27 @@ void solve() {
         a = p[i][0], op = p[i][1], b = p[i][2];
         if (!use[a] || !use[b]) continue;
         if (op == '<') {
-            out[a - 'a' + 1] ++, in[b - 'a' + 1] ++;
+            in[b - 'a' + 1] ++;
             g[a - 'a' + 1].push_back(b - 'a' + 1);
         } else {
-            out[b - 'a' + 1] ++, in[a - 'a' + 1] ++;
+            in[a - 'a' + 1] ++;
             g[b - 'a' + 1].push_back(a - 'a' + 1);
         }
     }
     int tot = 1, ok = 1;
-    vector<int> val(27, 0);
-    auto dfs = [&](auto dfs, int u) -> void {
+    queue<int> q;
+    for (int i = 1;i <= 26;i ++) if (!in[i]) q.push(i);
+    while (siz(q)) {
+        int u = q.front();
+        q.pop();
         val[u] = tot ++;
         for (auto v : g[u]) {
-            if (val[v]) {
-                ok = 0;
-                continue;
+            if (-- in[v] == 0) {
+                q.push(v);
             }
-            dfs(dfs, v);
-        }
-    };
-    for (int i = 1;i <= 26;i ++) {
-        if (out[i] && !in[i]) {
-            dfs(dfs, i);
         }
     }
+    for (int i = 1;i <= n;i ++) if (in[i]) ok = 0;
     if (!ok) {
         cout << "IMPOSSIBLE\n";
     } else {
