@@ -16,7 +16,7 @@ void solve() {
     cin >> n >> k;
     vector<LL> a(n + 1, 1);
     a[1] = 2;
-    a[2] = k + 2;
+    a[2] = k + n;
     for (int i = 1;i <= n;i ++) cout << a[i] << ' ';
     cout << '\n';
 }
