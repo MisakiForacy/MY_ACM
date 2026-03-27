@@ -15,22 +15,18 @@ void solve() {
     LL n, m;
     cin >> n >> m;
     LL v1, v2;
-    auto cal = [&]() -> LL {
-        if (n & 1) {
-            LL v = ((n + 1) / 2) * ((m + 1) / 2);
-            v += (n / 2) * (m / 2);
-            return v;
-        } else {
-            LL h = n / 2 - 1;
-            LL v = ((h + 1) / 2) * ((m + 1) / 2);
-            v += ((h - 1) / 2) * (m / 2);
-            return v * 2;
-        }
-    };
-    v1 = cal();
-    swap(n, m);
-    v2 = cal();
-    cout << max(v1, v2) << '\n';
+    if ((n & 1) || (m & 1)) {
+        cout << (n * m + 1) / 2 << '\n';
+    } else {
+        auto cal = [&]() -> LL {
+            LL h = (n - 2) / 2;
+            return (h * m + 1) / 2 * 2;
+        };
+        v1 = cal();
+        swap(n, m);
+        v2 = cal();
+        cout << max(v1, v2) << '\n';
+    }
 }
 
 int main() {
