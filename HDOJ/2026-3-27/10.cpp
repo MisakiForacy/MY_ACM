@@ -11,8 +11,20 @@ using LL = long long;
 
 const LL inf = 1e15;
 
+vector<LL> p2(60, 1);
+
+void init() {
+    for ()
+}
+
 void solve() {
-    
+    LL x, k;
+    cin >> x >> k;
+    vector<LL> a(x + 1);
+    int p = 1;
+    while (k) {
+
+    }
 }
 
 int main() {
