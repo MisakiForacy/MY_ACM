@@ -1,0 +1,98 @@
+#include <bits/stdc++.h>
+
+#define all(x) begin(x),end(x)
+#define siz(x) ((int)x.size())
+
+using namespace std;
+using LL = long long;
+
+const LL MOD7 = 1e9 + 7;
+const LL MOD3 = 998244353;
+ 
+template<const LL MOD>
+struct ModInt{
+    LL x;
+    static inline LL norm(LL n){
+        n %= MOD;
+        if (n < 0) n += MOD;
+        return n;
+    }
+    ModInt(LL n = 0){ x = norm(n);}
+    ModInt<MOD> qmi(LL k) const {
+        ModInt<MOD> res = 1;
+        ModInt<MOD> a = *this;
+        while (k){
+            if (k&1) (res.x *= a.x) %= MOD;
+            (a.x *= a.x) %= MOD;
+            k /= 2;
+        }
+        return res;
+    }
+    ModInt<MOD> inv() const { return qmi(MOD-2);}
+    friend ModInt<MOD> operator+(const ModInt<MOD>& a,const ModInt<MOD>& b){ return ModInt<MOD>(a.x + b.x);}
+    friend ModInt<MOD> operator-(const ModInt<MOD>& a,const ModInt<MOD>& b){ return ModInt<MOD>(a.x - b.x);}
+    friend ModInt<MOD> operator*(const ModInt<MOD>& a,const ModInt<MOD>& b){ return ModInt<MOD>((a.x * b.x) % MOD);}
+    friend ModInt<MOD> operator/(const ModInt<MOD>& a,const ModInt<MOD>& b){ return a * b.inv();}
+    friend ModInt<MOD> operator%(const ModInt<MOD>& a,const ModInt<MOD>& b){ return ModInt<MOD>(a.x % b.x);}
+    friend bool operator<=(const ModInt<MOD>& a,const ModInt<MOD>& b){ return a.x <= b.x;}
+    friend bool operator< (const ModInt<MOD>& a,const ModInt<MOD>& b){ return a.x <  b.x;}
+    friend bool operator>=(const ModInt<MOD>& a,const ModInt<MOD>& b){ return a.x >= b.x;}
+    friend bool operator> (const ModInt<MOD>& a,const ModInt<MOD>& b){ return a.x >  b.x;}
+    friend bool operator==(const ModInt<MOD>& a,const ModInt<MOD>& b){ return a.x == b.x;}
+    friend bool operator!=(const ModInt<MOD>& a,const ModInt<MOD>& b){ return a.x != b.x;}
+    friend ostream& operator<< (ostream& out,const ModInt<MOD>& a){ return out << a.x;}
+    friend istream& operator>> (istream& in, ModInt<MOD>& a){ LL v;in >> v;a.x = norm(v);return in; }
+    ModInt<MOD>& operator+= (const ModInt<MOD>& a){ return *this = *this + a;}
+    ModInt<MOD>& operator-= (const ModInt<MOD>& a){ return *this = *this - a;}
+    ModInt<MOD>& operator*= (const ModInt<MOD>& a){ return *this = *this * a;}
+    ModInt<MOD>& operator/= (const ModInt<MOD>& a){ return *this = *this / a;}
+    ModInt<MOD>& operator++ (){ ++x; if (x == MOD) x = 0; return *this; }
+    ModInt<MOD> operator++ (int){ ModInt<MOD> t = *this;++(*this);return t; }
+    ModInt<MOD>& operator-- (){ if (x == 0) x = MOD;--x;return *this; }
+    ModInt<MOD> operator-- (int){ ModInt<MOD> t = *this;--(*this);return t; }
+};
+using Z = ModInt<MOD3>;
+
+const int N = 2010;
+
+Z fac[N];
+
+void init() {
+    fac[0] = 1;
+    for (int i = 1;i < N;i ++) 
+        fac[i] = fac[i - 1] * Z(i);
+}
+
+void solve() {
+    int n;
+    cin >> n;
+    vector<LL> a(n + 1, 0), b(n + 1, 0);
+    for (int i = 1;i <= n;i ++) cin >> a[i];
+    for (int i = 1;i <= n;i ++) cin >> b[i];
+    sort(b.begin() + 1, b.end());
+    Z ans = 0;
+    for (int i = 1;i <= n;i ++) {
+        for (int j = i + 1;j <= n;j ++) {
+            for (int k = 1;k <= n;k ++) {
+                int t = lower_bound(all(b), 1.0 * a[i] * b[k] / a[j]) - b.begin() - 1;
+                if (t < 0) continue;
+                if (b[t] >= b[k]) 
+                    ans += Z(t - 1);
+                else 
+                    ans += Z(t);
+            }
+        }
+    }
+    cout << ans << '\n';
+    ans *= fac[n - 2];
+    ans /= fac[n];
+    cout << ans << '\n';
+}
+
+int main() {
+    init();
+    ios::sync_with_stdio(0), cin.tie(0);
+    int T = 1;
+    cin >> T;
+    while (T --) solve();
+}

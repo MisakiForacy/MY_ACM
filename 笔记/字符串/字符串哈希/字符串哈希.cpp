@@ -10,7 +10,7 @@ ULL p[N], h[N];
 求一个字符串的子串相当于求区间和
 */
 // 预处理hash函数的前缀和
-void init(){    
+void init(){
     p[0] = 1, h[0] = 0;
     for (int i=1;i<=n;i++){
         p[i] = p[i-1] * P;

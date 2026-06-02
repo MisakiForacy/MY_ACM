@@ -5,7 +5,7 @@ template<const LL MOD>
 struct ModInt{
     LL x;
     static inline LL norm(LL n){
-        n %= MOD;
+        n %= MOD;   
         if (n < 0) n += MOD;
         return n;
     }
