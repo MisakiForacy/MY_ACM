@@ -12,7 +12,7 @@ using LL = long long;
 void solve() {
     int n;
     cin >> n;
-    vector<LL> a(n + 1), fa(n + 1, -1);
+    vector<LL> a(n + 1);
     vector<vector<int>> g(n + 1);
     for (int i = 1;i <= n;i ++) cin >> a[i];
     for (int i = 1;i < n;i ++) {
@@ -21,15 +21,33 @@ void solve() {
         g[u].push_back(v);
         g[v].push_back(u);
     }
+    vector<vector<LL>> fa(n + 1, vector<LL> (21, 0));
+    vector<vector<LL>> gcd(n + 1, vector<LL> (21, 0));
+    vector<vector<LL>> sum(n + 1, vector<LL> (21, 0));
     auto dfs = [&](auto dfs, int u, int pu) -> void {
-        fa[u] = pu;
+        fa[u][0] = pu;
         for (auto v : g[u]) {
             if (v == pu) continue;
             dfs(dfs, v, u);
         }
     };
     dfs(dfs, 1, 0);
-    
+    for (int i = 1;i <= n;i ++) gcd[i][0] = a[i];
+    for (int i = 1;i <= n;i ++) sum[i][0] = a[i];
+    for (int j = 1;j <= 20;j ++) {
+        for (int i = 1;i <= n;i ++) {
+            fa[i][j] = fa[fa[i][j - 1]][j - 1];
+            gcd[i][j] = __gcd(gcd[i][j - 1], gcd[fa[i][j - 1]][j - 1]);
+            sum[i][j] = sum[i][j - 1] + sum[fa[i][j - 1]][j - 1] + gcd[i][j];
+        }
+    }
+    LL ans = 0;
+    for (int i = 2;i <= n;i ++) {
+        ans += sum[i][1];
+        cout << sum[i][1] << ' ';
+    }
+    cout << '\n';
+    cout << ans << '\n';
 }
 
 int main() {
