@@ -8,7 +8,7 @@ using LL = long long;
 
 const int N = 1e6 + 10;
 
-vector<LL> S(N, 0), P, use(122, 0);
+vector<LL> S(N, 0), P, use(1010, 0);
 
 void init() {
     S[1] = S[0] = 1;
@@ -25,15 +25,20 @@ void init() {
 int main() {
     init();
     ios::sync_with_stdio(0), cin.tie(0);
-    LL l, r, k;
+    LL l, r, k, cnt = 0;
     cin >> l >> r >> k;
+    // l = 1e12 - 1e6, r = 1e12, k = 100000000;
     // assert (r <= 1e12);
+    // cout << l << ' ' << r << '\n';
     for (LL val = l;val <= r;val ++) {
+        // cout << val << ' ';
         LL Tp = val, sum = 0;
         while (Tp) {
             sum += Tp % 10;
             Tp /= 10;
         }
+        // cout << sum << '\n';
+        if (use[sum]) cnt ++;
         if (use[sum] && val != 1) {
             int f = 0;
             for (auto v : P) {
@@ -47,9 +52,11 @@ int main() {
             k --;
         }
         if (!k) {
-            cout << val << '\n';
+            cout << cnt << '\n';
+            // cout << val << '\n';
             return 0;
         }
     }
-    cout << -1 << '\n';
+    cout << cnt << '\n';
+    // cout << -1 << '\n';
 }
