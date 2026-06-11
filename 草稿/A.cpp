@@ -6,25 +6,15 @@ using LL = long long;
 void solve() {
   int n;
   cin >> n;
-  vector<int> a, b(n + 1, 0), ans(n + 1, 0);
-  ans[1] = 1;
-  int k, x;
-  cin >> k;
-  for (int i = 1;i <= k;i ++) {
-    cin >> x;
-    b[x] = 1;
-    ans[x] = 1;
+  vector<LL> a(n + 1), p(n + 1, 0);
+  for (int i = 1;i <= n;i ++) cin >> a[i];
+  sort(a.begin() + 1, a.end());
+  for (int i = 1;i <= n;i ++) p[i] = p[i - 1] + a[i];
+  LL ans = p[n];
+  for (int i = 1;i <= n;i ++) {
+    ans = min(ans, p[i] + max(p[n] - p[i] - i, 0LL));
   }
-  for (int i = 1;i <= n - 1;i ++) {
-    cin >> k;
-    for (int j = 1;j <= k;j ++) {
-      cin >> x;
-      if (b[i]) ans[x] = 1;
-    }
-  }
-  int sum = 0;
-  for (int i = 1;i <= n;i ++) sum += ans[i];
-  cout << sum << '\n';
+  cout << ans << '\n';
 }
 
 int main() {
