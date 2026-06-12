@@ -7,12 +7,32 @@ using namespace std;
 using LL = long long;
 
 void solve() {
-    LL n, k;
+    int n, k, mx = 0;
     cin >> n >> k;
-    vector<LL> a(n);
-    for (int i = 0;i < n;i ++) cin >> a[i];
-    sort(all(a));
-    
+    vector<LL> a(n + 1, 0);
+    for (int i = 1;i <= n;i ++) {
+        int x;
+        cin >> x;
+        a[x] ++;
+        mx = max(mx, x);
+    }
+    int lst = mx;
+    if (a[mx] % 2 == 0) {
+        cout << "YES\n";
+        return;
+    }
+    for (int i = mx - 1;i >= 1;i --) {
+        if (a[i] && lst - i <= k) {
+            cout << "YES\n";
+            return;
+        } else if (a[i] && a[i] % 2 == 0) {
+            cout << "YES\n";
+            return;
+        } else if (a[i]) {
+            lst = i;
+        }
+    }
+    cout << "NO\n";
 }
 
 int main() {
