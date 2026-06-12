@@ -49,22 +49,31 @@ void solve() {
                 int mii = Mi[ll][rr], mxx = Mx[ll][rr];
                 if (!(mii == mx + 1 || mxx == mi - 1)) continue;
                 if (mxx - mii + 1 != dp[ll][rr]) continue;
-                ok = 1;
+                return 1;
+                // cout << l << ' ' << r << ' ' << ll << ' ' << rr << '\n';
             }
         }
-        return ok;
+        return 0;
     };
-    int lo = 0, hi = n / 2;
-    while (lo < hi) {
-        int mid = lo + hi + 1 >> 1;
-        if (check(mid)) 
-            lo = mid;
-        else 
-            hi = mid - 1;
+    for (int i = n / 2;i >= 1;i --) {
+        if (check(i)) {
+            cout << i << '\n';
+            return;
+        }
     }
-    // cout << check(4) << '\n';
-    // if (!check(lo)) lo --;
-    cout << lo << '\n';
+    cout << 0 << '\n';
+    // cout << check(3) << ' ' << check(2) << '\n';
+    // int lo = 0, hi = n / 2;
+    // while (lo < hi) {
+    //     int mid = lo + hi + 1 >> 1;
+    //     if (check(mid)) 
+    //         lo = mid;
+    //     else 
+    //         hi = mid - 1;
+    // }
+    // // cout << check(4) << '\n';
+    // // if (!check(lo)) lo --;
+    // cout << lo << '\n';
 }
 
 int main() {
