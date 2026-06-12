@@ -25,20 +25,21 @@ void solve() {
         for (int r = l;r <= n;r ++) {
             if (p[a[r]] ++ == 0) d ++;
             dp[l][r] = d;
+            if (r == l) continue;
             Mi[l][r] = min(Mi[l][r - 1], a[r]);
             Mx[l][r] = max(Mx[l][r - 1], a[r]);
         }
     }
+    // cout << Mi[1][n] << '\n';
     // cout << "ok\n";
     auto check = [&](int x) -> int {
-        if (!x) return 1;
         int ok = 0;
         for (int i = x;i <= n;i ++) {
             int l = i - x + 1, r = i;
             if (l > r) continue;
             if (r - l + 1 != dp[l][r]) continue;
             int mi = Mi[l][r], mx = Mx[l][r];
-            cout << l << ' ' << r << ' ' << mx << ' ' << mi << '\n';
+            // cout << l << ' ' << r << ' ' << mx << ' ' << mi << '\n';
             if (mx - mi + 1 != dp[l][r]) continue;
             for (int j = x;j <= n;j ++) {
                 int ll = j - x + 1, rr = j;
@@ -55,7 +56,6 @@ void solve() {
     };
     int lo = 0, hi = n / 2;
     while (lo < hi) {
-        // cout << lo << ' ' << hi << '\n';
         int mid = lo + hi + 1 >> 1;
         if (check(mid)) 
             lo = mid;
