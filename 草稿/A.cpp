@@ -6,23 +6,43 @@
 using namespace std;
 using LL = long long;
 
-void solve() {
-  string s;
-  cin >> s;
-  s = ' ' + s;
-  int r = siz(s), l;
-  vector<int> p(siz(s), 0);
-  for (int i = 1;i < siz(s);i ++) p[i] = s[i] - '0';
-  for (int i = siz(s) - 1;i >= 1;i --) {
-    l = i;
-    if (p[i] >= 5) {
-      l = i - 1;
-      p[i - 1] += 1;
-      r = i;
-    }
+struct P 
+{
+  LL id, v, ans;
+  bool operator < (const P & T) const {
+    return id < T.id;
   }
-  for (int i = l;i < r;i ++) cout << p[i];
-  for (int i = r;i < siz(s);i ++) cout << 0;
+};
+
+void solve() {
+  int n;
+  cin >> n;
+  vector<P> a(n);
+  // cout << "ok\n";
+  vector<int> use;
+  for (int i = 0;i < n;i ++) {
+    cin >> a[i].v;
+    a[i].id = i;
+    use.push_back(a[i].v);
+  }
+  sort(all(a), [&](P x, P y) {
+    return x.v < y.v;    
+  });
+  sort(all(use));
+  LL ans = 0;
+  for (int i = 0;i < n;i ++) {
+    ans += (a[i].v - a[0].v + 1);
+  }
+  // cout << ans << '\n';
+  a[0].ans = ans;
+  for (int i = 1;i < n;i ++) {
+    LL pre = i;
+    LL suf = n - pre;
+    LL len = a[i].v - a[i - 1].v;
+    a[i].ans = a[i - 1].ans - suf * len + pre * len;
+  }
+  sort(all(a)); 
+  for (int i = 0;i < n;i ++) cout << a[i].ans << ' ';
   cout << '\n';
 }
 
