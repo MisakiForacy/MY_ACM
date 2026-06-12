@@ -63,36 +63,32 @@ struct SegTree
 void solve() {
     int n;
     cin >> n;
-    vector<int> a(n + 1, -1), dp(n + 1, 1);
+    vector<int> a(n + 1, -1);
+    vector<vector<int>> dp(n + 1, vector<int> (n + 1, 1));
     for (int i = 1;i <= n;i ++) cin >> a[i];
     for (int l = 1;l <= n;l ++) {
-        
+        vector<int> p(n + 1, 0);
+        int d = 0;
+        for (int r = l;r <= n;r ++) {
+            if (p[a[r]] ++ == 0) d ++;
+            dp[l][r] = d;
+        }
     }
-    SegTree t(n);
-    vector<int> f1(n + 1, 0), f2(n + 1, 0);
-    auto upd1 = [&](int x, int v) -> void {
-        for (;x <= n;x += lowbit(x)) f1[x] += v;
-    };
-    auto qry1 = [&](int x) -> int {
-        int sum = 0;
-        for (;x;x -= lowbit(x)) sum += f1[x];
-        return sum;
-    };
-    auto upd2 = [&](int x, int v) -> void {
-        for (;x <= n;x += lowbit(x)) f2[x] += v;
-    };
-    auto qry2 = [&](int x) -> int {
-        int sum = 0;
-        for (;x;x -= lowbit(x)) sum += f2[x];
-        return sum;
-    };
+    SegTree f(n);
     auto check = [&](int x) -> int {
         int ok = 0;
-        for (int i = 1;i <= x;i ++) upd1(a[i], 1);
-        for (int i = x;i <= n - x;i ++) {
+        for (int i = x;i <= n;i ++) {
             int l = i - x + 1, r = i;
-            int mi = t.qryMi(1, l, r), mx = t.qryMx(1, l, r);
-            if (mx - mi == qry1(mx) - qry1(mi - 1)) 
+            int mi = f.qryMi(1, l, r), mx = f.qryMx(1, l, r);
+            if (mx - mi + 1 != dp[l][r]) continue;
+            for (int j = x;j <= n;j ++) {
+                int ll = j - x + 1, rr = j;
+                if ((rr >= l && ll <= l) || (ll <= r && r <= rr)) continue;
+                int mii = f.qryMi(1, ll, rr), mxx = f.qryMx(1, ll, rr);
+                if (!(mii == mx + 1 || mxx == mi - 1)) continue;
+                if (mxx - mii + 1 != dp[ll][rr]) continue;
+                ok = 1;
+            }
         }
         return ok;
     };
