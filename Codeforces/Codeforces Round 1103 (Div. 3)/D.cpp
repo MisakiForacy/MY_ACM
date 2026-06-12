@@ -7,21 +7,12 @@ using namespace std;
 using LL = long long;
 
 void solve() {
-    int n, k;
-    char x;
+    LL n, k;
     cin >> n >> k;
-    map<int, int> mp;
-    for (int i = 0;i < n;i ++) {
-        cin >> x;
-        if (x == '1') mp[i % k] ++;
-    }
-    for (auto [k, v] : mp) {
-        if (v % 2) {
-            cout << "NO\n";
-            return;
-        }
-    }
-    cout << "YES\n";
+    vector<LL> a(n);
+    for (int i = 0;i < n;i ++) cin >> a[i];
+    sort(all(a));
+    
 }
 
 int main() {
