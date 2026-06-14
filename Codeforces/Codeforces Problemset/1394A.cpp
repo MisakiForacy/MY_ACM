@@ -1,0 +1,12 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+
+using LL = long long;
+
+int main() {
+    ios::sync_with_stdio(0), cin.tie(0);
+    int n, d, m;
+    cin >> n >> d >> m;
+    
+}
