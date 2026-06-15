@@ -14,5 +14,8 @@ int main() {
     cin >> n >> d >> m;
     vector<LL> a(n);
     for (int i = 0;i < n;i ++) cin >> a[i];
-    
+    sort(all(a), greater());
+    for (int i = 0;i < n;i ++) {
+        if (a[i] > )
+    }
 }
