@@ -32,13 +32,18 @@ void solve() {
     }
     map<int, vector<int>> mp;
     for (int l = 1;l <= n;l ++) {
-        for (int r = l;l <= n;l ++) {
+        for (int r = l;r <= n;r ++) {
             if (dp[l][r] == r - l + 1 && Mx[l][r] - Mi[l][r] == r - l) {
                 mp[r - l + 1].push_back(Mi[l][r]);
             }
         }
     }
     for (auto &[k, v] : mp) sort(all(v));
+    // for (auto &[k, v] : mp) {
+    //     cout << k << ':' << '\n';
+    //     for (auto x : v) cout << x << ' ';
+    //     cout << '\n';
+    // }
     for (int i = n / 2;i >= 1;i --) {
         for (int j = 0;j < siz(mp[i]);j ++) {
             if (*lower_bound(all(mp[i]), mp[i][j] + i) == mp[i][j] + i) {
