@@ -30,6 +30,11 @@ void solve() {
             Mx[l][r] = max(Mx[l][r - 1], a[r]);
         }
     }
+    for (int l = 1;l <= n;l ++) {
+        for (int r = l;l <= n;l ++) {
+            
+        }
+    }
     // cout << Mi[1][n] << '\n';
     // cout << "ok\n";
     auto check = [&](int x) -> int {
@@ -41,7 +46,18 @@ void solve() {
             int mi = Mi[l][r], mx = Mx[l][r];
             // cout << l << ' ' << r << ' ' << mx << ' ' << mi << '\n';
             if (mx - mi + 1 != dp[l][r]) continue;
-            for (int j = x;j <= n;j ++) {
+            for (int j = x;j <= i - x;j ++) {
+                int ll = j - x + 1, rr = j;
+                if (ll > rr) continue;
+                if (!(r < ll || rr < l)) continue;
+                if (rr - ll + 1 != dp[ll][rr]) continue;
+                int mii = Mi[ll][rr], mxx = Mx[ll][rr];
+                if (!(mii == mx + 1 || mxx == mi - 1)) continue;
+                if (mxx - mii + 1 != dp[ll][rr]) continue;
+                return 1;
+                // cout << l << ' ' << r << ' ' << ll << ' ' << rr << '\n';
+            }
+            for (int j = i + x;j <= n;j ++) {
                 int ll = j - x + 1, rr = j;
                 if (ll > rr) continue;
                 if (!(r < ll || rr < l)) continue;
