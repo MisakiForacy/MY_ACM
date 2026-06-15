@@ -10,13 +10,17 @@ using LL = long long;
 
 const LL inf = 1e15;
 
+const int N = 6001;
+
+int dp[N][N], Mi[N][N], Mx[N][N], use[N][N];
+
 void solve() {
     int n;
     cin >> n;
     vector<int> a(n + 1, -1);
-    vector<vector<int>> dp(n + 1, vector<int> (n + 1, 1));
-    vector<vector<int>> Mi(n + 2, vector<int>(n + 2));
-    vector<vector<int>> Mx(n + 2, vector<int>(n + 2));
+    // vector<vector<int>> dp(n + 1, vector<int> (n + 1, 1));
+    // vector<vector<int>> Mi(n + 2, vector<int>(n + 2));
+    // vector<vector<int>> Mx(n + 2, vector<int>(n + 2));
     for (int i = 1;i <= n;i ++) cin >> a[i];
     for (int l = 1;l <= n;l ++) {
         vector<int> p(n + 1, 0);
@@ -30,24 +34,33 @@ void solve() {
             Mx[l][r] = max(Mx[l][r - 1], a[r]);
         }
     }
-    map<int, vector<int>> mp;
+    // vector<vector<int>> use(n + 1, vector<int> (n + 1, 0));
     for (int l = 1;l <= n;l ++) {
-        for (int r = l;r <= n;r ++) {
+        for (int r = l;r <= min(n, l + n / 2);r ++) {
             if (dp[l][r] == r - l + 1 && Mx[l][r] - Mi[l][r] == r - l) {
-                mp[r - l + 1].push_back(Mi[l][r]);
+                use[r - l + 1][Mi[l][r]] = 1;
             }
         }
     }
-    for (auto &[k, v] : mp) sort(all(v));
     for (int i = n / 2;i >= 1;i --) {
-        for (int j = 0;j < siz(mp[i]);j ++) {
-            if (*lower_bound(all(mp[i]), mp[i][j] + i) == mp[i][j] + i) {
+        for (int j = 1;j <= n - i;j ++) {
+            if (use[i][j] && use[i][j + i]) {
                 cout << i << '\n';
+                for (int i = 0;i <= n;i ++) {
+                    for (int j = 0;j <= n;j ++) {
+                        dp[i][j] = Mi[i][j] = Mx[i][j] = use[i][j] = 0;
+                    }
+                }
                 return; 
             }
         }
     }
     cout << 0 << '\n';
+    for (int i = 0;i <= n;i ++) {
+        for (int j = 0;j <= n;j ++) {
+            dp[i][j] = Mi[i][j] = Mx[i][j] = use[i][j] = 0;
+        }
+    }
 }
 
 int main() {
