@@ -39,11 +39,6 @@ void solve() {
         }
     }
     for (auto &[k, v] : mp) sort(all(v));
-    // for (auto &[k, v] : mp) {
-    //     cout << k << ':' << '\n';
-    //     for (auto x : v) cout << x << ' ';
-    //     cout << '\n';
-    // }
     for (int i = n / 2;i >= 1;i --) {
         for (int j = 0;j < siz(mp[i]);j ++) {
             if (*lower_bound(all(mp[i]), mp[i][j] + i) == mp[i][j] + i) {
@@ -53,18 +48,6 @@ void solve() {
         }
     }
     cout << 0 << '\n';
-    // cout << check(3) << ' ' << check(2) << '\n';
-    // int lo = 0, hi = n / 2;
-    // while (lo < hi) {
-    //     int mid = lo + hi + 1 >> 1;
-    //     if (check(mid)) 
-    //         lo = mid;
-    //     else 
-    //         hi = mid - 1;
-    // }
-    // // cout << check(4) << '\n';
-    // // if (!check(lo)) lo --;
-    // cout << lo << '\n';
 }
 
 int main() {
