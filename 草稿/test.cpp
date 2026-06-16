@@ -40,6 +40,7 @@ int main() {
             if (a[i][l]) lok = 0;
             if (a[i][r]) rok = 0;
         }   
+        if (r - l == 0) (m - l > l - 1 ? lok = 1: rok = 1);
         while ((r - l) < (d - u) && lok && l > 1) l --;
         while ((r - l) < (d - u) && rok && r < m) r ++;
     }
@@ -49,8 +50,9 @@ int main() {
             if (a[d][i]) dok = 0;
             if (a[u][i]) uok = 0;
         }   
-        while ((r - l) > (d - u) && dok && u > 1) u --;
-        while ((r - l) > (d - u) && uok && d < n) d ++;
+        if (d - u == 0) (n - d > d - 1 ? dok = 1 : uok = 1);
+        while ((r - l) > (d - u) && uok && u > 1) u --;
+        while ((r - l) > (d - u) && dok && d < n) d ++;
     }
     if (r - l == d - u) {
         for (int i = l;i <= r;i ++) if (!a[u][i]) a[u][i] = 2;
