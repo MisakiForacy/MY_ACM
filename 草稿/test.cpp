@@ -26,5 +26,8 @@ int main() {
         }
     }
     int l = 0, r = m, u = 0, d = n;
-    while (p[d][l + 1] - p[u][0])
+    while (p[n][l + 1] - p[n][0] - p[0][l + 1] + p[0][0] == 0) l ++;
+    while (p[n][m] - p[n][r - 1] - p[0][m] + p[0][r - 1] == 0) r --;
+    while (p[u + 1][m] - p[u + 1][0] - p[0][m] + p[0][0] == 0) u ++;
+    while (p[n][m] - p[d - 1][m] - p[])
 }
