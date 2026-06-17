@@ -63,15 +63,41 @@ int main() {
             }
             cout << cnt * (cnt - 1) / 2 << '\n';
         } else {
-            int dp[n + 1][n + 1];
+            vector<vector<int>> dp(k + 1, vector<int> (n + 1, - 1e9));
+            dp[0][0] = 0;
             for (int i = 0;i < n;i ++) {
-                for (int j = 0;j < n;j ++) {
-                    if (s[i] == t[0]) dp[i + 1][j + 1] = max(dp[i + 1][j + 1], dp[i][j]);
-                    if (s[i] == t[1]) dp[i + 1][j] = max(dp[i + 1][j], dp[i][j] + j);
-                    dp[i + 1][j] = max(dp[i + 1][j], dp[i][j]);
-                    dp[i + 1][j] = max()
+                vector<vector<int>> ndp(k + 1, vector<int> (n + 1, -1e9));
+                for (int use = 0;use <= k;use ++) {
+                    for (int j = 0;j <= n;j ++) {
+                        if (dp[use][j] == -1e9) continue;
+                        if (s[i] == t[0]) {
+                            ndp[use][j + 1] = max(ndp[use][j + 1], dp[use][j]);
+                            if (use < k) {
+                                ndp[use + 1][j] = max(ndp[use + 1][j], dp[use][j] + j);
+                            }
+                        } else if (s[i] == t[1]) {
+                            ndp[use][j] = max(ndp[use][j], dp[use][j] + j);
+                            if (use < k) {
+                                ndp[use + 1][j + 1] = max(ndp[use + 1][j + 1], dp[use][j]);
+                            }
+                        } else {
+                            ndp[use][j] = max(ndp[use][j], dp[use][j]);
+                            if (use < k) {
+                                ndp[use + 1][j + 1] = max(ndp[use + 1][j + 1], dp[use][j]);
+                                ndp[use + 1][j] = max(ndp[use + 1][j], dp[use][j] + j);
+                            }
+                        }
+                    }
+                }
+                dp = ndp;
+            }
+            int ans = 0;
+            for (int i = 0;i <= k;i ++) {
+                for (int j = 0;j <= n;j ++) {
+                    ans = max(ans, dp[i][j]);
                 }
             }
+            cout << ans << '\n';
         }
         // ans = check(s);
         // dfs(s, 0, k);

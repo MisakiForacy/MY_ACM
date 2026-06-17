@@ -21,14 +21,15 @@ int main() {
                         break;
                     }
                 }
-                x ^= ((1 << n) - 1);
-                ans.push_back(n);
-                cout << n << ':' << ' ';
+                // cout << ((1 << n + 1) - 1) << '\n';
+                x ^= ((1 << n + 1) - 1);
+                ans.push_back(n + 1);
+                // cout << n << ':' << ' ';
             } else {
                 x += 1;
             }
-            cout << x << '\n';
-            getchar();
+            // cout << x << '\n';
+            // getchar();
         }
         cout << cnt - 2 << '\n';
         for (auto v : ans) cout << v << ' ';
