@@ -20,20 +20,16 @@ int main() {
             mp2[{v, u}] = w;
         }
         int ans1 = 0, ans2 = 0;
-        auto dfs = [&](auto dfs, int pu, int u, int s, int f) -> void {
-            if (u == s) {
-                if (!(f ? mp1.count({u, g[u][f]}) : mp2.count({u, g[u][f]}))) (f ? ans1 : ans2) += (f ? mp1[{g[u][f], u}] : mp2[{g[u][f], u}]);
-                dfs(dfs, u, g[u][f], s, f);
-            }
-            for (auto v : g[u]) {
-                if (v == pu) continue;
-                if (!(f ? mp1.count({u, v}) : mp2.count({u, v}))) (f ? ans1 : ans2) += (f ? mp1[{v, u}] : mp2[{v, u}]);
-                if (v == s) return;
-                dfs(dfs, u, v, s, f);
-            }
-        };
-        dfs(dfs, 0, 1, 1, 0);
-        dfs(dfs, 0, 1, 1, 1);
+        queue<int> q;
+        q.push();
+        while (q.size()) {
+            int u = q.front();
+            q.pop();
+
+        }
+        dfs1(dfs1, 0, 1, 1);
+        cout << ans1 << '\n';
+        // dfs1(dfs1, 0, 1, 1, 1);
         cout << min(ans1, ans2) << '\n';
     }   
 }
