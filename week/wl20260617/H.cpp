@@ -9,7 +9,7 @@ int main() {
         int x, cnt = 2;
         vector<int> ans;
         cin >> x;
-        while (x & (x + 1) != 0 && cnt ++) {
+        while ((x & (x + 1)) != 0 && cnt ++) {
             if (cnt & 1) {
                 int ok = 0, n;
                 for (int i = 30;i >= 0;i --) {
@@ -21,10 +21,17 @@ int main() {
                         break;
                     }
                 }
+                x ^= ((1 << n) - 1);
                 ans.push_back(n);
+                cout << n << ':' << ' ';
             } else {
                 x += 1;
             }
+            cout << x << '\n';
+            getchar();
         }
+        cout << cnt - 2 << '\n';
+        for (auto v : ans) cout << v << ' ';
+        cout << '\n';
     }   
 }
