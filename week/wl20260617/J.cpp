@@ -57,8 +57,20 @@ int main() {
                     k --;
                 }
             }
+            int cnt = 0;
+            for (int i = 0;i < n;i ++) {
+                if (s[i] == t[0]) cnt ++;
+            }
+            cout << cnt * (cnt - 1) / 2 << '\n';
         } else {
-            
+            int dp[n + 1][n + 1];
+            for (int i = 0;i < n;i ++) {
+                for (int j = 0;j < n;j ++) {
+                    if (s[i] == t[0]) dp[i + 1][j + 1] = max(dp[i + 1][j + 1], dp[i][j]);
+                    if (s[i] == t[1]) dp[i + 1][j] = max(dp[i + 1][j], dp[i][j] + j);
+                    dp[i + 1][j] = max(dp[i + 1][j], dp[i][j]);
+                }
+            }
         }
         // ans = check(s);
         // dfs(s, 0, k);
