@@ -3,8 +3,8 @@ using namespace std;
 const int dx[] = {0, 1, 0, -1};
 const int dy[] = {1, 0, -1, 0};
 int main() {
-    int t;
-    cin >> t;
+    int t = 1;
+    // cin >> t;
     while (t--) {
         int n;
         cin >> n;
@@ -39,5 +39,6 @@ int main() {
             }
             cout << '\n';
         }
+        // cout << l << ' ' << r << '\n';
     }   
 }
