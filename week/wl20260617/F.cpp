@@ -20,15 +20,32 @@ int main() {
             mp2[{v, u}] = w;
         }
         int ans1 = 0, ans2 = 0;
-        queue<int> q;
-        q.push();
-        while (q.size()) {
-            int u = q.front();
-            q.pop();
-
-        }
-        dfs1(dfs1, 0, 1, 1);
-        cout << ans1 << '\n';
+        auto dfs1 = [&](auto dfs1, int pu, int u, int s) -> void {
+            for (auto v : g[u]) {
+                if (v == pu) continue;
+                // cout << u << ' ' << v << '\n';
+                if (!mp1.count({u, v})) ans1 += mp1[{v, u}];
+                if (v == s) continue;
+                dfs1(dfs1, u, v, s);
+            }
+        };
+        auto dfs2 = [&](auto dfs2, int pu, int u, int s) -> void {
+            for (auto v : g[u]) {
+                if (v == pu) continue;
+                // cout << u << ' ' << v << '\n';
+                if (!mp1.count({u, v})) ans2 += mp1[{v, u}];
+                if (v == s) continue;
+                dfs2(dfs2, u, v, s);
+            }
+        };
+        // cout << 1 << ' ' << g[1][0] << ":\n";
+        if (!mp1.count({1, g[1][0]})) ans1 += mp1[{g[1][0], 1}];
+        dfs1(dfs1, 1, g[1][0], 1);
+        // cout << 1 << ' ' << g[1][1] << ":\n";
+        if (!mp1.count({1, g[1][1]})) ans2 += mp1[{g[1][1], 1}];
+        dfs2(dfs2, 1, g[1][1], 1);
+        // cout << ans1 << ' ' << ans2 << '\n';
+        // cout << ans1 << '\n';
         // dfs1(dfs1, 0, 1, 1, 1);
         cout << min(ans1, ans2) << '\n';
     }   

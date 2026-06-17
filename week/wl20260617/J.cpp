@@ -69,6 +69,7 @@ int main() {
                     if (s[i] == t[0]) dp[i + 1][j + 1] = max(dp[i + 1][j + 1], dp[i][j]);
                     if (s[i] == t[1]) dp[i + 1][j] = max(dp[i + 1][j], dp[i][j] + j);
                     dp[i + 1][j] = max(dp[i + 1][j], dp[i][j]);
+                    dp[i + 1][j] = max()
                 }
             }
         }
