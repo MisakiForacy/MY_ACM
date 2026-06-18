@@ -11,27 +11,29 @@ using LL = long long;
 void solve() {
     int n;
     cin >> n;
-    vector<LL> a(n), b(n);
+    vector<LL> a(n), b(n), vis(n + 1, 0), p(n, 0);
     for (int i = 0;i < n;i ++) cin >> a[i];
     for (int i = 0;i < n;i ++) cin >> b[i];
     int cnt = 0;
     for (int i = 0;i < n;i ++) {
-        for (int j = n - 1;j >= 0;j --) {
-            if (a[j] > b[j]) {
-                while (j + 1 < n && a[j] > b[j]) {
-                    swap(a[j], a[j + 1]);
-                    cnt ++;
-                    j ++;
-                }
+        int ok = 0;
+        for (int j = 0;j < n;j ++) {
+            if (!vis[j] && b[j] >= a[i]) {
+                vis[j] = 1;
+                p[i] = j;
+                ok = 1;
                 break;
             }
         }
-        for (int i = 0;i < n;i ++) cout << a[i] << ' ';
-        cout << '\n';
+        if (!ok) {
+            cout << -1 << '\n';
+            return;
+        }
     }
-    for (int i = 0;i < n;i ++) if (a[i] > b[i]) {
-        cout << -1 << '\n';
-        return;
+    for (int i = 0;i < n;i ++) {
+        for (int j = 0;j < i;j ++) {
+            if (p[j] > p[i]) cnt ++;
+        }
     }
     cout << cnt << '\n';
 }
