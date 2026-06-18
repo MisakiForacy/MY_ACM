@@ -28,14 +28,18 @@ void solve() {
             if (stk.empty()) {
                 stk.push(b[i]);
             } else if (b[i] < stk.top()) {
-                while (b[i] + stk.top() <= x) {
-                    tp.push(stk.top());
+                if (b[i] + stk.top() <= x) {
+                    LL use = b[i] + stk.top();
+                    stk.pop();
+                    stk.push(b[i]);
+                    stk.push(use);
+                } else {
+                    return 0;
                 }
             } else {
                 stk.push(b[i]);
             }
         }
-        for (int i = 1;i < n;i ++) if (b[i] < b[i - 1]) return 0;
         return 1;
     };
     // cout << check(26) << '\n';
