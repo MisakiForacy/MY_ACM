@@ -1,5 +1,9 @@
 #include <bits/stdc++.h>
 
+#define x first 
+
+#define y second
+
 #define siz(x) ((int)x.size())
 
 #define all(x) begin(x),end(x)
@@ -19,36 +23,35 @@ void solve() {
     LL lo = mx, hi = sum;
     auto check = [&](LL x) -> int {
         vector<LL> b = a, vis(n, 0);
-        queue<int> q;
+        stack<LL> stk, tp;
         for (int i = 0;i < n;i ++) {
-            if (b[i] > b[i + 1] && b[i] + b[i + 1] <= x) {
-                q.push(i);
+            if (stk.empty()) {
+                stk.push(b[i]);
+            } else if (b[i] < stk.top()) {
+                while (b[i] + stk.top() <= x) {
+                    tp.push(stk.top());
+                }
+            } else {
+                stk.push(b[i]);
             }
-        }
-        while (siz(q)) {
-            int i = q.front();
-            q.pop();
-            if (b[i] <= b[i + 1] || b[i] + b[i + 1] > x) continue;
-            swap(b[i], b[i + 1]);
-            b[i + 1] += b[i];
-            if (i > 0 && b[i] > b[i - 1] && b[i] + b[i - 1] <= x) q.push(i - 1);
-            if (i < n && b[i + 1] > b[i + 2] && b[i + 1] + b[i + 2] <= x) q.push(i + 1);
         }
         for (int i = 1;i < n;i ++) if (b[i] < b[i - 1]) return 0;
         return 1;
     };
+    // cout << check(26) << '\n';
+    // cout << check(14) << '\n';
     while (lo < hi) {
-        LL mid = lo + hi + 1 >> 1;
-        if (!check(mid))
-            hi = mid - 1;
+        LL mid = lo + hi >> 1;
+        if (check(mid))
+            hi = mid;
         else    
-            lo = mid;
+            lo = mid + 1;
     }
-    cout << hi << '\n';
+    cout << lo << '\n';
 }
 
 int main() {
-    // ios::sync_with_stdio(0), cin.tie(0);
+    ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     cin >> T;
     while (T --) solve();
