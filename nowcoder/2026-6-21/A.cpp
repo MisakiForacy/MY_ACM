@@ -10,45 +10,30 @@ using LL = long long;
 
 const LL inf = 1e15;
 
+const LL mod = 998244353;
+
 void solve() {
-    int n, q;
-    cin >> n >> q;
-    string s;
-    cin >> s;
-    s = ' ' + s;
-    vector<vector<int>> g(n + 1);
-    for (int i = 1;i <= n - 1;i ++) {
-        int u, v;
-        cin >> u >> v;
-        g[u].push_back(v);
-        g[v].push_back(u);
+    int n;
+    cin >> n;
+    LL sum = 0;
+    vector<LL> a(n + 1, 0), p(n + 1, 0);
+    for (int i = 1;i <= n;i ++) {
+        cin >> a[i];
+        p[i] = p[i - 1] + a[i];
+        sum += a[i];
     }
-    vector<int> dep(n + 1, 0);
-    vector<vector<LL>> dp(n + 1, vector<LL> (2, inf));
-    auto dfs = [&](auto dfs, int pu, int u) -> void {
-        dep[u] = dep[pu] + 1;
-        if (siz(g[u]) == 1) {
-            if (s[u] == '1') {
-                dp[u][0] = inf;
-                dp[u][1] = 0;
-            } else {
-                dp[u][0] = 0;
-                dp[u][1] = 1;
-            }
-            return;
+    LL dat = 1e15;
+    int r = 1;
+    for (int i = 1;i <= n;i ++) {
+        r = max(i, r);
+        while (r <= n && p[r] - p[i - 1] <= sum / 2) {
+            r ++;
+            dat = min(dat, sum - 2 * (p[r] - p[i - 1]));
         }
-        for (auto v : g[u]) {
-            if (v == pu) continue;
-            dfs(dfs, u, v);
-            dp[u][1] = 
-        }
-    };
-    dfs(dfs, 0, 1);
-    while (q --) {
-        int x, y;
-        cin >> x >> y;
-        if (dep[x] > dep[y]) swap(x, y);
     }
+    LL x = sum - dat >> 2;
+    LL y = sum - x;
+    cout << x * y % mod << '\n';
 }
 
 int main() {
