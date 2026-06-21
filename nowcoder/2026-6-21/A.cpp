@@ -15,25 +15,25 @@ const LL mod = 998244353;
 void solve() {
     int n;
     cin >> n;
-    LL sum = 0;
     vector<LL> a(n + 1, 0), p(n + 1, 0);
+    LL sum = 0;
     for (int i = 1;i <= n;i ++) {
         cin >> a[i];
         p[i] = p[i - 1] + a[i];
         sum += a[i];
     }
     LL dat = 1e15;
-    int r = 1;
-    for (int i = 1;i <= n;i ++) {
-        r = max(i, r);
-        while (r <= n && p[r] - p[i - 1] <= sum / 2) {
-            r ++;
-            dat = min(dat, sum - 2 * (p[r] - p[i - 1]));
-        }
+    for (int i = 0;i < n;i ++) {
+        int pos1 = lower_bound(all(p), p[i] + sum / 2) - p.begin();
+        int pos2 = lower_bound(all(p), p[i] + sum / 2) - p.begin() - 1;
+        pos1 = min(pos1, n);
+        pos2 = max(i, pos2);
+        dat = min(dat, abs(sum - 2 * (p[pos1] - p[i])));
+        dat = min(dat, abs(sum - 2 * (p[pos2] - p[i])));
     }
-    LL x = sum - dat >> 2;
+    LL x = sum - dat >> 1;
     LL y = sum - x;
-    cout << x * y % mod << '\n';
+    cout << (x % mod) * (y % mod) % mod << '\n';
 }
 
 int main() {
