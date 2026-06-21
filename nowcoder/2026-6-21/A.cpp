@@ -21,11 +21,10 @@ void solve() {
         g[u].push_back(v);
         g[v].push_back(u);
     }
-    for (int i = 1;i <= q;i ++) {
-        int x, y;
-        cin >> x >> y;
-
-    }
+    vector<vector<int>> dp(n + 1, vector<int> (2, 0));
+    auto dfs = [&](auto dfs, int pu, int u) -> void {
+        
+    }; 
 }
 
 int main() {
