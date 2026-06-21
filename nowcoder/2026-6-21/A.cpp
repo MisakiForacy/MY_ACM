@@ -8,6 +8,8 @@ using namespace std;
 
 using LL = long long;
 
+const LL inf = 1e15;
+
 void solve() {
     int n, q;
     cin >> n >> q;
@@ -21,10 +23,32 @@ void solve() {
         g[u].push_back(v);
         g[v].push_back(u);
     }
-    vector<vector<int>> dp(n + 1, vector<int> (2, 0));
+    vector<int> dep(n + 1, 0);
+    vector<vector<LL>> dp(n + 1, vector<LL> (2, inf));
     auto dfs = [&](auto dfs, int pu, int u) -> void {
-        
-    }; 
+        dep[u] = dep[pu] + 1;
+        if (siz(g[u]) == 1) {
+            if (s[u] == '1') {
+                dp[u][0] = inf;
+                dp[u][1] = 0;
+            } else {
+                dp[u][0] = 0;
+                dp[u][1] = 1;
+            }
+            return;
+        }
+        for (auto v : g[u]) {
+            if (v == pu) continue;
+            dfs(dfs, u, v);
+            dp[u][1] = 
+        }
+    };
+    dfs(dfs, 0, 1);
+    while (q --) {
+        int x, y;
+        cin >> x >> y;
+        if (dep[x] > dep[y]) swap(x, y);
+    }
 }
 
 int main() {
