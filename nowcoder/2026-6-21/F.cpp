@@ -43,7 +43,7 @@ void solve() {
                 use ++;
             }
         }
-        if (use > 1) lst[u] = u;
+        if (use > 1 || s[u] == '1') lst[u] = u;
         if (use && s[u] != '1') cnt[u] += 1;
         f[u] = col[lst[u]] - cnt[lst[u]];
     };
