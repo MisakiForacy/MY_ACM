@@ -17,35 +17,41 @@ void solve() {
     cin >> s;
     s = ' ' + s;
     vector<vector<int>> g(n + 1);
-    for (int i = 1;i <= n;i ++) {
+    for (int i = 1;i <= n - 1;i ++) {
         int u, v;
         cin >> u >> v;
         g[u].push_back(v);
         g[v].push_back(u);
     }
-    vector<vector<LL>> dp(n + 1, vector<LL> (2, 0));
+    vector<int> f(n + 1, 0), col(n + 1, 0), cnt(n + 1, 0);
     vector<int> dep(n + 1, 0), fa(n + 1, 0);
     auto dfs = [&](auto dfs, int u, int pu) -> void {
         fa[u] = pu;
         dep[u] = dep[pu] + 1;
         if (siz(g[u]) == 1) {
-            if (s[u] == '1') {
-                dp[u][1] = 0;
-                dp[u][0] = inf;
-            } else {
-                dp[u][1] = 1;
-                dp[u][0] = 0;
-            }
+            if (s[u] == '1') col[u] = 1, cnt[u] = 1;
         }
-        int cnt = 0;
+        int use = 0;
         for (auto v : g[u]) {
             if (v == pu) continue;
             dfs(dfs, v, u);
-            
+            if (col[v]) {
+                col[u] += col[v];
+                cnt[u] += cnt[v];
+                use ++;
+            }
         }
-        if (cnt > 1) dp[u][0] = inf;
+        if (use && s[u] != '1') col[u] += 1;
+        f[u] = col[u] - cnt[u];
     };
-
+    
+    dfs(dfs, 1, 0);
+    while (q --) {
+        int x, y;
+        cin >> x >> y;
+        if (fa[x] == y) swap(x, y);
+        cout << f[y] << '\n';
+    }
 }
 
 int main() {
