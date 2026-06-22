@@ -23,13 +23,15 @@ void solve() {
         g[u].push_back(v);
         g[v].push_back(u);
     }
-    vector<int> f(n + 1, 0), col(n + 1, 0), cnt(n + 1, 0);
+    vector<int> f(n + 1, 0), col(n + 1, 0), cnt(n + 1, 0), lst(n + 1, 0);
     vector<int> dep(n + 1, 0), fa(n + 1, 0);
     auto dfs = [&](auto dfs, int u, int pu) -> void {
         fa[u] = pu;
         dep[u] = dep[pu] + 1;
+        lst[u] = lst[pu];
         if (siz(g[u]) == 1) {
             if (s[u] == '1') col[u] = 1, cnt[u] = 1;
+            lst[u] = u;
         }
         int use = 0;
         for (auto v : g[u]) {
@@ -41,8 +43,9 @@ void solve() {
                 use ++;
             }
         }
-        if (use && s[u] != '1') col[u] += 1;
-        f[u] = col[u] - cnt[u];
+        if (use > 1) lst[u] = u;
+        if (use && s[u] != '1') cnt[u] += 1;
+        f[u] = col[lst[u]] - cnt[lst[u]];
     };
     
     dfs(dfs, 1, 0);
