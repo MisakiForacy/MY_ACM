@@ -18,11 +18,12 @@ LL pow(LL a, LL b, LL m) {
 }
 
 bool isprime(LL n) {
+    if (n % 5 == 0 || n % 2 == 0 || n % 3 == 0) return 0;
     if (n < 2 || n % 6 % 4 != 1) {
         return (n | 1) == 3;
     }
     LL s = __builtin_ctzll(n - 1), d = n >> s;
-    for (LL a : {2, 325, 9375, 28178, 450775, 9780504, 1795265022}) {
+    for (LL a : {2, 7, 61}) {
         LL p = pow(a % n, d, n), i = s;
         while (p != 1 && p != n - 1 && a % n && i --) {
             p = mul(p, p, n);
@@ -32,20 +33,6 @@ bool isprime(LL n) {
     return 1;
 }
 
-bitset<10000001> s;
-
-void init() {
-    s.reset();
-    s[1] = 1;
-    for (LL i = 2;i <= 10000000;i ++) {
-        if (!s[i]) {
-            for (LL j = i * i;j <= 10000000;j += i) {
-                s[j] = 1;
-            }
-        }
-    }
-}
-
 void solve() {
     int ans = 0;
     LL l, r;
@@ -53,15 +40,11 @@ void solve() {
     for (LL a = 1;a * a <= r;a ++) {
         for (LL b = a + 1;a * a + b * b <= r;b += 2) {
             if (a * a + b * b < l) continue;
-            if (a * a + b * b <= 10000000) {
-                if (s[a * a + b * b]) continue;
-            } else {
-                if (!isprime(a * a + b * b)) continue;
-            }
+            if (!isprime(a * a + b * b)) continue;
             if (l <= a * a + b * b) ans ++;
         }
     }
-    cout << ans + (l <= 2) << '\n';
+    cout << ans + (l <= 2 && r >= 2) << '\n';
 }
 
 
@@ -76,8 +59,13 @@ void solve() {
 // 1 * 1 + 4 * 4
 // 1 * 1 + 6 * 6
 
+// 2 * 2 + 3 * 3 == 4 + 9
+// 2 * 2 + 5 * 5 == 29
+// 2 * 2 + 7 * 7 == 53
+// 2 * 2 + 
+
 int main() {
-    init();
+    // init();
     ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     // cin >> T;
