@@ -9,9 +9,7 @@ using namespace std;
 using LL = long long;
 
 void solve() {
-    string s;
-    cin >> s;
-    cout << (count(all(s), 'E') > count(all(s), 'W') ? "East" : "West");
+    vector<vector<int>> a(n, vector)
 }
 
 int main() {
