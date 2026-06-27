@@ -20,6 +20,7 @@ vector<LL> a(50), cnt(50, 0);
 
 void dfs1(int idx, int cnt, LL sum, bitset<50> cur) {
     if (cnt == li) {
+        cout << sum << '\n';
         mpl[sum].push_back(cur);
         return;
     }
@@ -31,6 +32,7 @@ void dfs1(int idx, int cnt, LL sum, bitset<50> cur) {
 
 void dfs2(int idx, int cnt, LL sum, bitset<50> cur) {
     if (cnt == ri) {
+        cout << sum << '\n';
         mpl[sum].push_back(cur);
         return;
     }
@@ -61,8 +63,15 @@ void solve() {
     use.reset();
     dfs2(n - 1, 0, 0, use);
     LL ccnt = 0;
+    cout << '\n';
+    cout << "::\n";
+    for (auto [kl, vl] : mpl) cout << kl << ' ';
+    cout << '\n';
+    for (auto [kl, vl] : mpr) cout << kl << ' ';
+    cout << '\n';
     for (auto [kl, vl] : mpl) {
         for (auto [kr, vr] : mpr) {
+            cout << kl << ' ' << kr << '\n';
             if (kl + kr >= x) {
                 for (bitset<50> t1 : vl) {
                     for (bitset<50> t2 : vr) {
@@ -87,7 +96,9 @@ void solve() {
         Sum %= mod;
     }  
     Sum *= inv(ccnt);
-    Sum 
+    Sum %= mod;
+    cout << Sum << ' ' << ' ' << ccnt << '\n';
+    cout << Sum << '\n';
 }
 
 int main() {
