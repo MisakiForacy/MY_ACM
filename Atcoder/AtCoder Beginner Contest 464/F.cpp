@@ -10,6 +10,8 @@ using LL = long long;
 
 const LL inf = 1e15;
 
+bitset<>
+
 void solve() {
     LL n, x;
     cin >> n >> x;
