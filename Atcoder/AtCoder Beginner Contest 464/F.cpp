@@ -10,14 +10,70 @@ using LL = long long;
 
 const LL inf = 1e15;
 
-bitset<>
+const LL mod = 998244353;
 
+bitset<50> L, R;
+map<LL, vector<bitset<50>>> mpl, mpr;
+
+int li, ri;
+vector<LL> a(50), cnt(50, 0);
+
+void dfs1(int idx, int cnt, LL sum, bitset<50> cur) {
+    if (cnt == li) {
+        mpl[sum].push_back(cur);
+        return;
+    }
+    bitset<50> tp = cur;
+    tp.set(idx);
+    dfs1(idx + 1, cnt + 1, sum + a[idx], tp);
+    dfs1(idx + 1, cnt + 1, sum, cur);
+}
+
+void dfs2(int idx, int cnt, LL sum, bitset<50> cur) {
+    if (cnt == ri) {
+        mpl[sum].push_back(cur);
+        return;
+    }
+    bitset<50> tp = cur;
+    tp.set(idx);
+    dfs2(idx - 1, cnt + 1, sum + a[idx], tp);
+    dfs2(idx - 1, cnt + 1, sum, cur);
+} 
+    
 void solve() {
     LL n, x;
     cin >> n >> x;
-    vector<LL> a(n);
     for (int i = 0;i < n;i ++) cin >> a[i];
-    auto dfs = [&](auto dfs, int idx, )
+    li = n / 2, ri = n - li;
+    bitset<50> use;
+    use.reset();
+    dfs1(0, 0, 0, use);
+    use.reset();
+    dfs2(n - 1, 0, 0, use);
+    LL ccnt = 0;
+    for (auto [kl, vl] : mpl) {
+        for (auto [kr, vr] : mpr) {
+            if (kl + kr >= x) {
+                for (bitset<50> t1 : vl) {
+                    for (bitset<50> t2 : vr) {
+                        bitset<50> tp = t1 | t2;
+                        LL sum = 0;
+                        for (int i = 0;i < n;i ++) {
+                            if (tp[i]) {
+                                sum += a[i];
+                                cnt[i] ++;
+                                if (sum >= x) break;
+                            }
+                        }
+                        ccnt ++;
+                    }
+                }
+            }
+        }
+    }
+    for (int i = 0;i < n;i ++) {
+        
+    }
 }
 
 int main() {
