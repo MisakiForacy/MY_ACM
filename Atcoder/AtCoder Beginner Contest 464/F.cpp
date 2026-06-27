@@ -40,6 +40,16 @@ void dfs2(int idx, int cnt, LL sum, bitset<50> cur) {
     dfs2(idx - 1, cnt + 1, sum, cur);
 } 
     
+LL inv(LL a, LL k = mod - 2) {
+    LL res = 1;
+    while (k) {
+        if (k & 1) res = res * a % mod;
+        a = a * a % mod;
+        k >>= 1;
+    }
+    return res;
+}
+
 void solve() {
     LL n, x;
     cin >> n >> x;
@@ -71,9 +81,13 @@ void solve() {
             }
         }
     }
+    LL Sum = 0;
     for (int i = 0;i < n;i ++) {
-        
-    }
+        Sum += cnt[i] * a[i] % mod;
+        Sum %= mod;
+    }  
+    Sum *= inv(ccnt);
+    Sum 
 }
 
 int main() {
