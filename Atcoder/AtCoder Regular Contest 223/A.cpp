@@ -34,16 +34,19 @@ void solve() {
     //     }
     //     if ()
     // }
-    map<__int128_t, __int128_t> f;
-    f[0] = 0;
+    map<__int128_t, __int128_t> dp;
+    dp[0] = 0;
+    __int128_t ans = 0;
     for (int i = 0;i < n;i ++) {
         LL ww, vv;
         cin >> ww >> vv;
-        for (auto [k, v] : f) {
+        map<__int128_t, __int128_t> ndp = dp;
+        for (auto [k, v] : dp) {
             if (k + ww > w) continue;
-            f[k + v] = max(f[k + v], v + vv);
-            
+            ndp[k + ww] = max(dp[k + ww], v + vv);
+            ans = max(ans, __int128_t(v + vv));
         }
+        dp = ndp;
     }
     string s;
     while (ans) {
