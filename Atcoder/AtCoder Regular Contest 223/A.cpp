@@ -16,38 +16,26 @@ struct node
 void solve() {
     LL n, w;
     cin >> n >> w;
-    vector<node> p(n);
-    // vector<__int128_t> prev(n), prew(n);
-    // __int128_t ans = 0;
-    // for (int i = 0;i < n;i ++) {
-    //     LL ww, vv;
-    //     cin >> ww >> vv;
-    //     p[i].w = ww;
-    //     p[i].v = vv;
-    //     prew[i] = i ? prew[i - 1] + ww : ww;
-    //     prev[i] = i ? prev[i - 1] + vv : vv;
-    // }
-    // for (int i = n - 1;i >= 0;i --) {
-    //     if (prew[i] <= w) {
-    //         ans += prev[i];
-    //         break;
-    //     }
-    //     if ()
-    // }
-    map<__int128_t, __int128_t> dp;
-    dp[0] = 0;
+    vector<node> p(n + 1);
+    vector<__int128_t> prev(n + 1, 0), prew(n + 1, 0);
     __int128_t ans = 0;
-    for (int i = 0;i < n;i ++) {
+    for (int i = 1;i <= n;i ++) {
         LL ww, vv;
         cin >> ww >> vv;
-        map<__int128_t, __int128_t> ndp = dp;
-        for (auto [k, v] : dp) {
-            if (k + ww > w) continue;
-            ndp[k + ww] = max(dp[k + ww], v + vv);
-            ans = max(ans, __int128_t(v + vv));
-        }
-        dp = ndp;
+        p[i].w = ww;
+        p[i].v = vv;
+        prew[i] = i ? prew[i - 1] + ww : ww;
+        prev[i] = i ? prev[i - 1] + vv : vv;
     }
+    auto dfs = [&](auto dfs, LL idx, LL W) -> __int128_t {
+        if (idx == 0) return 0;
+        if (p[idx].w > W) {
+            return dfs(dfs, idx - 1, W);
+        } else {
+            return max(dfs(dfs, idx - 1, W - p[idx].w) + p[idx].v, prev[idx - 1]);
+        }
+    };
+    ans = dfs(dfs, n, w);
     string s;
     while (ans) {
         s += ans % 10 + '0';
