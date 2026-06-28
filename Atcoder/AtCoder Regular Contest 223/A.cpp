@@ -17,23 +17,33 @@ void solve() {
     LL n, w;
     cin >> n >> w;
     vector<node> p(n);
-    vector<__int128_t> prev(n), prew(n);
-    __int128_t ans = 0;
+    // vector<__int128_t> prev(n), prew(n);
+    // __int128_t ans = 0;
+    // for (int i = 0;i < n;i ++) {
+    //     LL ww, vv;
+    //     cin >> ww >> vv;
+    //     p[i].w = ww;
+    //     p[i].v = vv;
+    //     prew[i] = i ? prew[i - 1] + ww : ww;
+    //     prev[i] = i ? prev[i - 1] + vv : vv;
+    // }
+    // for (int i = n - 1;i >= 0;i --) {
+    //     if (prew[i] <= w) {
+    //         ans += prev[i];
+    //         break;
+    //     }
+    //     if ()
+    // }
+    map<__int128_t, __int128_t> f;
+    f[0] = 0;
     for (int i = 0;i < n;i ++) {
         LL ww, vv;
         cin >> ww >> vv;
-        p[i].w = ww;
-        p[i].v = vv;
-        prew[i] = i ? prew[i - 1] + ww : ww;
-        prev[i] = i ? prev[i - 1] + vv : vv;
-    }
-    for (int i = n - 1;i >= 0;i --) {
-        if (prew[i] <= w) {
-            ans += prev[i];
-            break;
+        for (auto [k, v] : f) {
+            if (k + ww > w) continue;
+            f[k + v] = max(f[k + v], v + vv);
+            
         }
-
-
     }
     string s;
     while (ans) {
