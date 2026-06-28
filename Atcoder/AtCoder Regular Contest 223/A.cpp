@@ -11,31 +11,29 @@ using LL = long long;
 struct node
 {
     __int128_t w, v;
-    bool operator < (const node&T) const {
-        // LL t1 = v / w, t2 = T.v / T.w;
-        // v / w > Tv / Tw
-        if (v * T.w != T.v * w) return v * T.w < T.v * w;
-        return w > T.w;
-    };
 };
 
 void solve() {
     LL n, w;
     cin >> n >> w;
     vector<node> p(n);
+    vector<__int128_t> prev(n), prew(n);
+    __int128_t ans = 0;
     for (int i = 0;i < n;i ++) {
         LL ww, vv;
         cin >> ww >> vv;
         p[i].w = ww;
         p[i].v = vv;
+        prew[i] = i ? prew[i - 1] + ww : ww;
+        prev[i] = i ? prev[i - 1] + vv : vv;
     }
-    sort(all(p));
-    __int128_t ans = 0;
-    for (int i = 0;i < n;i ++) {
-        if (w >= p[i].w) {
-            ans += p[i].v;
-            w -= p[i].w;
+    for (int i = n - 1;i >= 0;i --) {
+        if (prew[i] <= w) {
+            ans += prev[i];
+            break;
         }
+
+        
     }
     string s;
     while (ans) {
