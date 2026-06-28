@@ -33,7 +33,7 @@ void solve() {
             break;
         }
 
-        
+
     }
     string s;
     while (ans) {
