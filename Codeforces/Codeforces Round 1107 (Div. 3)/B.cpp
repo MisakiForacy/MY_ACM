@@ -8,9 +8,16 @@ using namespace std;
 using LL = long long;
 
 void solve() {
-    int x, y;
-    cin >> x >> y;
-    cout << (x % y == 0 ? "YES\n" : "NO\n");
+    LL x, y;
+    cin >> x;
+    int len = 0;
+    while (x) {
+        len ++;
+        x /= 10;
+    }
+    cout << 1;
+    for (int i = 0;i < len - 1;i ++) cout << 0;
+    cout << 1 << '\n';
 }
 
 int main() {
