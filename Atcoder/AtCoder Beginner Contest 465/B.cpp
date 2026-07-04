@@ -9,9 +9,14 @@ using namespace std;
 using LL = long long;
 
 void solve() {
-    double A, B;
-    cin >> A >> B;
-    cout << ((A * 3 / 2 > B) ? "Yes\n" : "No\n"); 
+    LL x, y, l, r, a, b;
+    cin >> x >> y >> l >> r >> a >> b;
+    LL ans = 0;
+    for (int i = a;i < b;i ++) {
+        if (l <= i && i < r) ans += x;
+        else                  ans += y;
+    }
+    cout << ans << '\n';
 }
 
 int main() {
