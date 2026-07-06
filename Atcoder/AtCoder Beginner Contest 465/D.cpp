@@ -9,6 +9,9 @@ using namespace std;
 using LL = long long;
 
 void solve() {
+
+    cout << !0 + 1 << '\n';
+
     LL x, y, k;
     cin >> x >> y >> k;
     LL cnt = 0;
@@ -37,6 +40,7 @@ void solve() {
 }
 
 int main() {
+    cout << (~0 + 1) << '\n';
     ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     cin >> T;
