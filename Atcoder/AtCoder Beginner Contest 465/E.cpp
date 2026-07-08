@@ -19,7 +19,6 @@ void solve() {
     vector<int> p(n + 1);
     for (int i = 1;i <= n;i ++) p[i] = N[i] - '0';
     memset(f, 0, sizeof(f));
-    f[0][0][0][0] = 1;
     LL ans = 0;
     for (int i = 1;i <= n;i ++) {
         for (int b = 0;b < (1 << 10);b ++) {
