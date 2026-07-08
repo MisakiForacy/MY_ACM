@@ -15,7 +15,6 @@ void solve() {
     string N;
     cin >> N; 
     int n = siz(N);
-    reverse(all(N));
     N = ' ' + N;
     vector<int> p(n + 1);
     for (int i = 1;i <= n;i ++) p[i] = N[i] - '0';
@@ -24,15 +23,15 @@ void solve() {
     LL ans = 0;
     for (int i = 1;i <= n;i ++) {
         for (int b = 0;b < (1 << 10);b ++) {
+            if (__builtin_popcountll(b) >= i) continue;
             for (int x = 0;x <= (i == 1 ? p[i] : 9);x ++) {
-                for (int m = 0;m < 3;m ++) {
-                    if (b == 0 && x == 0) continue;
-                    f[i][(i == 1 && x == p[i])][(m + x) % 3][b | (1 << x)] ++;
-                }
+                if (b == 0 && x == 0) continue;
+                f[i][(i == 1 && x == p[i])][x % 3][b | (1 << x)] ++;
             }
         }
         for (int lim = 0;lim <= 1;lim ++) {
             for (int b = 0;b < (1 << 10);b ++) {
+                if (__builtin_popcountll(b) >= i) continue;
                 for (int x = 0;x <= (lim ? p[i] : 9);x ++) {
                     for (int m = 0;m < 3;m ++) {
                         if (b == 0 && x == 0) {
@@ -46,7 +45,7 @@ void solve() {
         }
     }
     for (int lim = 0;lim <= 1;lim ++) {
-        for (int b = 1;b < (1LL << 10);b ++) {
+        for (int b = 0;b < (1LL << 10);b ++) {
             for (int m = 0;m < 3;m ++) {
                 if (m && (b >> 3 & 1) && __builtin_popcountll(b) != 3) ans += f[n][lim][m][b];
                 if (!m && !(b >> 3 & 1) && __builtin_popcountll(b) != 3) ans += f[n][lim][m][b];
