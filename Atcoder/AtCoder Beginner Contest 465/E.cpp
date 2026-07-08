@@ -13,7 +13,7 @@ LL f[501][2][3][1024];
 
 void solve() {
     string N;
-    cin >> N; 
+    cin >> N;
     int n = siz(N);
     N = ' ' + N;
     vector<int> p(n + 1);
