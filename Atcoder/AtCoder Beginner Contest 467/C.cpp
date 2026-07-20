@@ -4,23 +4,22 @@ using namespace std;
 
 using LL = long long;
 
-struct node {
-    int a, b;
-    string s;
-};
-
 void solve() {
     int n, m;
     cin >> n >> m;
+    int ans = n;
     vector<LL> a(n + 1), b(n + 1);
-    for (int i = n;i >= 1;i --) cin >> a[i];
-    for (int i = n;i >= 2;i --) cin >> b[i];
-    vector<vector<int>> f(2, vector<int> (n + 1));
-    f[1][1] = !(a[1]);
-    f[1][0] = a[1];
-    for (int i = 2;i <= n;i ++) {
-        f[i][1] = 
+    for (int i = 1;i <= n;i ++) cin >> a[i];
+    for (int i = 1;i <= n - 1;i ++) cin >> b[i];
+    for (int i = 0;i < 2;i ++) {
+        int s = i, cnt = 0;
+        for (int j = 1;j <= n;j ++) {
+            cnt += a[j] != s;
+            if (j + 1 <= n) s ^= b[j];
+        }
+        ans = min(ans, cnt);
     }
+    cout << ans << '\n';
 }
 
 int main() {
