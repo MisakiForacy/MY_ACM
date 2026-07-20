@@ -10,22 +10,39 @@ void solve() {
     vector<LL> a(n + 1, 0), b(n, 0), c(n, 0);
     for (int i = 1;i <= n;i ++) cin >> a[i];
     for (int i = 1;i < n;i ++) cin >> b[i];
-    for (int i = 1;i < n;i ++) 
-        c[i] = (b[i] - (a[i] + a[i + 1] + m) % m + m) % m;
-    LL ans = 0;
-    for (int i = 1;i < n;i ++) cout << c[i] << ' ';
-    cout << '\n';
-    for (int i = 1;i < n - 1;i ++) {
-        if (c[i] > c[i + 1]) {
-            ans += c[i];
-            c[i + 1] = 0;
-        } else {
-            ans += c[i + 1];
-            c[i + 1] = 0;
+    int l = 0, r = m;
+    auto check = [&](int x) -> bool {
+        c[1] = x;
+        LL sum1 = 0;
+        for (int i = 2;i < n;i ++) {
+            c[i] = (b[i - 1] - (c[i - 1] + a[i - 1] + a[i]) % m);
+            if (c[i] < 0) c[i] += m;
+            sum1 += c[i];
         }
-        cout << ans << ' ';
+        c[1] = x + 1;
+        LL sum2 = 0;
+        for (int i = 2;i < n;i ++) {
+            c[i] = (b[i - 1] - (c[i - 1] + a[i - 1] + a[i]) % m);
+            if (c[i] < 0) c[i] += m;
+            sum2 += c[i];
+        }
+        return sum1 >= sum2;
+    };
+    while (l < r) {
+        int mid = l + r >> 1;
+        if (check(mid))
+            l = mid + 1;
+        else
+            r = mid;
     }
-    ans += c[n - 1];
+    cout << l << '\n';
+    for (l = 0;l < m;l ++) {LL ans = 0;
+    c[1] = l + 1;
+    for (int i = 2;i < n;i ++) {
+        c[i] = (b[i - 1] - (c[i - 1] + a[i - 1] + a[i]) % m);
+        if (c[i] < 0) c[i] += m;
+        ans += c[i];
+    }}
     cout << ans << '\n';
 }
 
