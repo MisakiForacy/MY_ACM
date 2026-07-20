@@ -19,8 +19,6 @@ void solve() {
         LL ty = (qy + py) / 2;
         LL d1 = (tx - rx) * (tx - rx) + (ty - ry) * (ty - ry);
         LL d2 = (tx - sx) * (tx - sx) + (ty - sy) * (ty - sy);
-        // cout << tx << ' ' << ty << '\n';
-        // cout << d1 << ' ' << d2 << '\n';
         if (d1 == d2) {
             cout << "Yes\n";
         } else {
