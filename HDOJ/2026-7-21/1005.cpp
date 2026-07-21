@@ -4,29 +4,25 @@ using namespace std;
 
 using LL = long long;
 
-int f(string s) {
+int f(string s, int m) {
     int k = 0;
-    set<char> st;
-    for (char c : s) st.insert(c);
-    int m = st.size();
     int n = s.size();
     vector<int> pi(n + 1);
     for (int i = 1;i < n;i ++) {
-        int len = pi[i - 1];
-        while (len != 0 && s[i] != s[len]) {
-            len = pi[len - 1];
+        int j = pi[i - 1];
+        while (j > 0 && s[i] != s[j]) {
+            j = pi[j - 1];
         }
-        pi[i] = len + (s[i] == s[len]);
+        pi[i] = j + (s[i] == s[j]);
     }
     s = ' ' + s;
     for (int i = n;i >= 1;i --) pi[i] = pi[i - 1];
-    pi[0] = 0;
-    for (int i = 1;i <= n;i ++) cout << pi[i] << ' ';
-    cout << '\n';
+    // for (int i = 1;i <= n;i ++) cout << pi[i] << ' ';
+    // cout << '\n';
     vector<vector<int>> f(n + 1, vector<int> (m + 1, 0));
     for (int i = 1;i < n;i ++) {
         for (int j = 0;j < m;j ++) {
-            char c = s[j];
+            char c = 'a' + j;
             int pos = i;
             while (pos > 0 && c != s[pos + 1]) {
                 pos = pi[pos];
@@ -44,8 +40,9 @@ int f(string s) {
 
 void solve() {
     string s;
-    cin >> s;
-    cout << f(s) << '\n';
+    int m;
+    cin >> s >> m;
+    cout << f(s, m) << '\n';
 }
 
 int main() {
