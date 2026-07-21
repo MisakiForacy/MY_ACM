@@ -1,35 +1,37 @@
 #include <bits/stdc++.h>
+
+#define x first 
+#define y second
+
+#define all(x) begin(x),end(x)
+#define siz(x) ((int)x.size())
+
 using namespace std;
-int used[20],a[20],n;
-long long ret=0;
-bool flag;
-void dfs(int x)
-{
-    int i;
-    if(x > n)
-    {
-        flag=1;
-        for(i=1;i<=n;i++)
-            if(a[i]+i > n+2)
-            {
-                flag=0;
-                break;
-            }
-        if(flag) ret++;
-        return;
+using LL = long long;
+
+void solve() {
+    int n, d;
+    cin >> n >> d;
+    vector<LL> v(n), a(n + 1), p(n + 1);
+    for (int i = 1;i < n;i ++) cin >> v[i], p[i + 1] = p[i] + v[i];
+    for (int i = 1;i <= n;i ++) cin >> a[i];
+    int nxt = 2;
+    LL ans = 0, sum = 0;
+    for (int i = 1;i < n;) {
+        cout << i << ':';
+        while (nxt < n && a[nxt] >= a[i]) nxt ++;
+        LL x = p[nxt] - p[i];
+        cout << x << '\n';
+        sum += (x + d - 1) / d;
+        ans += (sum - x - d + 1) / d * a[i];
+        i = nxt;
     }
-    for(i=1;i<=n;i++)
-        if(used[i]==0)
-        {
-            used[i]=1, a[x]=i;
-            dfs(x+1);
-            used[i]=0, a[x]=0;
-        }
+    cout << ans << '\n';
 }
-int main()
-{
-    cin>>n;
-    dfs(1);
-    cout<<ret;
-    return 0;
+
+int main() {
+    ios::sync_with_stdio(0), cin.tie(0);
+    int T = 1;
+    // cin >> T;
+    while (T --) solve();
 }
