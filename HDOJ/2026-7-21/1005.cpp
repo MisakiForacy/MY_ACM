@@ -10,18 +10,22 @@ int f(string s) {
     for (char c : s) st.insert(c);
     int m = st.size();
     int n = s.size();
-    s = ' ' + s;
     vector<int> pi(n + 1);
-    for (int i = 1;i <= n;i ++) {
+    for (int i = 1;i < n;i ++) {
         int len = pi[i - 1];
-        while (len && s[i] != s[len]) {
+        while (len != 0 && s[i] != s[len]) {
             len = pi[len - 1];
         }
         pi[i] = len + (s[i] == s[len]);
     }
+    s = ' ' + s;
+    for (int i = n;i >= 1;i --) pi[i] = pi[i - 1];
+    pi[0] = 0;
+    for (int i = 1;i <= n;i ++) cout << pi[i] << ' ';
+    cout << '\n';
     vector<vector<int>> f(n + 1, vector<int> (m + 1, 0));
-    for (int i = 1;i < n - 1;i ++) {
-        for (int j = 0;j < m - 1;j ++) {
+    for (int i = 1;i < n;i ++) {
+        for (int j = 0;j < m;j ++) {
             char c = s[j];
             int pos = i;
             while (pos > 0 && c != s[pos + 1]) {
