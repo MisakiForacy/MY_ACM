@@ -15,9 +15,17 @@ const int dy1[] = {1, 0, -1, 0};
 const int dx2[] = {1, 1, -1, -1};
 const int dy2[] = {1, -1, 1, -1};
 
+struct node
+{
+    LL x, y, w;
+    bool operator < (const node&T) const {
+        return w < T.w;
+    }
+};
+
 LL bfs(int sx, int sy, int fx, int fy) {
     if (a[sx][sy] == -1) return inf;
-    queue<pair<int, int>> q;
+    priority_queue<node> q;
     int vis[n + 2][n + 2];
     LL dis[n + 2][n + 2];
     memset(vis, 0, sizeof vis);
@@ -28,10 +36,10 @@ LL bfs(int sx, int sy, int fx, int fy) {
     }
     q.push({sx, sy});
     vis[sx][sy] = 1;
-    dis[sx][sy] = 0;
+    dis[sx][sy] = 1;
     while (q.size()) {
-        pair<int, int> top = q.front();
-        int x = top.first, y = top.second;
+        node top = q.top();
+        int x = top.x, y = top.y, w = top.w;
         q.pop();
         for (int k = 0;k < 4;k ++) {
             int nx = x + (a[x][y] <= 2 ? dx1[k] : dx2[k]);
@@ -39,10 +47,11 @@ LL bfs(int sx, int sy, int fx, int fy) {
             if (nx < 1 || nx > n || ny < 1 || ny > n) continue;
             if (vis[nx][ny] || a[nx][ny] == -1) continue;
             vis[nx][ny] = 1;
-            dis[nx][ny] = dis[x][y] + (2 - a[x][y] % 2);
-            q.push({nx, ny});
+            dis[nx][ny] = min(dis[nx][ny], dis[x][y] + (2 - a[x][y] % 2));
+            q.push({nx, ny, dis[nx][ny]});
         }
     }
+    // cout << dis[fx][fy] << '\n';
     return dis[fx][fy];
 }
 
