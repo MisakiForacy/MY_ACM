@@ -37,19 +37,64 @@ void solve() {
         return sum;
     };
 
-    auto dfs = [&](auto dfs, int u) -> void {
+    vector<int> sz(n + 1, 0), mx(n + 1, 0), son(n + 1, 0);
+
+    auto dfs0 = [&](auto dfs0, int u) -> void {
+        sz[u] = 1;
         for (int v : g[u]) {
-            dfs(dfs, v);
+            dfs0(dfs0, v);
+            sz[u] += sz[v];
+            if (sz[v] > mx[u]) {
+                mx[u] = sz[v];
+                son[u] = v;
+            }
         }
-        ans[u] = qry(n) - qry(a[u]);
-        add(a[u]);
     };
-    dfs(dfs, 1);
+
+    dfs0(dfs0, 1);
+
+    cout << "OK\n";
+
+    for (int i = 1;i <= n;i ++) {
+        cout << fa[i] << ' ';
+        cout << son[i] << '\n';
+    }
+    getchar();
+    getchar();
+
+    auto modify = [&](auto modify, int u, int val) -> void {
+        add(u, val);
+        for (int v : g[u]) {
+            modify(modify, v, val);
+        }
+    };
+
+    auto dfs = [&](auto dfs, int u, int s) -> void {
+        cout << u << "  OK\n";
+        for (int v : g[u]) {
+            if (v == son[u]) continue;
+            dfs(dfs, v, 0);
+            modify(modify, v, 1);
+            ans[u] = qry(n) - qry(a[v]);
+            modify(modify, v, -1);
+        }
+        if (s) {
+            dfs(dfs, son[u], 1);
+            modify(modify, son[u], 1);
+            ans[son[u]] = qry(n) - qry(a[son[u]]);
+        }
+        for (int v : g[u]) {
+            if (v == son[u]) continue;
+            modify(modify, v, 1);
+        }
+    };
+
+    dfs(dfs, 1, 1);
     for (int i = 1;i <= n;i ++) cout << ans[i] << '\n';
 }
 
 int main() {
-    ios::sync_with_stdio(0), cin.tie(0);
+    // ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     // cin >> T;
     while (T --) solve();
