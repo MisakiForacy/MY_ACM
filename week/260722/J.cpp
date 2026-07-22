@@ -60,13 +60,16 @@ void solve() {
         Str_hash x;
         x.init(p[i]);
         mp[x.get(1, p[i].size())] ++;
+        // cout << x.get(1, p[i].size()).x << ' ' << x.get(1, p[i].size()).y << '\n';
     }
+    // cout << mp.size() << '\n';
+    // cout << '\n';
     for (int i = 0;i < n;i ++) {
         Str_hash x;
         x.init(p[i]);
         int ok = 0;
         for (int j = 0;j < p[i].size() - 1;j ++) {
-            pii L = x.get(i + 1, j + 1);
+            pii L = x.get(1, j + 1);
             pii R = x.get(j + 2, p[i].size());
             if (mp.count(L) && mp.count(R)) {
                 ok = 1;
@@ -74,6 +77,7 @@ void solve() {
             }
         }
         cout << (ok ? "1" : "0");
+        // cout << '\n';
     }
     cout << '\n';
 }
