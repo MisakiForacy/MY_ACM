@@ -44,8 +44,18 @@ void solve() {
 }
 
 int main() {
+    cout << ((-8) >> 2) << '\n';
     ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     // cin >> T;
     while (T --) solve();
 }
+
+0 4 0 4 0 4 0 0
+0 3 0 3 0 0 4 0
+0 4 0 0 3 4 0 4
+2 0 2 0 0 3 0 0
+0 0 0 2 0 0 3 0
+0 1 0 0 2 0 0 0
+0 0 1 0 0 0 3 0
+0 0 0 0 2 0 0 0
