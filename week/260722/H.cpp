@@ -11,6 +11,7 @@ void solve() {
     // memset(s, 0, sizeof s);
     // memset(t, 0, sizeof t);
     vector<LL> s(26, 0), t(26, 0);
+    s[0] = 1, t[0] = 1;
     for (int i = 1;i <= n;i ++) {
         LL d, k;
         cin >> d >> k;
