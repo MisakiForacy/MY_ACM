@@ -43,12 +43,14 @@ void l(int u,int fa,int nu){
 		}
 	}
 }
+int cnt[N];
 void dfs2(int u,int fa,int bo){
 	for(int x=0;x<sn[u].size();x++){
 		if(sn[u][x]!=fa && sn[u][x]!=lsn[u]){
 			dfs2(sn[u][x],u,0);
 		}
 	}
+    // cout << u << ' ' << lsn[u] << '\n';
 	if(lsn[u]){
 		dfs2(lsn[u],u,1);
 	}
@@ -58,16 +60,16 @@ void dfs2(int u,int fa,int bo){
 		}
 	}
 	ad(a[u],1);
-	int cnt=su(n)-su(a[u]);
-	cout<<cnt<<'\n';
+	cnt[u]=su(n)-su(a[u]);
+	// cout<<cnt<<'\n';
 	if(!bo){
 		l(u,fa,-1);
 	}
 }
 int main(){
-	//freopen("badge.in", "r", stdin);
-	//freopen("badge.out", "w", stdout);
-	ios::sync_with_stdio(0),cin.tie(0);
+	freopen("query.in", "r", stdin);
+	freopen("query.out", "w", stdout);
+	// ios::sync_with_stdio(0),cin.tie(0);
 	cin>>n;
 	for(int i=1;i<=n;i++){
 		cin>>a[i]; 
@@ -75,15 +77,17 @@ int main(){
 	} 
 	sort(b+1,b+1+n);
 	for(int i=1;i<=n;i++){
-		a[i]=lower_bound(b+1,b+1+n,a[i])-b;
+        a[i]=lower_bound(b+1,b+1+n,a[i])-b;
 	}
-	for(int i=1;i<=n;i++){
-		int f;
+	for(int i=2;i<=n;i++){
+        int f;
 		cin>>f;
 		sn[f].push_back(i);
 	}
+    // cout << "OK\n";
 	dfs1(1,0);
 	dfs2(1,0,1);
+    for (int i = 1;i <= n;i ++) cout << cnt[i] << '\n';
 	return 0;
 }
 
