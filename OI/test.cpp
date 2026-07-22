@@ -9,9 +9,6 @@ using namespace std;
 
 using LL = long long;
 
-const int dx[] = {0, 1, 0, -1};
-const int dy[] = {1, 0, -1, 0};
-
 void solve() {
     int n;
     cin >> n;
@@ -39,76 +36,46 @@ void solve() {
 
     vector<int> sz(n + 1, 0), mx(n + 1, -1), son(n + 1, -1);
 
-    auto dfs0 = [&](auto dfs0, int u) -> void {
+    auto dfs1 = [&](auto dfs1, int u) -> void {
         sz[u] = 1;
         for (int v : g[u]) {
-            dfs0(dfs0, v);
             sz[u] += sz[v];
-            if (sz[v] > mx[u]) {
-                mx[u] = sz[v];
-                son[u] = v;
-            }
         }
     };
-
-    dfs0(dfs0, 1);
-
-    // cout << "OK\n";
-    //
-    // for (int i = 1;i <= n;i ++) {
-    //     cout << fa[i] << ' ';
-    //     cout << son[i] << '\n';
-    // }
-    // getchar();
-    // getchar();
 
     auto modify = [&](auto modify, int u, int val) -> void {
+        add(a[u], val);
         for (int v : g[u]) {
-            add(v, val);
-            modify(modify, v, val);
+            if (son[v] == -1)
+                modify(modify, v, val);
         }
     };
-
-    auto dfs = [&](auto dfs, int u, int s) -> void {
-        // cout << u << "  OK\n";
-        // for (int v : g[u]) {
-        //     if (v == son[u]) continue;
-        //     dfs(dfs, v, 0);
-        //     modify(modify, v, 1);
-        //     ans[u] = qry(n) - qry(a[v]);
-        //     modify(modify, v, -1);
-        // }
-        // if (~son[u]) {
-        //     dfs(dfs, son[u], 1);
-        //     modify(modify, son[u], 1);
-        //     ans[son[u]] = qry(n) - qry(a[son[u]]);
-        // }
-        // for (int v : g[u]) {
-        //     if (v == son[u]) continue;
-        //     modify(modify, v, 1);
-        // }
+    
+    auto dfs2 = [&](auto dfs2, int u, int s) -> void {
         for (int v : g[u]) {
-            if (v == son[u]) continue;
-            dfs(dfs, v, 0);
+            if (v == son[u]) 
+                dfs2(dfs2, v, s);
         }
-        if (~son[u]) dfs(dfs, son[u], 1);
-        if (s) {
-            modify(modify, u, 1);
-            ans[u] = qry(n) - qry(a[u]);
-        } else {
-            modify(modify, u, 1);
-            ans[u] = qry(n) - qry(a[u]);
-            modify(modify, u, -1);
-        }
+        modify(modify, u, 1);
+        ans[u] = qry(n) - qry(a[u]);
+        
+        if (!s) modify(modify, u, -1);
     };
 
-    dfs(dfs, 1, 1);
+    for (int u = 1;u <= n;u ++) {
+        modify(modify, u, 1);
+        ans[u] = qry(n) - qry(a[u]);
+        modify(modify, u, -1);
+    }
     for (int i = 1;i <= n;i ++) cout << ans[i] << '\n';
 }
 
 int main() {
+    // freopen("query.in", "r", stdin);
+    // freopen("query.out", "w", stdout);
     // ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     // cin >> T;
     while (T --) solve();
 }
+
