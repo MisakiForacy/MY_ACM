@@ -29,11 +29,11 @@ void solve() {
         }
         // cout << ok << '\n';
         LL sum = 0;
-        for (int j = 25;j >= 0;sum += s[j], j --) {
-            if (s[j] < t[j]) ok = 1;
+        for (int j = 25;j >= 0;j --) {
+            if (s[j] < t[j]) {ok = 1; break;}
             else if (s[j] > t[j]) break;
         }
-        // for (int j = 0;j <= 25;j ++) sum += s[j];
+        for (int j = 0;j <= 25;j ++) sum += s[j];
         if (!sum) ok = 1;
         cout << (ok ? "YES\n" : "NO\n");
     }
