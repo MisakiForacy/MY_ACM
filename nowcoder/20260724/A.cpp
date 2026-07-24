@@ -12,7 +12,7 @@ void solve() {
     int n;
     cin >> n;
     vector<LL> p(n + 1);
-    vector<vector<LL>> p2(60, vector<LL> (4, 0));
+    vector<array<LL, 4>> p2(60);
     for (int i = 1;i <= n;i ++) {
         cin >> p[i];
         for (int j = 30;j >= 0;j --) {
@@ -24,24 +24,29 @@ void solve() {
     while (m --) {
         LL op, x;
         cin >> op >> x;
+        LL ans = 0;
         for (int j = 30;j >= 0;j --) {
+            auto old = p2[j];
+            array<LL, 4> now{};
             int d = (x >> j) % 4;
             for (int t1 = 0;t1 < 4;t1 ++) {
-                for (int t2 = 0;t2 < 4;t2 ++) {
-                    LL tmp = p2[j][t1];
-                    if (op == 1) {
-                        LL nu = tmp & t2;
-                        
-                    } else if (op == 2) {
-                        LL nu = tmp | t2;
-                        
-                    } else {
-                        LL nu = tmp ^ t2;
-                        
-                    }
+                if (old[t1] == 0) continue;
+                int nu;
+                if (op == 1) {
+                    nu = t1 & d;
+                } else if (op == 2) {
+                    nu = t1 | d;
+                } else {
+                    nu = t1 ^ d;
                 }
+                now[nu] += old[t1];
             }
+            p2[j] = now;
+            // cout << p2[j][1] << ' ';
+            ans += p2[j][1];
         }
+        // cout << '\n';
+        cout << ans << '\n';
     }
 }
 
