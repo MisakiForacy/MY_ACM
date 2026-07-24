@@ -6,24 +6,36 @@
 using namespace std;
 using LL = long long;
 
+#define double long double
+
 struct Point 
 {
     double x, y;
 };
 
-double cross(double x1, double y1, double x2, double y2) { 
-    return x1 * y2 - x2 * y1; 
-}
 
 void solve() {
     int n;
     cin >> n;
-    vector<pair<int, int>> p(n);
+    vector<pair<LL, LL>> p(n);
     for (int i = 0;i < n;i ++) cin >> p[i].x >> p[i].y;
-    double dir = 1.0 * (p[1].x - p[0].x) / (p[1].y - p[0].y);
-    for (int i = 1;i < n;i ++) {
-
+    for (int i = 2;i < n;i ++) {
+        // double t1 = atan2(p[i].x - p[i - 2].x, p[i].y - p[i - 2].y);
+        // double t2 = atan2(p[i].x - p[i - 1].x, p[i].y - p[i - 1].y);
+        LL dx1 = p[i].x - p[i - 1].x;
+        LL dx2 = p[i].x - p[i - 2].x;
+        LL dy1 = p[i].y - p[i - 1].y;
+        LL dy2 = p[i].y - p[i - 2].y;
+        LL cross = dx1 * dy2 - dy1 * dx2;
+        if (cross == 0) {
+            cout << "STRAIGHT ";
+        } else if (cross < 0) {
+            cout << "LEFT ";
+        } else {
+            cout << "RIGHT ";
+        }
     }
+    cout << '\n';
 }
 
 int main() {
