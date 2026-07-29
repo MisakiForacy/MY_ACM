@@ -9,26 +9,24 @@
 using namespace std;
 using LL = long long;
 
+const LL inf = 1e15;
+
 void solve() {
     int n;
     cin >> n;
-    vector<int> dp(100010);
-    dp[0] = 1;
-    for (int i = 0;i < n;i ++) {
-        int x;
-        cin >> x;
-        vector<int> ndp = dp;
-        for (int j = 0;j <= 100000;j ++) {
-            if (dp[j]) {
-                ndp[j + x] = 1;
-                ndp[abs(j - x)] = 1;
+    vector<LL> a(n + 1);
+    vector<vector<LL>> f(n + 1, vector<LL> (n + 1, inf));
+    for (int i = 1;i <= n;i ++) cin >> a[i];
+    for (int i = 1;i < n;i ++) f[i][i + 1] = 0;
+    for (int len = 3;len <= n;len ++) {
+        for (int l = 1;l + len - 1 <= n;l ++) {
+            int r = l + len - 1;
+            for (int k = l + 1;k < r;k ++) {
+                f[l][r] = min(f[l][r], f[l][k] + f[k][r] + a[l] * a[k] * a[r]);
             }
         }
-        dp = ndp;
     }
-    int ans = 0;
-    for (int i = 1;i <= 100000;i ++) ans += dp[i];
-    cout << ans << '\n';
+    cout << f[1][n] << '\n';
 }
 
 int main() {
