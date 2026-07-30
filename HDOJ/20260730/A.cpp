@@ -30,27 +30,23 @@ void solve() {
     cin >> s;
     s = ' ' + s;
     for (int i = 1;i <= n;i ++) f[i] = i;
-    // auto find = [&](auto find, int x) -> int {
-    //     return (f[x] == x ? f[x] : f[x] = find(find, f[x]));
-    // };
-    // auto merge = [&](int x, int y) -> void {
-    //     x = find(find, x);
-    //     y = find(find, y);
-    //     if (x == y) return;
-    //     if (x < y) swap(x, y);
-    //     f[x] = y;
-    // };
-    int cnt_ = 0;
-    for (int l = 1;l <= n;l += d) {
-        int r = n - l + 1;
-        for (int i = 1;i <= d;i ++) {
-            // cout << l << ' ' << r << '\n';
-            cnt_ ++;
-            if (find(l) == find(r)) break;
-            merge(l, r);
-            l = (l + d - 1) % n + 1;
-            r = (r + d - 1) % n + 1;
+    if (d) {
+        for (int l = 1;l <= n;l ++) {
+            int r = n - l + 1;
+            for (int i = 1;i <= n - 1;i ++) {
+                if (find(l) == find(r)) break;
+                merge(l, r);
+                l = (l + d - 1) % n + 1;
+                r = (r + d - 1) % n + 1;
+            }
         }
+    } else { 
+        int ans = 0;
+        for (int l = 1;l <= n / 2;l ++) {
+            if (s[l] != s[n - l + 1]) ans ++;
+        }
+        cout << ans << '\n';
+        return;
     }
     int ans = 0;
     vector<int> cnt(n + 1, 0);
@@ -66,18 +62,6 @@ void solve() {
         } 
     }
     cout << ans << '\n';
-    // unordered_map<int, map<char, int>> mp;
-    // unordered_map<int, int> cnt;
-    // for (int i = 1;i <= n;i ++) mp[find(i)][s[i]] ++, cnt[find(i)] ++;
-    // int ans = 0;
-    // for (auto [k, v] : mp) {
-    //     int mx = 0;
-    //     for (auto [c, vv] : v) {
-    //         mx = max(mx, vv);
-    //     }
-    //     ans += cnt[k] - mx;
-    // }
-    // cout << ans << '\n';
 }
 
 int main() {
