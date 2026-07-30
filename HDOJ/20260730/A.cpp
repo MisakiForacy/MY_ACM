@@ -25,23 +25,20 @@ void solve() {
         if (x < y) swap(x, y);
         f[x] = y;
     };
-    for (int l = 1;l <= min(n / 2, 100);l ++) {
+    int cnt_ = 0;
+    for (int l = 1;l <= n;l += d) {
         int r = n - l + 1;
         for (int i = 1;i <= n - 1;i ++) {
             // cout << l << ' ' << r << '\n';
+            cnt_ ++;
+            if (find(find, l) == find(find, r)) break;
             merge(l, r);
             l = (l + d - 1) % n + 1;
             r = (r + d - 1) % n + 1;
         }
     }
-    // l = 2, r = n - 1;
-    // for (int i = 1;i <= n - 1;i ++) {
-    //     merge(l, r);
-    //     l = (l + d - 1) % n + 1;
-    //     r = (r + d - 1) % n + 1;
-    // }
-    map<int, map<char, int>> mp;
-    map<int, int> cnt;
+    unordered_map<int, map<char, int>> mp;
+    unordered_map<int, int> cnt;
     for (int i = 1;i <= n;i ++) mp[find(find, i)][s[i]] ++, cnt[find(find, i)] ++;
     int ans = 0;
     for (auto [k, v] : mp) {
