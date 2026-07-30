@@ -7,48 +7,77 @@ using LL = long long;
 // abbaabba
 // bbaabbaa 
 
+const int N = 100010;
+
+int f[N];
+
+int find(int x) {
+    return (f[x] == x ? f[x] : f[x] = find(f[x]));
+}
+
+void merge(int x, int y) {
+    x = find(x);
+    y = find(y);
+    if (x == y) return;
+    if (x < y) swap(x, y);
+    f[x] = y;
+}
+
 void solve() {
     int n, d;
     cin >> n >> d;
     string s;
     cin >> s;
     s = ' ' + s;
-    vector<int> f(n + 1);
     for (int i = 1;i <= n;i ++) f[i] = i;
-    auto find = [&](auto find, int x) -> int {
-        return (f[x] == x ? f[x] : f[x] = find(find, f[x]));
-    };
-    auto merge = [&](int x, int y) -> void {
-        x = find(find, x);
-        y = find(find, y);
-        if (x == y) return;
-        if (x < y) swap(x, y);
-        f[x] = y;
-    };
+    // auto find = [&](auto find, int x) -> int {
+    //     return (f[x] == x ? f[x] : f[x] = find(find, f[x]));
+    // };
+    // auto merge = [&](int x, int y) -> void {
+    //     x = find(find, x);
+    //     y = find(find, y);
+    //     if (x == y) return;
+    //     if (x < y) swap(x, y);
+    //     f[x] = y;
+    // };
     int cnt_ = 0;
     for (int l = 1;l <= n;l += d) {
         int r = n - l + 1;
-        for (int i = 1;i <= n - 1;i ++) {
+        for (int i = 1;i <= d;i ++) {
             // cout << l << ' ' << r << '\n';
             cnt_ ++;
-            if (find(find, l) == find(find, r)) break;
+            if (find(l) == find(r)) break;
             merge(l, r);
             l = (l + d - 1) % n + 1;
             r = (r + d - 1) % n + 1;
         }
     }
-    unordered_map<int, map<char, int>> mp;
-    unordered_map<int, int> cnt;
-    for (int i = 1;i <= n;i ++) mp[find(find, i)][s[i]] ++, cnt[find(find, i)] ++;
     int ans = 0;
-    for (auto [k, v] : mp) {
-        int mx = 0;
-        for (auto [c, vv] : v) {
-            mx = max(mx, vv);
-        }
-        ans += cnt[k] - mx;
+    vector<int> cnt(n + 1, 0);
+    vector<vector<int>> p(n + 1, vector<int> (26, 0));
+    for (int i = 1;i <= n;i ++) p[find(i)][s[i] - 'a'] ++, cnt[find(i)] ++;
+    for (int i = 1;i <= n;i ++) {
+        if (cnt[i]) {
+            int mx = 0;
+            for (int j = 0;j < 26;j ++) {
+                mx = max(mx, p[i][j]);
+            }
+            ans += cnt[i] - mx;
+        } 
     }
     cout << ans << '\n';
+    // unordered_map<int, map<char, int>> mp;
+    // unordered_map<int, int> cnt;
+    // for (int i = 1;i <= n;i ++) mp[find(i)][s[i]] ++, cnt[find(i)] ++;
+    // int ans = 0;
+    // for (auto [k, v] : mp) {
+    //     int mx = 0;
+    //     for (auto [c, vv] : v) {
+    //         mx = max(mx, vv);
+    //     }
+    //     ans += cnt[k] - mx;
+    // }
+    // cout << ans << '\n';
 }
 
 int main() {
