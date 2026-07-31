@@ -30,23 +30,13 @@ void solve() {
     cin >> s;
     s = ' ' + s;
     for (int i = 1;i <= n;i ++) f[i] = i;
-    if (d) {
+    int cnt_ = 0;
+    for (int k = 0;k <= 1;k ++) {
         for (int l = 1;l <= n;l ++) {
-            int r = n - l + 1;
-            for (int i = 1;i <= n - 1;i ++) {
-                if (find(l) == find(r)) break;
-                merge(l, r);
-                l = (l + d - 1) % n + 1;
-                r = (r + d - 1) % n + 1;
-            }
+            int ll = (l + k * d - 1) % n + 1;
+            int rr = (n - l + 1 + k * d - 1) % n + 1;
+            merge(ll, rr);
         }
-    } else { 
-        int ans = 0;
-        for (int l = 1;l <= n / 2;l ++) {
-            if (s[l] != s[n - l + 1]) ans ++;
-        }
-        cout << ans << '\n';
-        return;
     }
     int ans = 0;
     vector<int> cnt(n + 1, 0);
