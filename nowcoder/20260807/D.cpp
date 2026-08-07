@@ -4,48 +4,55 @@
 
 #define all(x) begin(x),end(x)
 
+#define lowbit(x) ((x) & (-x))
+
 using namespace std;
 
 using LL = long long;
 
-struct SegTree 
-{
-    #define lc p << 1
-    #define rc p << 1 | 1
-    struct node
-    {
-        int l, r, laz, sum;
-        node() { l = 0, r = 0, laz = 0, sum = 0; }
-    };
-    vector<node> f; vector<int> a;
-    SegTree (int _n) {
-        f.resize(_n << 2 | 3);
-        a.resize(_n + 1);
-    }
-    void build(int l, int r, int p) {
-        f[p].l = l, f[p].r = r;
-        if (l == r) {
-            
-        }
-    }
-};
-
 void solve() {
     int n, x;
     cin >> n >> x;
-    vector<int> a(n), b(n), posa(n + 1), posb(n + 1), use(n + 1, 0);
-    for (int i = 0;i < n;i ++) cin >> a[i], posa[a[i]] = i + 1;
-    for (int i = 0;i < n;i ++) cin >> b[i], posb[b[i]] = i + 1;
-    int i = 0, j = 0;
+    vector<int> ans;
+    vector<int> a(n + 1), b(n + 1), posa(n + 1), posb(n + 1), use(n + 1, 0);
+    for (int i = 1;i <= n;i ++) cin >> a[i], posa[a[i]] = i;
+    for (int i = 1;i <= n;i ++) cin >> b[i], posb[b[i]] = i;
+    vector<int> f1(n + 1, 0), f2(n + 1, 0);
+    auto upd1 = [&](int x) -> void {
+        for (;x <= n;x += lowbit(x)) f1[x] ++;
+    };
+    auto upd2 = [&](int x) -> void {
+        for (;x <= n;x += lowbit(x)) f2[x] ++;
+    };
+    auto qry1 = [&](int x) -> int {
+        int sum = 0;
+        for (;x;x -= lowbit(x)) sum += f1[x];
+        return sum;
+    };
+    auto qry2 = [&](int x) -> int {
+        int sum = 0;
+        for (;x;x -= lowbit(x)) sum += f2[x];
+        return sum;
+    };
     auto case1 = [&](int i, int j) -> int {
         // 两者都在x前面
         // 去删相对位置差较小的那一项
-        if (posa[a[i]] < posa[x] && posb[a[i]] < posb[x] && posa[b[j]] < posa[x] && posb[b[j]] < posb[x]) {
-            if (abs(posa[a[i]] - posb[a[i]]) < abs(posa[b[j]] - posb[b[j]])) {
-                use[a[i]] = 1;
+        int pa_a = posa[a[i]] - qry1(posa[a[i]]);
+        int pb_a = posb[a[i]] - qry2(posb[a[i]]);
+        int pa_b = posa[b[j]] - qry1(posa[b[j]]);
+        int pb_b = posb[b[j]] - qry2(posb[b[j]]);
+        int pa_x = posa[x] - qry1(posa[x]);
+        int pb_x = posb[x] - qry2(posb[x]);
+        if (pa_a < pa_x && pb_a < pb_x && pa_b < pa_x && pb_b < pb_x) {
+            if (abs(pa_a - pb_a) < abs(pa_b - pb_b) && a[i] != x) {
+                // cout << "Erase : " << a[i] << '\n';
+                // ans.push_back(a[i]);
+                // use[a[i]] = 1;
                 return 1;
             } else {
-                use[b[j]] = 1;
+                // cout << "Erase : " << b[j] << '\n';
+                // ans.push_back(b[j]);
+                // use[b[j]] = 1;
                 return 2;
             }
         }
@@ -53,54 +60,95 @@ void solve() {
     };
     auto case2 = [&](int i, int j) -> int {
         // 假如其中某一项会在x后面出现，则删除均在x前方出现的那一项
-        if (posa[a[i]] < posa[x] && posb[a[i]] < posb[x]) {
-            use[a[i]] = 1;
+        int pa_a = posa[a[i]] - qry1(posa[a[i]]);
+        int pb_a = posb[a[i]] - qry2(posb[a[i]]);
+        int pa_b = posa[b[j]] - qry1(posa[b[j]]);
+        int pb_b = posb[b[j]] - qry2(posb[b[j]]);
+        int pa_x = posa[x] - qry1(posa[x]);
+        int pb_x = posb[x] - qry2(posb[x]);
+        if (pa_a < pa_x && pb_a < pb_x && a[i] != x) {
+            // cout << "Erase : " << a[i] << '\n';
+            // ans.push_back(a[i]);
+            // use[a[i]] = 1;
             return 1;
         }
-        if (posa[b[j]] < posa[x] && posb[b[j]] < posb[x]) {
-            use[b[j]] = 1;
+        if (pa_b < pa_x && pb_b < pb_x && b[i] != x) {
+            // cout << "Erase : " << b[j] << '\n';
+            // ans.push_back(b[j]);
+            // use[b[j]] = 1;
             return 2;
         }
         return 0;
     };
     // auto case3 = [&](int i, int j) -> int {
-    //     // 剩余情况即为两项都在x后面出现，则允许删除任意项，该操作都不会直接导致无解
+        //     // 剩余情况即为两项都在x后面出现，则允许删除任意项，该操作都不会直接导致无解
         
-    // };
-    while (i < n && j < n) {
-        while (use[a[i]]) i ++;
-        while (use[b[j]]) j ++;
-        if (a[i] == b[j] && (a[i] != x || i != n - 1 || j != n - 1)) {
+        // };
+    int i = 1, j = 1;
+    while (i <= n && j <= n) {
+        while (i <= n && use[a[i]]) i ++;
+        while (j <= n && use[b[j]]) j ++;
+        cout << i << ' ' << j << ' ' << a[i] << ' ' << b[j] << '\n';
+        if (a[i] == b[j] && (a[i] != x || i != n || j != n)) {
             cout << "NO\n";
             return;
         }
+        if (i == n && j == n && a[i] == x) break;
         if (case1(i, j)) {
             if (case1(i, j) == 1) {
+                cout << "Erase : " << a[i] << '\n';
+                ans.push_back(a[i]);
+                use[a[i]] = 1;
+                upd1(posa[a[i]]);
+                upd2(posb[a[i]]);
                 i ++;
-
             } else {
+                cout << "Erase : " << b[j] << '\n';
+                ans.push_back(b[j]);
+                use[b[j]] = 1;
+                upd1(posa[b[j]]);
+                upd2(posb[b[j]]);
                 j ++;
-
             }
         } else if (case2(i, j)) {
             if (case2(i, j)) {
+                cout << "Erase : " << a[i] << '\n';
+                ans.push_back(a[i]);
+                use[a[i]] = 1;
+                upd1(posa[a[i]]);
+                upd2(posb[a[i]]);
                 i ++;
-
             } else {
+                cout << "Erase : " << b[j] << '\n';
+                ans.push_back(b[j]);
+                use[b[j]] = 1;
+                upd1(posa[b[j]]);
+                upd2(posb[b[j]]);
                 j ++;
-
             }
         } else {
             // 考虑两者都存在在x后面出现，那就随便删
-            use[a[i]] = 1;
-            i ++;
+            // cout << "Erase : " << a[i] << '\n';
+            // ans.push_back(a[i]);
+            // use[a[i]] = 1;
+            // upd1(posa[a[i]]);
+            // upd2(posb[a[i]]);
+            // i ++;
+            if (a[i] == x) {
+                
+            } else {
+
+            }
         }
     }
+    cout << "YES\n";
+    for (auto x : ans) cout << x << '\n';
+    cout << '\n';
 }
 
 int main() {
     ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
-    cin >> T;
+    // cin >> T;
     while (T --) solve();
 }
