@@ -72,7 +72,7 @@ void solve() {
             // use[a[i]] = 1;
             return 1;
         }
-        if (pa_b < pa_x && pb_b < pb_x && b[i] != x) {
+        if (pa_b < pa_x && pb_b < pb_x) {
             // cout << "Erase : " << b[j] << '\n';
             // ans.push_back(b[j]);
             // use[b[j]] = 1;
@@ -84,26 +84,39 @@ void solve() {
         //     // 剩余情况即为两项都在x后面出现，则允许删除任意项，该操作都不会直接导致无解
         
         // };
-    int i = 1, j = 1;
+    int i = 1, j = 1, cnt = 0, bad = 0;
     while (i <= n && j <= n) {
-        while (i <= n && use[a[i]]) i ++;
-        while (j <= n && use[b[j]]) j ++;
-        cout << i << ' ' << j << ' ' << a[i] << ' ' << b[j] << '\n';
-        if (a[i] == b[j] && (a[i] != x || i != n || j != n)) {
+        if (bad) {
             cout << "NO\n";
             return;
         }
+        while (i <= n && use[a[i]]) i ++;
+        while (j <= n && use[b[j]]) j ++;
+        // cout << i << ' ' << j << ' ' << a[i] << ' ' << b[j] << '\n';
+        // if (a[i] == b[j] && a[i] != x || i != n || j != n) {
+        //     cout << "NO\n";
+        //     return;
+        // }
+        if (a[i] == b[j] && (a[i] != x || cnt != n - 1)) {
+            cout << "NO\n";
+            return;
+        }
+        if (cnt == n - 1) break;
         if (i == n && j == n && a[i] == x) break;
         if (case1(i, j)) {
             if (case1(i, j) == 1) {
-                cout << "Erase : " << a[i] << '\n';
+                // cout << "Erase1 a : " << a[i] << '\n';
+                if (a[i] == x) bad = 1;
+                cnt ++;
                 ans.push_back(a[i]);
                 use[a[i]] = 1;
                 upd1(posa[a[i]]);
                 upd2(posb[a[i]]);
                 i ++;
             } else {
-                cout << "Erase : " << b[j] << '\n';
+                // cout << "Erase1 b : " << b[j] << '\n';
+                if (b[j] == x) bad = 1;
+                cnt ++;
                 ans.push_back(b[j]);
                 use[b[j]] = 1;
                 upd1(posa[b[j]]);
@@ -111,15 +124,19 @@ void solve() {
                 j ++;
             }
         } else if (case2(i, j)) {
-            if (case2(i, j)) {
-                cout << "Erase : " << a[i] << '\n';
+            if (case2(i, j) == 1) {
+                // cout << "Erase2 a : " << a[i] << '\n';
+                if (a[i] == x) bad = 1;
+                cnt ++;
                 ans.push_back(a[i]);
                 use[a[i]] = 1;
                 upd1(posa[a[i]]);
                 upd2(posb[a[i]]);
                 i ++;
             } else {
-                cout << "Erase : " << b[j] << '\n';
+                // cout << "Erase2 b : " << b[j] << '\n';
+                if (b[j] == x) bad = 1;
+                cnt ++;
                 ans.push_back(b[j]);
                 use[b[j]] = 1;
                 upd1(posa[b[j]]);
@@ -128,21 +145,29 @@ void solve() {
             }
         } else {
             // 考虑两者都存在在x后面出现，那就随便删
-            // cout << "Erase : " << a[i] << '\n';
-            // ans.push_back(a[i]);
-            // use[a[i]] = 1;
-            // upd1(posa[a[i]]);
-            // upd2(posb[a[i]]);
-            // i ++;
             if (a[i] == x) {
-                
+                // cout << "Erase3 b : " << b[j] << '\n';
+                if (b[j] == x) bad = 1;
+                cnt ++;
+                ans.push_back(b[j]);
+                use[b[j]] = 1;
+                upd1(posa[b[j]]);
+                upd2(posb[b[j]]);
+                j ++;
             } else {
-
+                // cout << "Erase3 a : " << a[i] << '\n';
+                if (a[i] == x) bad = 1;
+                cnt ++;
+                ans.push_back(a[i]);
+                use[a[i]] = 1;
+                upd1(posa[a[i]]);
+                upd2(posb[a[i]]);
+                i ++;
             }
         }
     }
     cout << "YES\n";
-    for (auto x : ans) cout << x << '\n';
+    for (auto x : ans) cout << x << ' ';
     cout << '\n';
 }
 
