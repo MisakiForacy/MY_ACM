@@ -14,6 +14,16 @@ const LL mod = 998244353;
 
 vector<LL> fac(N), invfac(N);
 
+LL qmi(LL x, LL k) {
+    LL res = 1;
+    while (k) {
+        if (k & 1) res = res * x % mod;
+        x = x * x % mod;
+        k >>= 1;
+    }
+    return res;
+}
+
 LL inv(LL x) {
     LL res = 1;
     LL k = mod - 2;
@@ -62,23 +72,24 @@ void solve() {
     vector<map<char, int>> mp(n + 1);
     vector<int> sz(n + 1, 0);
     for (int i = 1;i <= n;i ++) mp[find(find, i)][s[i]] ++, sz[find(find, i)] ++;
-    LL ans = 1;
+    LL ans = 1, bad = 0;
     for (int i = 1;i <= n;i ++) {
         if (siz(mp[i])) {
-            int ok = 1;
+            int ok = 0;
             LL tot = fac[sz[f[i]]], cnt = 1;
             for (auto [k, v] : mp[i]) {
                 cnt *= invfac[v];
                 cnt %= mod;
-                if (v > 1) ok = 0;
+                if (v > 1) ok = 1;
             } 
             tot *= cnt;
             tot %= mod;
-            if (!ok) tot *= inv(2);
+            bad += ok;
             ans *= tot;
             ans %= mod;
         }
     }
+    if (!bad) (ans *= inv(2)) %= mod;
     cout << ans << '\n';
 }
 
