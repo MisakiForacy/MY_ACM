@@ -11,9 +11,14 @@ using LL = long long;
 void solve() {
     int n;
     cin >> n;
+    int a[n + 1] = {0}, mx = 0;
     for (int i = 1;i <= n;i ++) {
-        cout << (i % 3 == 0 ? "Fizz" : to_string(i)) << '\n';
+        int x;
+        cin >> x;
+        a[x] ++;
+        mx = max(mx, a[x]);
     }
+    cout << n - mx << '\n';
 }
 
 int main () {
