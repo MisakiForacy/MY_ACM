@@ -7,7 +7,7 @@ struct edge{
     int u,w;
     bool operator < (const edge &that) const {
         return w > that.w;
-        /*以权重大小排序，权重大的上浮，优先处理*/
+        /*以权重大小排序，权重小的上浮，优先处理*/
     }
 };
 vector<edge> G[N];
