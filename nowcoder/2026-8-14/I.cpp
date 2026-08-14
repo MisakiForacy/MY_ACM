@@ -27,7 +27,7 @@ void solve() {
             else 
                 r = m;
         }
-        cout << mid << ' ' << l << l << ' ' << cal(l) << '\n';
+        // cout << mid << ' ' << l << ' ' << cal(l) << '\n';
         return cal(l) < x;
     };
     while (lo < hi) {
