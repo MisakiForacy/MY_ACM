@@ -52,10 +52,13 @@ void solve() {
         LL x, s;
         cin >> x >> s;
         ti[i] = dis[x] + s;
-        mp[ti[i]] ++;
+        if (x != 1)
+            mp[ti[i]] ++;
+        else    
+            ti[i] = -1;
     }
     for (int i = 1;i <= m;i ++) {
-        cout << (mp[ti[i]] == 1);
+        cout << (mp[ti[i]] == 1 || ti[i] == -1);
     }
     cout << '\n';
 } 
