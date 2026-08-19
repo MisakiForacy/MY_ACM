@@ -23,39 +23,31 @@ void solve() {
     cin >> m >> r >> c;
     int t = 0, p = 0, cnt = 0;
     LL mm = m;
-    LL cd = 0, rd = 0, f1 = 0, f2 = 0; 
+    LL cd = 0; 
     // f1 = 1 表示进入幽灵形态， cd 就要持续减
     // f2 = 1 表示进入换弹， rd 就要持续减
+    int f[101][101];
+    memset(f, 0, sizeof(f));
     while (1) {
-        if (mm == m && !f1 && !f2) cnt ++;
-        cout << mm << ' ' << f1 << ' ' << f2 << '\n';
-        if (cnt == 2) break;
+        f[mm][cd] ++;
+        if (f[mm][cd] > 100) break;
         if (mm) {
             mm --;
-            p ++;
             t ++;
-        }
-        if (cd) {
+            p ++;
             cd --;
-            if (!cd) f1 = 0;
-        }
-        if (!mm) {
-            if (!f1) {
-                f1 = 1;
+        } else {
+            if (cd < r) {
+                t += cd;
                 cd = c;
                 mm = m;
-            } else if (!f2) {
-                f2 = 1;
-                rd = r;
-            } else if (rd) {
-                rd --;
-                t ++;
-                if (!rd) {
-                    mm = m;
-                    f2 = 0;
-                }
+            } else {
+                t += r;
+                cd -= r;
+                mm = m;
             }
         }
+        if (cd <= 0) cd = 0;
     }
     cout << fixed << setprecision(10);
     cout << 1.0 * p / (1.0 * t) << '\n'; 
