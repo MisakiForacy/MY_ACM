@@ -17,11 +17,17 @@ using PLL = pair<LL, LL>;
 const int N = 25;
 
 int n;
-LL f[N][N];
+LL f[N][N], use[N];
 
-// void dfs(int pos) {
-
-// }
+void dfs(int pos) {
+    if (pos == n * 3) {
+        LL res = 0;
+        for (int i = 2;i <= 3 * n) {
+            res += f[use[i - 1]][use[i]];
+        }
+        
+    }
+}
 
 void solve() {
     cin >> n;
