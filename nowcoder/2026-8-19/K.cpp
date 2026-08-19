@@ -19,9 +19,9 @@ const int N = 24;
 const LL inf = 1e15;
 
 int n;
-LL f[N][N], dp[1 << N], use[N];
+LL f[N][N], dp[1 << N], use[1 << N];
 
-map<int, set<int>> mp;
+vector<int> mp[25];
 
 void solve() {
     cin >> n;
@@ -30,13 +30,14 @@ void solve() {
             cin >> f[i][j];
         }
     }
-    for (int i = 0;i < 1LL << N - 1;i ++) dp[i] = - inf;
+    for (int i = 0;i < 1LL << N - 1;i ++) dp[i] = -inf;
     for (int i = 0;i < 3 * n;i ++) {
         for (int j = i + 1;j < 3 * n;j ++) {
             for (int k = j + 1;k < 3 * n;k ++) {
                 LL base = (1 << i) + (1 << j) + (1 << k);
                 dp[base] = f[i][j] + f[i][k] + f[j][k];
-                mp[3].insert(base);
+                mp[3].push_back(base);
+                use[base] = 1;
             }
         }
     }
@@ -50,7 +51,9 @@ void solve() {
                         if (base >> k & 1) continue;
                         LL mask = ((1 << i) + (1 << j) + (1 << k));
                         dp[mask ^ base] = max(dp[mask ^ base], dp[base] + dp[mask]);
-                        mp[t + 3].insert(mask ^ base);
+                        // mp[t + 3].insert(mask ^ base);
+                        if (!use[mask ^ base]) 
+                            mp[t + 3].push_back(mask ^ base), use[mask ^ base] = 1;
                     }
                 }
             }
@@ -95,5 +98,3 @@ int main() {
     // cin >> T;
     while (T --) solve();
 }
-
-

@@ -24,12 +24,10 @@ void solve() {
     cin >> m >> r >> c;
     if (m + r < c) {
         LL k = 1;
-        while (k * (m + r) < c) {
-            k ++;
-        }
+        while (k * (m + r) < c) k ++;
         if (k * (m + r) - r >= c) {
             LL p = k * m;
-            LL t = k * (m + r) - r + m;
+            LL t = k * (m + r) - r;
             cout << 1.0 * p / t << '\n';
         } else {
             LL p = (k + 1) * m;
