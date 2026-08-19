@@ -35,8 +35,10 @@ void solve() {
 int main() {
     int cnt = 0;
     int ff[10];
+    memset(ff, 0, sizeof(ff));
     for (int i = 0;i < (1LL << 24);i ++) {
-        if (__builtin_popcount(i) % 3 == 0) cnt ++;
+        int ct = __builtin_popcount(i);
+        if (ct % 3 == 0) cnt ++, ff[ct / 3] ++;
     }
     LL tot = 0;
     for (int i = 3;i <= 24;i += 3) {
@@ -46,7 +48,7 @@ int main() {
         }
         v /= 6;
         tot += v;
-        cout << v << ' ';
+        cout << v << ' ' << ff[i / 3] << '\n';
     }
     cout << '\n';
     cout << tot << '\n';
