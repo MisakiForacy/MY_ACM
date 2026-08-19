@@ -33,26 +33,26 @@ void solve() {
 }
 
 int main() {
-    int cnt = 0;
-    int ff[10];
-    memset(ff, 0, sizeof(ff));
-    for (int i = 0;i < (1LL << 24);i ++) {
-        int ct = __builtin_popcount(i);
-        if (ct % 3 == 0) cnt ++, ff[ct / 3] ++;
-    }
-    LL tot = 0;
-    for (int i = 3;i <= 24;i += 3) {
-        LL v = 1;
-        for (int j = i;j > i - 3;j --) {
-            v *= j;
-        }
-        v /= 6;
-        tot += v;
-        cout << v << ' ' << ff[i / 3] << '\n';
-    }
-    cout << '\n';
-    cout << tot << '\n';
-    cout << cnt << '\n';
+    // int cnt = 0;
+    // int ff[10];
+    // memset(ff, 0, sizeof(ff));
+    // for (int i = 0;i < (1LL << 24);i ++) {
+    //     int ct = __builtin_popcount(i);
+    //     if (ct % 3 == 0) cnt ++, ff[ct / 3] ++;
+    // }
+    // LL tot = 0;
+    // for (int i = 3;i <= 24;i += 3) {
+    //     LL v = 1;
+    //     for (int j = i;j > i - 3;j --) {
+    //         v *= j;
+    //     }
+    //     v /= 6;
+    //     tot += v * ff[i / 3];
+    //     cout << v << ' ' << ff[i / 3] << '\n';
+    // }
+    // cout << '\n';
+    // cout << tot << '\n';
+    // cout << cnt << '\n';
     // ios::sync_with_stdio(0), cin.tie(0);
     // int T = 1;
     // // cin >> T;
