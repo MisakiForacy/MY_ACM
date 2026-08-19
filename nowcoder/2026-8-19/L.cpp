@@ -19,41 +19,26 @@ const int N = 24;
 const LL inf = 1e15;
 
 void solve() {
+    cout << fixed << setprecision(10);
     LL m, r, c;
     cin >> m >> r >> c;
-    int t = 0, p = 0, cnt = 0;
-    LL mm = m;
-    LL cd = 0, rd = 0; 
-    // f1 = 1 表示进入幽灵形态， cd 就要持续减
-    // f2 = 1 表示进入换弹， rd 就要持续减
-    LL f[101][101];
-    memset(f, 0, sizeof(f));
-    while (1) {
-        f[mm][cd] ++;
-        if (mm == m && f[mm][cd] > 1) break;
-        if (mm) {
-            mm --;
-            t ++;
-            p ++;
-            cd --;
-        } else {
-            if (cd < r) {
-                t += cd;
-                cd = c;
-                mm = m;
-            } else {
-                t += r;
-                cd -= r;
-                mm = m;
-            }
+    if (m + r <= c) {
+        LL k = 1;
+        while (k * (m + r) < c) {
+            k ++;
         }
-        if (rd <= 0) rd = 0;
-        if (cd <= 0) cd = 0;
+        if (k * (m + r) - r >= c) {
+            LL p = k * m;
+            LL t = (k - 1) * (m + r) + m;
+            cout << 1.0 * p / t << '\n';
+        } else {
+            LL p = (k + 1) * m;
+            LL t = k * (m + r) + m;
+            cout << 1.0 * p / t << '\n';
+        }
+    } else {
+        cout << 1.0 * m / (1.0 * max(m, c)) << '\n';
     }
-    p += 2 * m, t += 2 * m;
-    cout << mm << ' ' << cd << ' ' << p << ' ' << t << '\n';
-    cout << fixed << setprecision(10);
-    cout << 1.0 * p / (1.0 * t) << '\n'; 
 }
 
 int main() {
@@ -62,3 +47,5 @@ int main() {
     cin >> T;
     while (T --) solve();
 }
+
+

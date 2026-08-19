@@ -97,20 +97,3 @@ int main() {
 }
 
 
-LL m, r, c;
-    cin >> m >> r >> c;
-    if (m + r < c) {
-        LL k;
-        for (k = 1;k <= 100;k ++) {
-            if (k * (m + r) >= c) break;
-        }
-        if (k * (m + r) == c) {
-            cout << 1.0 * (k + 1) * m / 1.0 * ((k + 1) * m + k * r) << '\n';
-        } else {
-            
-        }
-    } else if (m + r == c) {
-        cout << 1.0 * 2 * m / (1.0 * 2 * m + r) << '\n';
-    } else {
-        cout << 1.0 * m / (1.0 * max(m, c)) << '\n';
-    }
