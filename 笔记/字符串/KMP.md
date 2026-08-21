@@ -14,3 +14,11 @@ vector<int> kmp(string t,string s){
     return pi;  // 最长前后缀匹配
 }
 ```
+a b c # a b c a b c d a b 
+0 0 0 0 1 2 3 1 2 3
+
+
+baabaa.0
+
+aabaabaabaa
+     
