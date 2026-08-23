@@ -24,14 +24,22 @@ void init() {
 }
 
 int find(int x) {
-    return (f[x] )
+    return (f[x] == x ? f[x] : f[x] = find(f[x]));
+}
+
+void merge(int x, int y) {
+    x = find(x), y = find(y);
+    if (x == y) return;
+    if (sz[x] > sz[y]) swap(x, y);
+    f[x] = y;
+    sz[y] += sz[x];
 }
 
 void solve() {
     int n;
     cin >> n;
     for (int i = 1;i <= n;i ++) {
-        for (int j = 1;j <= n - i + 1;j ++) {
+        for (int j = i;j <= n;j ++) {
             cin >> a[i][j];
         }
     }
@@ -58,11 +66,14 @@ void solve() {
         cout << '\n';
     }
     sort(p.begin(), p.end());
+    LL ans = 0;
     for (int i = 0;i < p.size();i ++) {
         LL u = p[i].u, v = p[i].v, w = p[i].w;
-        
-
+        if (find(u) == find(v)) continue;
+        merge(u, v);
+        ans += w;
     }
+    cout << ans << '\n';
 }
 
 int main() {
