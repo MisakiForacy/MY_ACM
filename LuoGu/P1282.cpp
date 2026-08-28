@@ -12,7 +12,6 @@ int f[N][2 * M][2], a[N], b[N], c[N];
 int main() {
     int n;
     cin >> n;
-    // for (int i = 0;i < N;i ++) dp[i][0] = dp[i][1] = 1e8;
     for (int i = 0;i < N;i ++) 
         for (int j = 0;j < 2 * M;j ++) 
             f[i][j][0] = f[i][j][1] = 1e8;
@@ -39,7 +38,6 @@ int main() {
             }
         }
     }
-    // cout << mi << '\n';
     ans = min(ans, f[n][M - mi][0]);
     ans = min(ans, f[n][M - mi][1]);
     ans = min(ans, f[n][M + mi][0]);
