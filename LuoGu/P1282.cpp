@@ -24,10 +24,10 @@ int main() {
     for (int i = 1;i <= n;i ++) {
         for (int j = 0;j < 2 * M;j ++) {
             if (j + c[i] >= 0 && j + c[i] < 2 * M) {
-                f[i][j + c[i]][0] = min(f[i - 1][j][0], f[i - 1][j][1] + 1);
+                f[i][j + c[i]][0] = min(f[i - 1][j][0], f[i - 1][j][1]);
             } 
             if (j - c[i] >= 0 && j - c[i] < 2 * M) {
-                f[i][j - c[i]][1] = min(f[i - 1][j][0] + 1, f[i - 1][j][1]);
+                f[i][j - c[i]][1] = min(f[i - 1][j][0], f[i - 1][j][1]) + 1;
             }
         }
     }
