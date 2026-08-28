@@ -33,7 +33,7 @@ int main() {
     }
     int mi = 1e8, ans = 1e8;
     for (int j = 0;j < 2 * M;j ++) {
-        if (f[n][j][0] != 1e8 || f[n][j][1] != 1e8) {
+        if (f[n][j][0] < 1e8 || f[n][j][1] < 1e8) {
             if (abs(M - j) <= mi) {
                 mi = abs(M - j);
             }
