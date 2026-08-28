@@ -24,5 +24,5 @@ int main() {
         if (abs(dp[i - 1][1] - c) < abs(dp[i][1]))
             dp[i][1] = dp[i - 1][1] - c;
     }
-    if 
+    cout << min(abs(dp[n][0]), abs(dp[n][1])) << '\n';
 }
