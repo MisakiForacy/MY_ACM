@@ -24,13 +24,22 @@ LL qmi(LL x, LL k) {
     return res;
 }
 
+LL S(LL n) {
+    LL res = 0;
+    while (n) {
+        res += n % 10;
+        n /= 10;
+    }
+    return res;
+}
+
 void solve() {
     LL a, b, c;
     cin >> a >> b >> c;
     vector<LL> ans;   
     for (int s = 1;s <= 100;s ++) {
         LL x = b * qmi(s, a) + c;
-        if (x > 0 && x < 1e9) ans.push_back(x);
+        if (x > 0 && x < 1e9 && s == S(x)) ans.push_back(x);
     }
     sort(all(ans));
     cout << siz(ans) << '\n';
