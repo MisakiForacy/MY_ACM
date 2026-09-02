@@ -25,13 +25,13 @@ void solve() {
         mx = max(mx, a[i]);
         for (int j = 1;j <= a[i];j ++) 
             cin >> t, p[i].insert(t);
-        mp[p[i]] ++;
+        mp[p[i]] += 1;
     }
     for (int i = 1;i <= n;i ++) {
-        if (a[i] >= mx) {
+        if (a[i] == mx) {
             cout << "NO\n";
         } else {
-            if (mp[p[i]] > 1) {
+            if (mp[p[i]] != 1) {
                 cout << "NO\n";
             } else {
                 cout << "YES\n";
