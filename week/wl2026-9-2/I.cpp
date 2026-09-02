@@ -28,14 +28,17 @@ void solve() {
         mp[p[i]] += 1;
     }
     for (int i = 1;i <= n;i ++) {
-        if (a[i] == mx) {
-            cout << "NO\n";
+        int ok = 1;
+        for (int j = 1;j <= n;j ++) {
+            if (i == j) continue;
+            set<int> tp = p[j];
+            for (int x : p[i]) tp.erase(x);
+            if (tp.empty()) ok = 0;
+        }
+        if (ok) {
+            cout << "YES\n";
         } else {
-            if (mp[p[i]] != 1) {
-                cout << "NO\n";
-            } else {
-                cout << "YES\n";
-            }
+            cout << "NO\n";
         }
     }
 }
