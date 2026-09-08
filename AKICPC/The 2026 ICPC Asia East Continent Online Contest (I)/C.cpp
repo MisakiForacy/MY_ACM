@@ -8,14 +8,6 @@ using namespace std;
 
 using LL = long long;
 
-// struct node
-// {
-//     int val, pos;
-//     bool operator < (const node&T) const {
-//         return val < T.val;
-//     }
-// };
-
 void solve() {
     int n, k;
     cin >> n >> k;
@@ -30,7 +22,6 @@ void solve() {
             cin >> val;
             p.push_back(val);
         }
-        // sort(all(p));
         for (int i = 1;i < siz(p);i ++) {
             g[p[i - 1]].push_back(p[i]);
             in[p[i]] ++;
