@@ -22,7 +22,7 @@ void solve() {
     vector<node> p(n + 1);
     vector<char> a;
     map<int, vector<int>> mp;
-    map<int, int> pos, have, posv;
+    map<int, int> pos, posv;
     for (int i = 1;i <= n;i ++) {
         cin >> p[i].op >> p[i].x;
         if (p[i].op == 'T' || (p[i].op != 'F' && mp[p[i].x].empty()))
@@ -97,6 +97,40 @@ void solve() {
     }
     for (char c : a) cout << c;
     cout << '\n';
+
+    // check
+
+    stack<int> sk;
+    map<int, int> have;
+    int j = 1; 
+    for (char c : a) {
+        if (c == '+') {
+            if (have[p[j].x] == 1) {
+                cout << c << ' ' << p[j].x << "WA0\n";
+            }
+            sk.push(p[j].x);
+            have[p[j].x] = 1;
+            j ++;
+        } else if (c == '?') {
+            if (p[j].op == 'T') {
+                if (!have[p[j].x]) {
+                    cout << c << ' ' << p[j].x << "WA1\n";
+                }
+            } else {
+                if (have[p[j].x]) {
+                    cout << c << ' ' << p[j].x << "WA2\n";
+                }
+            }
+            j ++;
+        } else {
+            if (sk.empty()) {
+                cout << c << ' ' << p[j].x << "WA3\n";
+            }
+            have[sk.top()] = 0;
+            sk.pop();
+        }
+    }
+    cout << "OK\n";
 }
 
 int main() {
