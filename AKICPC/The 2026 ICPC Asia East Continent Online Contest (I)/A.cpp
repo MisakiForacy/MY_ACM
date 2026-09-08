@@ -25,13 +25,17 @@ void solve() {
     map<int, int> pos, posv;
     for (int i = 1;i <= n;i ++) {
         cin >> p[i].op >> p[i].x;
-        if (p[i].op == 'T' || (p[i].op != 'F' && mp[p[i].x].empty()))
+        if (p[i].op == 'T' || (p[i].op == '+' && mp[p[i].x].empty()))
             mp[p[i].x].push_back(1);
         else {
             if (p[i].op == '+' && mp[p[i].x][pos[p[i].x] - 1] == 0) {
                 mp[p[i].x].push_back(1);
             } else {
-                mp[p[i].x].push_back(0);
+                if (p[i].op == '+') {
+                    mp[p[i].x].push_back(2);
+                } else {
+                    mp[p[i].x].push_back(0);
+                }
             }
         }
         pos[p[i].x] ++;
@@ -47,7 +51,7 @@ void solve() {
             posv[p[i].x] = top;
             a.push_back(p[i].op);
             if (pos[p[i].x] + 1 < siz(mp[p[i].x])) {
-                if (mp[p[i].x][pos[p[i].x] + 1] == 0 && mp[p[i].x][pos[p[i].x]] == 1) {
+                if (mp[p[i].x][pos[p[i].x] + 1] != 1 && mp[p[i].x][pos[p[i].x]] >= 1) {
                     if (stk[top] == p[i].x) {
                         a.push_back('-');
                         top --;
@@ -61,6 +65,7 @@ void solve() {
             }
         } else if (p[i].op == '+') {
             while (posv[p[i].x] <= top) {
+                posv[stk[top]] = inf;
                 a.push_back('-');
                 top --;
             }
@@ -72,7 +77,7 @@ void solve() {
             if (p[i].op == 'T') {
                 a.push_back('?');
                 if (pos[p[i].x] + 1 < siz(mp[p[i].x])) {
-                    if (mp[p[i].x][pos[p[i].x] + 1] == 0 && mp[p[i].x][pos[p[i].x]] == 1) {
+                    if (mp[p[i].x][pos[p[i].x] + 1] != 1 && mp[p[i].x][pos[p[i].x]] >= 1) {
                         if (stk[top] == p[i].x) {
                             a.push_back('-');
                             top --;
@@ -86,6 +91,7 @@ void solve() {
                 }
             } else {
                 while (posv[p[i].x] <= top) {
+                    posv[stk[top]] = inf;
                     a.push_back('-');
                     top --;
                 }
@@ -100,41 +106,61 @@ void solve() {
 
     // check
 
-    stack<int> sk;
-    map<int, int> have;
-    int j = 1; 
-    for (char c : a) {
-        if (c == '+') {
-            if (have[p[j].x] == 1) {
-                cout << c << ' ' << p[j].x << "WA0\n";
-            }
-            sk.push(p[j].x);
-            have[p[j].x] = 1;
-            j ++;
-        } else if (c == '?') {
-            if (p[j].op == 'T') {
-                if (!have[p[j].x]) {
-                    cout << c << ' ' << p[j].x << "WA1\n";
+    auto check = [&]() -> void {
+        stack<int> sk;
+        map<int, int> have;
+        int j = 1; 
+        for (char c : a) {
+            if (c == '+') {
+                if (have[p[j].x] == 1) {
+                    cout << c << ' ' << p[j].x << " WA0\n";
+                    return;
                 }
+                sk.push(p[j].x);
+                have[p[j].x] = 1;
+                j ++;
+            } else if (c == '?') {
+                if (p[j].op == 'T') {
+                    if (!have[p[j].x]) {
+                        cout << c << ' ' << p[j].x << " WA1\n";
+                        return;
+                    }
+                } else {
+                    if (have[p[j].x]) {
+                        cout << c << ' ' << p[j].x << " WA2\n";
+                        return;
+                    }
+                }
+                j ++;
             } else {
-                if (have[p[j].x]) {
-                    cout << c << ' ' << p[j].x << "WA2\n";
+                if (sk.empty()) {
+                    cout << c << ' ' << p[j].x << " WA3\n";
+                    return;
                 }
+                have[sk.top()] = 0;
+                sk.pop();
             }
-            j ++;
-        } else {
-            if (sk.empty()) {
-                cout << c << ' ' << p[j].x << "WA3\n";
-            }
-            have[sk.top()] = 0;
-            sk.pop();
         }
-    }
-    cout << "OK\n";
+        cout << "OK\n";
+    };
+
+    // check();
+
+    /*
+    1
+    5
+    + 1
+    + 1
+    + 2
+    + 1
+    T 2
+    +-++--+?
+    ? 2 WA1
+    */
 }
 
 int main() {
-    ios::sync_with_stdio(0), cin.tie(0);
+    // ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     cin >> T;
     while (T --) solve();
