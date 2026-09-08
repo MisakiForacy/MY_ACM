@@ -16,6 +16,8 @@ struct node
     int x;
 };
 
+int chk = 1;
+
 void solve() {
     int n;
     cin >> n;
@@ -145,6 +147,7 @@ void solve() {
     };
 
     // check();
+    if (chk) check();
 
     /*
     1
