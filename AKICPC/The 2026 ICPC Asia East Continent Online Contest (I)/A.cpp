@@ -8,6 +8,8 @@ using namespace std;
 
 using LL = long long;
 
+const int inf = 1e8;
+
 struct node
 {
     char op;
@@ -33,24 +35,67 @@ void solve() {
             }
         }
         pos[p[i].x] ++;
-        posv[p[i].x] = -1;
+        posv[p[i].x] = inf;
     }
     for (auto &[k, v] : pos) v = 0;
-    vector<int> stk(2 * n, 0);
+    vector<int> stk(2 * n + 1, 0);
     int top = 0;
     for (int i = 1;i <= n;i ++) {
-        if (!(~posv[p[i].x]) && p[i].op == '+') {
+        // cout << "OK : " << i << '\n';
+        if (posv[p[i].x] == inf && p[i].op == '+') {
             stk[++ top] = p[i].x;
             posv[p[i].x] = top;
             a.push_back(p[i].op);
-            if ()
+            if (pos[p[i].x] + 1 < siz(mp[p[i].x])) {
+                if (mp[p[i].x][pos[p[i].x] + 1] == 0 && mp[p[i].x][pos[p[i].x]] == 1) {
+                    if (stk[top] == p[i].x) {
+                        a.push_back('-');
+                        top --;
+                        posv[p[i].x] = inf;
+                    }
+                }
+            } else if (stk[top] == p[i].x) {
+                a.push_back('-');
+                top --;
+                posv[p[i].x] = inf;
+            }
+        } else if (p[i].op == '+') {
+            while (posv[p[i].x] <= top) {
+                a.push_back('-');
+                top --;
+            }
+            posv[p[i].x] = inf;
+            a.push_back(p[i].op);
+            stk[++ top] = p[i].x;
+            posv[p[i].x] = top;
+        } else {
+            if (p[i].op == 'T') {
+                a.push_back('?');
+                if (pos[p[i].x] + 1 < siz(mp[p[i].x])) {
+                    if (mp[p[i].x][pos[p[i].x] + 1] == 0 && mp[p[i].x][pos[p[i].x]] == 1) {
+                        if (stk[top] == p[i].x) {
+                            a.push_back('-');
+                            top --;
+                            posv[p[i].x] = inf;
+                        }
+                    }
+                } else if (stk[top] == p[i].x) {
+                    a.push_back('-');
+                    top --;
+                    posv[p[i].x] = inf;
+                }
+            } else {
+                while (posv[p[i].x] <= top) {
+                    a.push_back('-');
+                    top --;
+                }
+                posv[p[i].x] = inf;
+                a.push_back('?');
+            }
         }
         pos[p[i].x] ++;
     }
-    for (int i = 1;i <= 2 * n;i ++) {
-        if (a[i] == ' ') continue;
-        cout << a[i];
-    }
+    for (char c : a) cout << c;
     cout << '\n';
 }
 
