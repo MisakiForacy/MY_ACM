@@ -15,7 +15,7 @@ void solve() {
     cin >> n;
     vector<int> p(n + 1);
     for (int i = 1;i <= n;i ++) cin >> p[i];
-    sort(all(p));
+    sort(p.begin() + 1, p.end());
     int ans = 0;
     for (int j = 0;j < (1LL << n);j ++) {
         vector<int> tp(n + 1);
@@ -37,16 +37,10 @@ void solve() {
     for (int i = 2;i <= n;i ++) {
         // cout << i << '\n';
         f[i][0][p[i]] += f[i - 1][0][p[i]] + f[i - 1][1][p[i]];
-        f[i][1][p[i]] += f[i - 1][0][i - p[i]] + f[i - 1][1][i - p[i]];
-        f[i][0][i - p[i]] += f[i - 1][0][i - p[i]] + f[i - 1][1][i - p[i]];
-        f[i][1][i - p[i]] += f[i - 1][0][p[i]] + f[i - 1][1][p[i]];
-        f[i][0][p[i]] %= mod;
-        f[i][1][p[i]] %= mod;
-        f[i][0][i - p[i]] %= mod;
-        f[i][1][i - p[i]] %= mod;
-        cout << f[i][0][p[i]] << ' ' << f[i][1][p[i]] << '\n';
+        f[i][1][i - p[i]] += f[i - 1][0][i - p[i]] + f[i - 1][1][i - p[i]];
+        cout << i << ' ' << p[i] << " : " << f[i][0][p[i]] << ' ' << f[i][1][i - p[i]] << '\n';
     }
-    cout << (f[n][0][p[n]] + f[n][1][p[n]]) % mod << '\n';
+    cout << (f[n][0][p[n]] + f[n][1][n - p[n]]) % mod << '\n';
 }
 
 int main() {
