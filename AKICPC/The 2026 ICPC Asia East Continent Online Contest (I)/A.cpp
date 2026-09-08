@@ -17,10 +17,21 @@ struct node
 void solve() {
     int n;
     cin >> n;
-    map<int, int> have;
-    vector<node> p;
+    vector<node> p(n + 1);
+    vector<char> a(2 * n + 1);
+    map<int, vector<int>> mp;
+    map<int, int> pos, have;
     for (int i = 1;i <= n;i ++) {
-        p.push_back({})
+        cin >> p[i].op >> p[i].x;
+        a[i * 2 - 1] = (p[i].op == '+' ? '+' : '?');
+        if (p[i].op == 'T' || mp[p[i].x].empty())
+            mp[p[i].x].push_back(1);
+        else
+            mp[p[i].x].push_back(0);
+        pos[p[i].x] = 0;    
+    }
+    for (int i = 1;i <= n;i ++) {
+        if ()
     }
 }
 
