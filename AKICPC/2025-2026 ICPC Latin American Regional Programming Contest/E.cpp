@@ -44,7 +44,7 @@ struct SegTree
     void build(int p, int l, int r) {
         f[p].l = l, f[p].r = r;
         if (l == r) {
-            f[p].val = l;
+            f[p].val = a[l];
             return;
         }
         int mid = l + r >> 1;
@@ -93,36 +93,20 @@ void solve() {
         use[i] = lower_bound(all(alls), p[i]) - alls.begin() + 1;
         val[use[i]] = p[i];
     }
-    SegTree f(n);
-    f.build(1, 1, n);
-    // cout << "ok\n";
-    // auto upd = [&](int x, int v) -> void {
-    //     for (;x <= n;x += lowbit(x)) f[x] += v;
-    // };
-    // auto ask = [&](int x) -> LL {
-    //     LL res = 0;
-    //     for (;x;x -= lowbit(x)) res += f[x];
-    //     return res;
-    // };
-    // auto getKth = [&](int k) -> LL {
-    //     if (k == 0) return 0;
-    //     int l = 1, r = n;
-    //     while (l < r) {
-    //         int mid = l + r >> 1;
-    //         if (f.qry1(1, 1, mid) >= k)
-    //             r = mid;
-    //         else
-    //             l = mid + 1;
-    //     }
-    //     return val[l];
-    // };
+    int m = siz(alls);
+    SegTree f(m);
+    for (int i = 1;i <= m;i ++) f.a[i] = alls[i - 1];
+    f.build(1, 1, m);
+    // for (int i = 1;i <= m;i ++) cout << f.qry(1, i, i) << '\n';
     for (int i = 1;i <= n;i ++) {
         if (op[i] == '+') {
             f.upd(1, 1, use[i] - 1, 1);
         } else {
             f.upd(1, 1, use[i] - 1, -1);
         }
-        cout << f.qry(1, 1, n) << ' ';
+        for (int i = 1;i <= m;i ++) cout << f.qry(1, i, i) << '\n';
+        cout << 1 << ' ' << use[i] - 1 << " : ";
+        cout << f.qry(1, 1, m) << '\n';
     }
 }
 
