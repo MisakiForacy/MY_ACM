@@ -41,15 +41,19 @@ void solve() {
     auto getKth = [&](int k) {
         int l = 1, r = n;
         while (l < r) {
-            int mid = l + r >> 1;
+            int mid = l + r + 1 >> 1;
             if (ask(mid) >= k)
                 r = mid;
             else   
                 l = mid + 1;
         }
-        return l;
+        return val[l];
     };
     int tot = 0;
+    auto check = [&](LL x) -> bool {
+        LL val1 = getKth(x) + tot - x;
+        LL val2 = getKth(x + 1) + tot - x 
+    };
     for (int i = 1;i <= n;i ++) {
         if (op[i] == '+') {
             upd(use[i], 1);
@@ -58,7 +62,15 @@ void solve() {
             upd(use[i], -1);
             tot --;
         }
-        
+        int l = 0, r = tot;
+        while (l < r) {
+            int mid = l + r + 1 >> 1;
+            if (check(mid))
+                r = mid;
+            else
+                l = mid + 1;
+        }
+        cout << getKth(l) + tot - l << '\n';
     }
 }
 
