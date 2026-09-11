@@ -37,9 +37,10 @@ struct SegTree
         if (f[p].laz && f[p].l != f[p].r) {
             f[lc].val += f[p].laz;
             f[rc].val += f[p].laz;
+            assert (lc < f.size() && rc < f.size() && p < f.size());
             f[lc].laz += f[p].laz;
             f[rc].laz += f[p].laz;
-            f[p].laz = 0;
+            f[p].laz = 0;   
         }
     }
     void build(int p, int l, int r) {
@@ -89,6 +90,7 @@ void solve() {
     SegTree f(m);
     for (int i = 1;i <= m;i ++) f.a[i] = alls[i - 1];
     f.build(1, 1, m);
+    for(auto x : f.f) assert (x.val >= 0 && x.val <= m);
     LL tot = 0;
     for (int i = 1;i <= n;i ++) {
         if (op[i] == '+') {

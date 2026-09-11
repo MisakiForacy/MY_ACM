@@ -1,0 +1,1 @@
+for(auto x : f.f) assert (x.val >= 0 && x.val <= m);
