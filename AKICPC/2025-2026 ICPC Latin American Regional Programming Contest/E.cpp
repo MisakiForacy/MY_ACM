@@ -16,21 +16,39 @@ using LL = long long;
 
 struct SegTree
 {
+    #define lc p << 1
+    #define rc p << 1 | 1
     struct node
     {
-        LL l, r, sum, mi, laz;
+        LL l, r, cnt, val, laz;
     };
     vector<LL> a; vector<node> f;
     SegTree(int _n) {
         a.resize(_n + 1);
         f.resize(_n << 2 | 3);
     }
+    void pushup(int p) {
+        f[p].cnt = f[lc].cnt + f[rc].cnt;
+        f[p].val = min(f[lc].val, f[rc].val);
+    }
     void build(int p, int l, int r) {
         f[p].l = l, f[p].r = r;
         if (l == r) {
-            f[p].sum = 1;
-            
+            f[l].cnt = f[l].val = 0;
+            return;
         }
+        int mid = l + r >> 1;
+        build(lc, l, mid);
+        build(rc, mid + 1, r);
+        pushup(p);
+    }
+    void upd(int p, int l, int r, int v) {
+        if (f[p].l >= l && f[p].r <= r) {
+            f[p].cnt += (f[p].r - f[p].l + 1) * v;
+            f[p].laz += v;
+            return;
+        }
+        int mid = f[p].l + f[p].r
     }
 };
 
