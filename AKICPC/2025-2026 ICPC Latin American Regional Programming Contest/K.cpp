@@ -19,6 +19,8 @@ const LL inf = 1e15;
 void solve() {
     LL n, k;
     cin >> n >> k;
+    LL l, r, u, d;
+    l = inf, r = - inf, u = inf, d = - inf;
     vector<LL> x(n + 1), y(n + 1);
     map<LL, LL> pmi, pmx, qmi, qmx;
     for (int i = 1;i <= n;i ++) {
@@ -39,8 +41,43 @@ void solve() {
             qmx[x[i] - y[i]] = max(qmx[x[i] - y[i]], x[i]);
         else 
             qmx[x[i] - y[i]] = x[i];
+        l = min(l, x[i]);
+        r = max(r, x[i]);
+        u = min(u, y[i]);
+        d = max(d, y[i]);
     }
-    
+    LL ans = 0;
+    for (int i = 1;i <= n;i ++) {
+        // 左上，d，r不变
+        if (qmi[x[i] - y[i]] == x[i]) {
+            LL nu, nl;
+            nu = min(y[i] - k, u);
+            nl = min(x[i] - k, l);
+            ans = max(ans, (d - nu + 1) * (r - nl + 1));
+        }
+        // 右下，u，l不变
+        if (qmx[x[i] - y[i]] == x[i]) {
+            LL nd, nr;
+            nd = max(y[i] + k, d);
+            nr = max(x[i] + k, r);
+            ans = max(ans, (nd - u + 1) * (nr - l + 1));
+        }
+        // 左下，u，r不变
+        if (pmi[x[i] + y[i]] == x[i]) {
+            LL nd, nl;
+            nd = max(y[i] + k, d);
+            nl = min(x[i] - k, l);
+            ans = max(ans, (nd - u + 1) * (r - nl + 1));
+        }
+        // 右上，d，l不变
+        if (pmx[x[i] + y[i]] == x[i]) {
+            LL nu, nr;
+            nu = min(y[i] - k, u);
+            nr = max(x[i] + k, r);
+            ans = max(ans, (d - nu + 1) * (nr - l + 1));
+        }
+    }
+    cout << ans << '\n';
 }
 
 int main() {
