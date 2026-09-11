@@ -14,6 +14,16 @@ using namespace std;
 
 using LL = long long;
 
+struct SegTree
+{
+    struct node
+    {
+        LL x, l, r, laz;
+    };
+    
+};
+
+
 void solve() {
     int n;
     cin >> n;
@@ -56,7 +66,7 @@ void solve() {
         LL val1 = getKth(x) + tot - x;
         LL val2 = getKth(x + 1) + tot - x - 1;
         // cout << x << ' ' << val1 << ' ' << val2 << ' ' << getKth(x) << '\n';
-        return val1 >= val2;
+        return val1 < val2;
     };
     for (int i = 1;i <= n;i ++) {
         // cout << i << ':' << use[i] << '\n';
@@ -68,7 +78,7 @@ void solve() {
             tot --;
         }
         // cout << "ok\n";
-        int l = 1, r = tot - 1;
+        int l = 0, r = tot;
         while (l < r) {
             int mid = l + r >> 1;
             if (check(mid))
@@ -77,10 +87,10 @@ void solve() {
                 l = mid + 1;
             // cout << mid << ' ' << l << ' ' << r << '\n';
         }
-        cout << r << '\n';
-        cout << getKth(r + 2) << ' ' << getKth(r + 1) << '\n';
-        cout << getKth(r + 1) + tot - r - 1 << '\n';
-        cout << getKth(r) + tot - r << '\n';
+        // cout << r << ':';
+        // cout << getKth(r + 2) << ' ' << getKth(r + 1) << '\n';
+        // cout << getKth(r + 1) + tot - r - 1 << '\n';
+        cout << getKth(r) + tot - r << ' ';
     }
 }
 
