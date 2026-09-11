@@ -77,7 +77,12 @@ void solve() {
             ans = max(ans, (d - nu + 1) * (nr - l + 1));
         }
     }
-    cout << ans << '\n';
+    LL x_ = r - l + 1, y_ = d - u + 1;
+    for (int i = 1;i <= k;i ++) {
+        if (x_ > y_) swap(x_, y_);
+        x_ ++;
+    }
+    cout << max(ans) << '\n';
 }
 
 int main() {
