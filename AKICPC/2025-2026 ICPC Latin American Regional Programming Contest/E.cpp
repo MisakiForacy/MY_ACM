@@ -23,7 +23,7 @@ struct SegTree
     struct node
     {
         LL l, r, val, laz;
-        // node() {val = inf;}
+        node() {val = inf;}
     };
     vector<LL> a; vector<node> f;
     SegTree(int _n) {
@@ -34,7 +34,7 @@ struct SegTree
         f[p].val = min(f[lc].val, f[rc].val);
     }
     void pushdown(int p) {
-        if (f[p].laz) {
+        if (f[p].laz && f[p].l != f[p].r) {
             f[lc].val += f[p].laz;
             f[rc].val += f[p].laz;
             f[lc].laz += f[p].laz;
@@ -90,7 +90,6 @@ void solve() {
     for (int i = 1;i <= m;i ++) f.a[i] = alls[i - 1];
     f.build(1, 1, m);
     LL tot = 0;
-    // for (int i = 1;i <= m;i ++) cout << f.qry(1, i, i) << '\n';
     for (int i = 1;i <= n;i ++) {
         if (op[i] == '+') {
             tot ++;
@@ -99,10 +98,6 @@ void solve() {
             tot --;
             f.upd(1, 1, use[i] - 1, -1);
         }
-        // for (int i = 1;i <= m;i ++) cout << f.qry(1, i, i) << '\n';
-        // cout << 1 << ' ' << use[i] - 1 << " : ";
-        // cout << f.qry(1, 1, m) << '\n';
-        // cout << f.f[1].val << '\n';
         cout << min(f.f[1].val, tot) << ' ';
     }
 }
