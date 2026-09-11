@@ -18,9 +18,20 @@ struct SegTree
 {
     struct node
     {
-        LL x, l, r, laz;
+        LL l, r, sum, mi, laz;
     };
-    
+    vector<LL> a; vector<node> f;
+    SegTree(int _n) {
+        a.resize(_n + 1);
+        f.resize(_n << 2 | 3);
+    }
+    void build(int p, int l, int r) {
+        f[p].l = l, f[p].r = r;
+        if (l == r) {
+            f[p].sum = 1;
+            
+        }
+    }
 };
 
 
@@ -65,11 +76,9 @@ void solve() {
     auto check = [&](LL x) -> bool {
         LL val1 = getKth(x) + tot - x;
         LL val2 = getKth(x + 1) + tot - x - 1;
-        // cout << x << ' ' << val1 << ' ' << val2 << ' ' << getKth(x) << '\n';
         return val1 < val2;
     };
     for (int i = 1;i <= n;i ++) {
-        // cout << i << ':' << use[i] << '\n';
         if (op[i] == '+') {
             upd(use[i], 1);
             tot ++;
@@ -77,7 +86,6 @@ void solve() {
             upd(use[i], -1);
             tot --;
         }
-        // cout << "ok\n";
         int l = 0, r = tot;
         while (l < r) {
             int mid = l + r >> 1;
@@ -85,11 +93,7 @@ void solve() {
                 r = mid;
             else
                 l = mid + 1;
-            // cout << mid << ' ' << l << ' ' << r << '\n';
         }
-        // cout << r << ':';
-        // cout << getKth(r + 2) << ' ' << getKth(r + 1) << '\n';
-        // cout << getKth(r + 1) + tot - r - 1 << '\n';
         cout << getKth(r) + tot - r << ' ';
     }
 }
