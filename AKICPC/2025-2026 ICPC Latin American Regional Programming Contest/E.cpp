@@ -22,7 +22,7 @@ struct SegTree
     #define rc p << 1 | 1
     struct node
     {
-        LL l, r, cnt, val, laz1, laz2;
+        LL l, r, val, laz;
     };
     vector<LL> a; vector<node> f;
     SegTree(int _n) {
@@ -30,29 +30,21 @@ struct SegTree
         f.resize(_n << 2 | 3);
     }
     void pushup(int p) {
-        f[p].cnt = f[lc].cnt + f[rc].cnt;
         f[p].val = min(f[lc].val, f[rc].val);
     }
     void pushdown(int p) {
-        if (f[p].laz1) {
-            f[lc].cnt += f[p].laz1 * (f[lc].r - f[lc].l + 1);
-            f[rc].cnt += f[p].laz1 * (f[rc].r - f[rc].l + 1);
-            f[lc].laz1 + f[p].laz1;
-            f[rc].laz1 + f[p].laz1;
-            f[p].laz1 = 0;
-        }
-        if (f[p].laz2) {
-            f[lc].val += f[p].laz2 * (f[lc].r - f[lc].l + 1);
-            f[rc].val += f[p].laz2 * (f[rc].r - f[rc].l + 1);
-            f[lc].laz2 + f[p].laz2;
-            f[rc].laz2 + f[p].laz2;
-            f[p].laz2 = 0;
+        if (f[p].laz) {
+            f[lc].val += f[p].laz * (f[lc].r - f[lc].l + 1);
+            f[rc].val += f[p].laz * (f[rc].r - f[rc].l + 1);
+            f[lc].laz + f[p].laz;
+            f[rc].laz + f[p].laz;
+            f[p].laz = 0;
         }
     }
     void build(int p, int l, int r) {
         f[p].l = l, f[p].r = r;
         if (l == r) {
-            f[l].cnt = f[l].val = 0;
+            f[p].val = l;
             return;
         }
         int mid = l + r >> 1;
@@ -60,48 +52,26 @@ struct SegTree
         build(rc, mid + 1, r);
         pushup(p);
     }
-    void upd1(int p, int l, int r, int v) {
+    void upd(int p, int l, int r, int v) {
         if (r < l) return;
         if (f[p].l >= l && f[p].r <= r) {
-            f[p].cnt += (f[p].r - f[p].l + 1) * v;
-            f[p].laz1 += v;
+            f[p].val += (f[p].r - f[p].l + 1) * v;
+            f[p].laz += v;
             return;
         }
         int mid = f[p].l + f[p].r >> 1;
         pushdown(p);
-        if (l <= mid) upd1(lc, l, r, v);
-        if (r >  mid) upd1(rc, l, r, v);
+        if (l <= mid) upd(lc, l, r, v);
+        if (r >  mid) upd(rc, l, r, v);
         pushup(p);
     }
-    void upd2(int p, int l, int r, int v) {
-        if (r < l) return;
-        if (f[p].l >= l && f[p].r <= r) {
-            f[p].cnt += (f[p].r - f[p].l + 1) * v;
-            f[p].laz2 += v;
-            return;
-        }
-        int mid = f[p].l + f[p].r >> 1;
-        pushdown(p);
-        if (l <= mid) upd2(lc, l, r, v);
-        if (r >  mid) upd2(rc, l, r, v);
-        pushup(p);
-    }
-    LL qry1(int p, int l, int r) {
-        if (l <= f[p].l && f[p].r <= r) return f[p].cnt;
-        int mid = f[p].l + f[p].r >> 1;
-        LL cnt = 0;
-        pushdown(p);
-        if (l <= mid) cnt += qry2(lc, l, r);
-        if (r >  mid) cnt += qry2(rc, l, r);
-        return cnt;
-    }
-    LL qry2(int p, int l, int r) {
+    LL qry(int p, int l, int r) {
         if (l <= f[p].l && f[p].r <= r) return f[p].val;
         int mid = f[p].l + f[p].r >> 1;
         LL mi = inf;
         pushdown(p);
-        if (l <= mid) mi = min(mi, qry2(lc, l, r));
-        if (r >  mid) mi = min(mi, qry2(rc, l, r));
+        if (l <= mid) mi = min(mi, qry(lc, l, r));
+        if (r >  mid) mi = min(mi, qry(rc, l, r));
         return mi;
     }
 };
@@ -134,25 +104,25 @@ void solve() {
     //     for (;x;x -= lowbit(x)) res += f[x];
     //     return res;
     // };
-    auto getKth = [&](int k) -> LL {
-        if (k == 0) return 0;
-        int l = 1, r = n;
-        while (l < r) {
-            int mid = l + r >> 1;
-            if (f.qry1(1, 1, mid) >= k)
-                r = mid;
-            else
-                l = mid + 1;
-        }
-        return val[l];
-    };
+    // auto getKth = [&](int k) -> LL {
+    //     if (k == 0) return 0;
+    //     int l = 1, r = n;
+    //     while (l < r) {
+    //         int mid = l + r >> 1;
+    //         if (f.qry1(1, 1, mid) >= k)
+    //             r = mid;
+    //         else
+    //             l = mid + 1;
+    //     }
+    //     return val[l];
+    // };
     for (int i = 1;i <= n;i ++) {
         if (op[i] == '+') {
-            f.upd1(1, use[i], use[i], 1);
-            f.upd2(1, 1, use[i] - 1, 1);
+            f.upd(1, 1, use[i] - 1, 1);
         } else {
-
+            f.upd(1, 1, use[i] - 1, -1);
         }
+        cout << f.qry(1, 1, n) << ' ';
     }
 }
 
