@@ -14,66 +14,10 @@ using namespace std;
 
 using LL = long long;
 
-const LL inf = 1e15;
-
-struct SegTree
-{
-    #define lc p << 1
-    #define rc p << 1 | 1
-    struct node
-    {
-        LL l, r, val, laz;
-        node() {val = inf, laz = 0;}
-    };
-    vector<LL> a; vector<node> f;
-    SegTree(int _n) {
-        a.resize(_n + 1);
-        f.resize(_n << 2 | 3);
-    }
-    void pushup(int p) {
-        f[p].val = min(f[lc].val, f[rc].val);
-    }
-    void pushdown(int p) {
-        if (f[p].laz && f[p].l != f[p].r) {
-            f[lc].val += f[p].laz;
-            f[rc].val += f[p].laz;
-            assert (lc < f.size() && rc < f.size() && p < f.size());
-            f[lc].laz += f[p].laz;
-            f[rc].laz += f[p].laz;
-            f[p].laz = 0;   
-        }
-    }
-    void build(int p, int l, int r) {
-        f[p].l = l, f[p].r = r;
-        if (l == r) {
-            f[p].val = a[l];
-            return;
-        }
-        int mid = l + r >> 1;
-        build(lc, l, mid);
-        build(rc, mid + 1, r);
-        pushup(p);
-    }
-    void upd(int p, int l, int r, int v) {
-        if (r < l) return;
-        if (l <= f[p].l && f[p].r <= r) {
-            f[p].val += v;
-            f[p].laz += v;
-            return;
-        }
-        int mid = f[p].l + f[p].r >> 1;
-        pushdown(p);
-        if (l <= mid) upd(lc, l, r, v);
-        if (r >  mid) upd(rc, l, r, v);
-        pushup(p);
-    }
-};
-
-
 void solve() {
     int n;
     cin >> n;
-    vector<LL> p(n + 1), use(n + 1), alls;
+    vector<LL> f(n + 1, 0), p(n + 1), use(n + 1), alls;
     vector<char> op(n + 1);
     map<LL, LL> val;
     for (int i = 1;i <= n;i ++) {
@@ -86,26 +30,62 @@ void solve() {
         use[i] = lower_bound(all(alls), p[i]) - alls.begin() + 1;
         val[use[i]] = p[i];
     }
-    int m = siz(alls);
-    SegTree f(m);
-    for (int i = 1;i <= m;i ++) f.a[i] = alls[i - 1];
-    f.build(1, 1, m);
-    // for(auto x : f.f) assert (x.val >= 0 && x.val <= m);
-    LL tot = 0;
-    for (int i = 1;i <= n;i ++) {
-        if (op[i] == '+') {
-            tot ++;
-            f.upd(1, 1, use[i] - 1, 1);
-        } else {
-            tot --;
-            f.upd(1, 1, use[i] - 1, -1);
+    // cout << "ok\n";
+    auto upd = [&](int x, int v) -> void {
+        for (;x <= n;x += lowbit(x)) f[x] += v;
+    };
+    auto ask = [&](int x) -> LL {
+        LL res = 0;
+        for (;x;x -= lowbit(x)) res += f[x];
+        return res;
+    };
+    auto getKth = [&](int k) -> LL {
+        if (k == 0) return 0;
+        int l = 1, r = n;
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (ask(mid) >= k)
+                r = mid;
+            else
+                l = mid + 1;
         }
-        cout << min(f.f[1].val, tot) << ' ';
+        return val[l];
+    };
+    int tot = 0;
+    auto check = [&](LL x) -> bool {
+        // LL val1 = getKth(x) + tot - x;
+        // LL val2 = getKth(x + 1) + tot - x - 1;
+        // cout << x << ' ' << val1 << ' ' << val2 << ' ' << getKth(x) << '\n';
+        return val1 < val2;
+    };
+    for (int i = 1;i <= n;i ++) {
+        // cout << i << ':' << use[i] << '\n';
+        if (op[i] == '+') {
+            upd(use[i], 1);
+            tot ++;
+        } else {
+            upd(use[i], -1);
+            tot --;
+        }
+        // cout << "ok\n";
+        int l = 0, r = tot;
+        while (l < r) {
+            int mid = l + r >> 1;
+            if (check(mid))
+                r = mid;
+            else
+                l = mid + 1;
+            // cout << mid << ' ' << l << ' ' << r << '\n';
+        }
+        // cout << r << ':';
+        // cout << getKth(r + 2) << ' ' << getKth(r + 1) << '\n';
+        // cout << getKth(r + 1) + tot - r - 1 << '\n';
+        cout << getKth(r) + tot - r << ' ';
     }
 }
 
 int main() {
-    ios::sync_with_stdio(0), cin.tie(0);
+    // ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     // cin >> T;
     while (T --) solve();
