@@ -35,8 +35,8 @@ struct SegTree
     }
     void pushdown(int p) {
         if (f[p].laz) {
-            f[lc].val += f[p].laz * (f[lc].r - f[lc].l + 1);
-            f[rc].val += f[p].laz * (f[rc].r - f[rc].l + 1);
+            f[lc].val += f[p].laz;
+            f[rc].val += f[p].laz;
             f[lc].laz += f[p].laz;
             f[rc].laz += f[p].laz;
             f[p].laz = 0;
@@ -56,7 +56,7 @@ struct SegTree
     void upd(int p, int l, int r, int v) {
         if (r < l) return;
         if (l <= f[p].l && f[p].r <= r) {
-            f[p].val += (f[p].r - f[p].l + 1) * v;
+            f[p].val += v;
             f[p].laz += v;
             return;
         }
@@ -65,17 +65,6 @@ struct SegTree
         if (l <= mid) upd(lc, l, r, v);
         if (r >  mid) upd(rc, l, r, v);
         pushup(p);
-    }
-    LL qry(int p, int l, int r) {
-        cout << l << ' ' << r << ' ' << f[p].l << ' ' << f[p].r << ' ' << p << '\n';
-        if (l <= f[p].l && f[p].r <= r) return f[p].val;
-        int mid = f[p].l + f[p].r >> 1;
-        LL mi = inf;
-        pushdown(p);
-        if (l <= mid) mi = min(mi, qry(lc, l, r));
-        if (r >  mid) mi = min(mi, qry(rc, l, r));
-        pushup(p);
-        return mi;
     }
 };
 
@@ -100,18 +89,21 @@ void solve() {
     SegTree f(m);
     for (int i = 1;i <= m;i ++) f.a[i] = alls[i - 1];
     f.build(1, 1, m);
+    LL tot = 0;
     // for (int i = 1;i <= m;i ++) cout << f.qry(1, i, i) << '\n';
     for (int i = 1;i <= n;i ++) {
         if (op[i] == '+') {
+            tot ++;
             f.upd(1, 1, use[i] - 1, 1);
         } else {
+            tot --;
             f.upd(1, 1, use[i] - 1, -1);
         }
         // for (int i = 1;i <= m;i ++) cout << f.qry(1, i, i) << '\n';
-        cout << 1 << ' ' << use[i] - 1 << " : ";
+        // cout << 1 << ' ' << use[i] - 1 << " : ";
         // cout << f.qry(1, 1, m) << '\n';
         // cout << f.f[1].val << '\n';
-        cout << f.qry(1, 1, m) << '\n';
+        cout << min(f.f[1].val, tot) << ' ';
     }
 }
 
