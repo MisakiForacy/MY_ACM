@@ -23,7 +23,7 @@ struct SegTree
     struct node
     {
         LL l, r, val, laz;
-        node() {val = inf;}
+        node() {val = inf, laz = 0;}
     };
     vector<LL> a; vector<node> f;
     SegTree(int _n) {
@@ -90,7 +90,7 @@ void solve() {
     SegTree f(m);
     for (int i = 1;i <= m;i ++) f.a[i] = alls[i - 1];
     f.build(1, 1, m);
-    for(auto x : f.f) assert (x.val >= 0 && x.val <= m);
+    // for(auto x : f.f) assert (x.val >= 0 && x.val <= m);
     LL tot = 0;
     for (int i = 1;i <= n;i ++) {
         if (op[i] == '+') {
