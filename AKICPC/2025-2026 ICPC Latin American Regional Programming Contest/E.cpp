@@ -39,13 +39,14 @@ void solve() {
         for (;x;x -= lowbit(x)) res += f[x];
         return res;
     };
-    auto getKth = [&](int k) {
+    auto getKth = [&](int k) -> LL {
+        if (k == 0) return 0;
         int l = 1, r = n;
         while (l < r) {
             int mid = l + r >> 1;
             if (ask(mid) >= k)
                 r = mid;
-            else   
+            else
                 l = mid + 1;
         }
         return val[l];
@@ -54,6 +55,7 @@ void solve() {
     auto check = [&](LL x) -> bool {
         LL val1 = getKth(x) + tot - x;
         LL val2 = getKth(x + 1) + tot - x - 1;
+        // cout << x << ' ' << val1 << ' ' << val2 << ' ' << getKth(x) << '\n';
         return val1 >= val2;
     };
     for (int i = 1;i <= n;i ++) {
@@ -75,6 +77,9 @@ void solve() {
                 l = mid + 1;
             // cout << mid << ' ' << l << ' ' << r << '\n';
         }
+        cout << r << '\n';
+        cout << getKth(r + 2) << ' ' << getKth(r + 1) << '\n';
+        cout << getKth(r + 1) + tot - r - 1 << '\n';
         cout << getKth(r) + tot - r << '\n';
     }
 }
