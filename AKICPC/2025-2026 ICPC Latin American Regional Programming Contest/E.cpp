@@ -30,7 +30,7 @@ void solve() {
         use[i] = lower_bound(all(alls), p[i]) - alls.begin() + 1;
         val[use[i]] = p[i];
     }
-    cout << "ok\n";
+    // cout << "ok\n";
     auto upd = [&](int x, int v) -> void {
         for (;x <= n;x += lowbit(x)) f[x] += v;
     };
@@ -42,7 +42,7 @@ void solve() {
     auto getKth = [&](int k) {
         int l = 1, r = n;
         while (l < r) {
-            int mid = l + r + 1 >> 1;
+            int mid = l + r >> 1;
             if (ask(mid) >= k)
                 r = mid;
             else   
@@ -57,7 +57,7 @@ void solve() {
         return val1 >= val2;
     };
     for (int i = 1;i <= n;i ++) {
-        cout << i << ':' << use[i] << '\n';
+        // cout << i << ':' << use[i] << '\n';
         if (op[i] == '+') {
             upd(use[i], 1);
             tot ++;
@@ -65,13 +65,15 @@ void solve() {
             upd(use[i], -1);
             tot --;
         }
-        int l = 0, r = tot - 1;
+        // cout << "ok\n";
+        int l = 1, r = tot - 1;
         while (l < r) {
-            int mid = l + r + 1 >> 1;
+            int mid = l + r >> 1;
             if (check(mid))
                 r = mid;
             else
                 l = mid + 1;
+            // cout << mid << ' ' << l << ' ' << r << '\n';
         }
         cout << getKth(r) + tot - r << '\n';
     }
