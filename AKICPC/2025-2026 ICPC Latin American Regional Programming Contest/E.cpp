@@ -27,9 +27,10 @@ void solve() {
     sort(all(alls));
     alls.erase(unique(all(alls)), alls.end());
     for (int i = 1;i <= n;i ++) {
-        use[i] = lower_bound(all(alls), p[i]) - p.begin() + 1;
+        use[i] = lower_bound(all(alls), p[i]) - alls.begin() + 1;
         val[use[i]] = p[i];
     }
+    cout << "ok\n";
     auto upd = [&](int x, int v) -> void {
         for (;x <= n;x += lowbit(x)) f[x] += v;
     };
@@ -52,9 +53,11 @@ void solve() {
     int tot = 0;
     auto check = [&](LL x) -> bool {
         LL val1 = getKth(x) + tot - x;
-        LL val2 = getKth(x + 1) + tot - x 
+        LL val2 = getKth(x + 1) + tot - x - 1;
+        return val1 >= val2;
     };
     for (int i = 1;i <= n;i ++) {
+        cout << i << ':' << use[i] << '\n';
         if (op[i] == '+') {
             upd(use[i], 1);
             tot ++;
@@ -62,7 +65,7 @@ void solve() {
             upd(use[i], -1);
             tot --;
         }
-        int l = 0, r = tot;
+        int l = 0, r = tot - 1;
         while (l < r) {
             int mid = l + r + 1 >> 1;
             if (check(mid))
@@ -70,12 +73,12 @@ void solve() {
             else
                 l = mid + 1;
         }
-        cout << getKth(l) + tot - l << '\n';
+        cout << getKth(r) + tot - r << '\n';
     }
 }
 
 int main() {
-    ios::sync_with_stdio(0), cin.tie(0);
+    // ios::sync_with_stdio(0), cin.tie(0);
     int T = 1;
     // cin >> T;
     while (T --) solve();
