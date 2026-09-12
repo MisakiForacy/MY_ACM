@@ -82,7 +82,7 @@ void solve() {
         if (x_ > y_) swap(x_, y_);
         x_ ++;
     }
-    cout << max(ans) << '\n';
+    cout << max(ans, x_ * y_) << '\n';
 }
 
 int main() {
