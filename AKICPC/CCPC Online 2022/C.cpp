@@ -6,14 +6,19 @@ using LL = long long;
 
 int main() {
     ios::sync_with_stdio(0), cin.tie(0);
-    LL a, b, p = 0;
-    double r = 1;
+    LL a, b;
+    LL r = 2;
     cin >> a >> b;
-    auto f = [&](auto f, LL a, LL b) -> void {
+    auto f = [&](auto f, LL a, LL b) -> int {
         if (b & 1) {
-            return 1;
+            return 0;
+        } else if (b >> 1 & 1) {
+            return 2;
         }
+        LL res = 0;
+        res = f(f, b / 2, a) + 1;
+        return res;
     };
-    f(f, a, b);
-    cout << int(r) << ' ' << p << '\n';
+    r += f(f, a, b);
+    cout << r / 2 << ' ' << r % 2 << '\n';
 }
