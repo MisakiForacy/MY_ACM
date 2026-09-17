@@ -12,11 +12,9 @@ int main() {
     auto f = [&](auto f, LL a, LL b) -> int {
         if (b & 1) {
             return 0;
-        } else if (b >> 1 & 1) {
-            return 2;
         }
         LL res = 0;
-        res = f(f, b / 2, a) + 1;
+        res = f(f, b, a / 2) + 1;
         return res;
     };
     r += f(f, a, b);
